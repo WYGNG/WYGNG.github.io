@@ -1,0 +1,1064 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="关联分析：Apriori和FPgrowth算法原理, 鱼缸屋">
+    <meta name="description" content="关联分析:频繁项集和关联规则从大规模的数据中发现物品间隐含关系的方法被称为关联分析。关联分析是一种在大规模数据集中寻找有趣关系的任务。关联规则:关联规则是形如X→Y的表达式，其中X和Y是不相交的项集，即X∩Y=∅。关联规则的强度可以用它的支">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>关联分析：Apriori和FPgrowth算法原理 | 鱼缸屋</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+</head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="container">
+            <div class="nav-wrapper">
+                <div class="brand-logo">
+                    <a href="/" class="waves-effect waves-light">
+                        
+                        <img src="/medias/logo.png" class="logo-img hide-on-small-only">
+                        
+                        <span class="logo-span">鱼缸屋</span>
+                    </a>
+                </div>
+                
+
+<a href="#" data-activates="mobile-nav" class="button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a id="toggleSearch" class="waves-effect waves-light">
+            <i id="searchIcon" class="mdi-action-search" title="Search"></i>
+        </a>
+    </li>
+
+</ul>
+
+<div class="side-nav" id="mobile-nav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">鱼缸屋</div>
+        <div class="logo-desc">
+            
+            海纳百川，有容乃大，壁立千仞，无欲则刚
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/WYGNG" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>来github一起玩吧！
+            </a>
+        </li>
+        
+    </ul>
+
+    <div class="social-link">
+    <a href="https://github.com/wygny" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ygwu@mail.ustc.edu.cn" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=321699849" class="tooltipped" data-tooltip="QQ联系我: 321699849" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://www.baidu.com" class="tooltipped" target="_blank" data-tooltip="访问百度" data-position="top" data-delay="50">
+        <i class="fa fa-paw"></i>
+</a>
+
+
+
+    <a href="https://www.google.com" class="tooltipped" target="_blank" data-tooltip="访问谷歌" data-position="top" data-delay="50">
+        <i class="fa fa-google"></i>
+</a>
+
+
+
+    <a href="https://www.bilibili.com" class="tooltipped" target="_blank" data-tooltip="访问哔哩哔哩" data-position="top" data-delay="50">
+        <i class="fa fa-bullseye"></i>
+</a>
+
+
+
+    <a href="https://blog.csdn.net/zgcr654321" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN博客" data-position="top" data-delay="50">
+        <i class="fa fa-copyright"></i>
+</a>
+
+
+
+
+
+
+</div>
+</div>
+
+            </div>
+        </div>
+
+        
+        <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/WYGNG" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="来github一起玩吧！" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+</header>
+
+
+
+
+
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        关联分析：Apriori和FPgrowth算法原理
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+</style>
+<div class="row">
+    <div class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/推荐系统/" target="_blank">
+                                <span class="chip bg-color">推荐系统</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/推荐系统/" class="post-category" target="_blank">
+                                推荐系统
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2019-04-03
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>Word Count:&nbsp;&nbsp;
+                        3k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>Read Times:&nbsp;&nbsp;
+                        11 Min
+                    </div>
+                    
+                
+				
+				
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="fa fa-eye fa-fw"></i>Read Count:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="关联分析-频繁项集和关联规则"><a href="#关联分析-频繁项集和关联规则" class="headerlink" title="关联分析:频繁项集和关联规则"></a>关联分析:频繁项集和关联规则</h1><p>从大规模的数据中发现物品间隐含关系的方法被称为关联分析。关联分析是一种在大规模数据集中寻找有趣关系的任务。<br><strong>关联规则:</strong><br>关联规则是形如X→Y的表达式，其中X和Y是不相交的项集，即X∩Y=∅。关联规则的强度可以用它的支持度（support）和置信度（confidence）来度量。支持度确定规则可以用于给定数据集的频繁程度，而置信度确定Y在包含X的交易中出现的频繁程度。<br>支持度（表示X和Y同时在总数N中发生的概率）:<br>$$<br>support(X,Y)=\frac{N(X \cup Y)}{N(all)}<br>$$<br>置信度（在发生X的项集中，同时会发生Y的概率，即X和Y同时发生的样本数占仅仅X发生样本数的比例）:<br>$$<br>confidence(X \rightarrow Y)=P(Y | X)=\frac{support(X,Y)}{P(X)}<br>$$<br>提升度（在发生X的条件下，同时发生Y的概率，与只发生Y的概率之比。提升度反映了关联规则中的X与Y的相关性，提升度&gt;1且越高表明正相关性越高，提升度&lt;1且越低表明负相关性越高，提升度=1表明没有相关性，即相互独立）:<br>$$<br>lift(X \rightarrow Y)=\frac{confidence(X \rightarrow Y)}{P(Y)} =\frac{P(Y | X)}{P(Y)}<br>$$<br><strong>频繁项集:</strong><br>项集是指若干个项的集合。频繁项集是指支持度大于等于最小支持度(min_sup)的集合。</p>
+<p><strong>举例:</strong><br>10000个超市订单（10000个事务），其中购买A牛奶（A事务）6000个，购买B牛奶（B事务）7500个，4000个同时包含两者。<br>那么A牛奶（A事务）和B牛奶（B事务）的支持度为:<br>$$<br>support(A,B)=\frac{N(A \cup B)}{N(all)}=\frac{4000}{10000}=0.4<br>$$<br>A牛奶（A事务）对B牛奶（B事务）的置信度为包含A的事务中同时包含B的占包含A的事务比例:<br>$$<br>confidence(A \rightarrow B)=P(B | A)=\frac{support(A,B)}{P(A)}=\frac{4000}{6000}=0.67<br>$$<br>说明在购买A牛奶后，有0.67的用户去购买B牛奶。<br>伊利牛奶（B事务）B牛奶对A牛奶（A事务）的置信度为包含B的事务中同时包含A的占包含B的事务比例:<br>$$<br>confidence(B \rightarrow A)=P(A | B)=\frac{support(A,B)}{P(B)}=\frac{4000}{7500}=0.53<br>$$<br>说明在购买A牛奶后，有0.53的用户去购买B牛奶。<br>这里有一点要注意，就是没有任何条件下时，B事务的出现的比例是0.75，而出现A事务，且同时出现B事务的比例是0.67，也就是说设置了A事务出现这个条件，B事务出现的比例反而降低了。这说明A事务和B事务是排斥的。<br>我们计算A事务对B事务的提升度:<br>$$<br>lift(A \rightarrow B)=\frac{confidence(A \rightarrow B)}{P(B)} =\frac{P(B | A)}{P(B)} =\frac{0.67}{0.75}<br>$$<br>显然提升度&lt;1，说明A和B是负相关的。</p>
+<p>商品列表中，可能存在单一商品组成的频繁项集，也可能存在两个以及两个以上的商品组成的频繁项集。在计算一个频繁项集的支持度时，通常需要遍历所有的商品列表求得，但当列表数目成千上万时，计算量过大，这种方法显然不适用。这时候我们就要用Apriori算法。</p>
+<h1 id="Apriori算法原理"><a href="#Apriori算法原理" class="headerlink" title="Apriori算法原理"></a>Apriori算法原理</h1><p><strong>Apriori算法的原理:</strong><br>如果某个项集是频繁的，那么它的所有子集也是频繁的。同时它的逆否命题也成立:如果一个项集是非频繁集，那么它的所有超集也是非频繁的。<br>Apriori算法的两个输入参数分别是最小支持度和数据集，该算法首先会生成所有单个物品的项集列表，接着扫描交易记录来查看哪些项集满足最小支持度要求，那些不满足最小支持度的集合会被去掉。然后，对生下来的集合进行组合以生成包含两个元素的项集，接下来，再重新扫描交易记录，去掉不满足最小支持度的项集。该过程重复进行，直到所有项集都被去掉。<br><strong>举例:</strong><br>假设一个集合{A,B}是频繁项集，即A、B同时出现在一条记录的次数大于等于最小支持度min_support，则它的子集{A},{B}出现次数必定大于等于min_support，即它的子集都是频繁项集。<br>假设集合{A}不是频繁项集，即A出现的次数小于min_support，则它的任何超集如{A,B}出现的次数必定小于min_support，因此其超集必定也不是频繁项集。</p>
+<p><strong>Apriori算法步骤:</strong></p>
+<ul>
+<li>先计算1项集的支持度，筛选出频繁1项集；</li>
+<li>然后排列组合出2项集，计算出2项集的支持度，筛选出频繁2项集；</li>
+<li>然后通过连接和剪枝计算出3项集，计算出3项集的支持度，筛选出频繁3项集；</li>
+<li>然后依次类推处理K项集，直到没有频繁集出现。 </li>
+</ul>
+<p><strong>如何从K-1项集计算出K项集（K&gt;=3，K=2时用组合公式C（2,n）即可）？</strong><br>连接:对K-1项集中的每个项集中的项排序，只有在前K-1项相同时才将这两项合并，形成候选K项集（因为必须形成K项集，所以只有在前K-1项相同，第K项不相同的情况下才合并。）<br>剪枝:对于候选K项集，要验证所有项集的所有K-1子集是否频繁（是否在K-1项集中），去掉不满足的项集，就形成了K项集。</p>
+<h1 id="FPgrowth算法原理"><a href="#FPgrowth算法原理" class="headerlink" title="FPgrowth算法原理"></a>FPgrowth算法原理</h1><p>首先构建FP树。扫描数据集，生成频繁一项集L，并按出现次数由多到少排序。删除支持度低于min_support的项，剩余部分称为项头表（Header Table）；再次扫描数据集，从数据中删除非频繁1项集（删除时是删除每一个样本中的非频繁一项集中的项，不是删除整个样本），并按照项头表的顺序排序；FP树头节点是一个null节点，逐个读取上一步处理后的数据集中每个样本，每读取一个样本检查树种是否已有该条样本项组成的路径，已有则每个节点权值加1，如果从某个项开始没有则从该节点开始多一个分支，分支内的节点权值都新置1。这样我们的树就建好了。<br>下面我们要进行频繁项的挖掘。从FP树底层的节点开始依次向上，构造每个节点的条件模式基（CPB, Conditional Pattern Base），条件模式基就是我们要挖掘的频繁项的前缀路径。对于项头表中的每一个item（设为k），记录其所有条件模式基中出现的每一个item的频数，去除小于min_support的item，保留项用来构造项头表中的这个item（k）的条件FP树。那么其频繁项就是k,item、item。然后递归地挖掘每个条件FP树，累加后缀频繁项集，直到找到FP-tree为空或者FP-tree只有一条路径（只有一条路径情况下，所有路径上item的组合都是频繁项集）。<br><strong>举例:</strong><br>上面的说法比较抽象，我们还是举一个实例来说明。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TID		Items bought	               (ordered) frequent items</span><br><span class="line">100		&#123;f, a, c, d, g, i, m, p&#125;	   &#123;f, c, a, m, p&#125;</span><br><span class="line">200		&#123;a, b, c, f, l, m, o&#125;		   &#123;f, c, a, b, m&#125;</span><br><span class="line">300	 	&#123;b, f, h, j, o, w&#125;		       &#123;f, b&#125;</span><br><span class="line">400	 	&#123;b, c, k, s, p&#125;		           &#123;c, b, p&#125;</span><br><span class="line">500	 	&#123;a, f, c, e, l, p, m, n&#125;       &#123;f, c, a, m, p&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第一遍扫描得到频繁1项集。定义min_support=3，删除小于min_support的项，降序排列，得到项头表（Header Table）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Header Table</span><br><span class="line">Item  frequency  head</span><br><span class="line">f	  4</span><br><span class="line">c	  4</span><br><span class="line">a	  3</span><br><span class="line">b	  3</span><br><span class="line">m	  3</span><br><span class="line">p	  3</span><br></pre></td></tr></table></figure>
+
+<p>根据项头表对原数据集中每一个样本删除非频繁项，只保留频繁项。并按项头表中的frequency降序排列。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TID		(ordered) frequent items</span><br><span class="line">100		&#123;f, c, a, m, p&#125;</span><br><span class="line">200		&#123;f, c, a, b, m&#125;</span><br><span class="line">300	 	&#123;f, b&#125;</span><br><span class="line">400	 	&#123;c, b, p&#125;</span><br><span class="line">500	 	&#123;f, c, a, m, p&#125;</span><br></pre></td></tr></table></figure>
+
+<p>建立FP树，头节点设为null。逐个读取上一步处理后的数据集中每个样本，每读取一个样本检查树中是否已有该条样本项组成的路径，已有则每个节点权值加1，如果从某个项开始没有则从该节点开始多一个分支，分支内的节点权值都新置1。FP树结果如下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">       null</span><br><span class="line">      /    \</span><br><span class="line">    f:4    c:1</span><br><span class="line">    / \     |  </span><br><span class="line">  c:3 b:1  b:1  </span><br><span class="line">   |        |</span><br><span class="line">  a:3      p:1</span><br><span class="line"> /   \ </span><br><span class="line">m:2  b:1</span><br><span class="line"> |    |</span><br><span class="line">p:2  m:1</span><br></pre></td></tr></table></figure>
+
+<p>我们的项头表中还有一列head，这列是指向该频繁项在FP-tree中节点位置的指针。FP-tree中每一个节点还有一个指针，用于指向相同名称的节点。这样就把相同名称的节点全部用链表串起来，方便访问。<br>建立条件模式基。从项头表中每个item的head开始依次访问FP树中的所有同名节点，FP树中每个节点的条件模式基的频数等于该节点的频数，前缀就是节点上的一系列父节点直到根节点。比如对p有两个条件模式基: fcam:2, cb:1。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">item	条件模式基</span><br><span class="line">c	    f:3</span><br><span class="line">a	    fc:3</span><br><span class="line">b	    fca:1, f:1, c:1</span><br><span class="line">m    	fca:2, fcab:1</span><br><span class="line">p	    fcam:2, cb:1</span><br></pre></td></tr></table></figure>
+
+<p>有两个条件模式基: fcam:2, cb:1。我们分别记录每个item的出现次数:c:3、f:2、a:2、m:2、b:1。由于min_support=3，因此我们只保留c:3。然后用保留项建立一棵新的FP树，这棵树被称之为p的条件FP树：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">null</span><br><span class="line"> |</span><br><span class="line">c:3</span><br></pre></td></tr></table></figure>
+
+<p>那么以p结尾的频繁项集有p:3、cp:3。由于c的条件模式基为空，所以不需要构建c的条件FP-tree。<br>m地条件模式基为:    fca:2, fcab:1。我们分别记录每个item出现的次数为:f:3、c:3、a:3、b:1。剔除那些低于支持度阈值的项，建立m的条件FP树:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">null</span><br><span class="line"> |</span><br><span class="line">f:3</span><br><span class="line"> |</span><br><span class="line">c:3</span><br><span class="line"> |</span><br><span class="line">a:3</span><br></pre></td></tr></table></figure>
+
+<p>与p不同，m的条件FP树中有3个节点，所以需要多次递归地挖掘频繁项集（f:3，c:3，a:3|m:3）。按照a:3，c:3，f:3的顺序递归调用mine（f:3，c:3|a，m），mine（f:3|c，m），mine（null|f，m）。由于m:3满足支持度阈值要求，所以以m结尾的频繁项集有{m:3}。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">null</span><br><span class="line"> |</span><br><span class="line">f:3</span><br><span class="line"> |</span><br><span class="line">c:3</span><br></pre></td></tr></table></figure>
+
+<p>节点（a,m）的条件FP树有2个节点，需要进一步递归调用mine（f:3|c，a，m）和mine（null|f，a，m）。进一步递归mine（f:3|c，a，m）生成mine（null|f，c，a，m）。因此，以（a，m）结尾的频繁项集有{am:3，fam:3，cam:3，fcam:3}。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">null</span><br><span class="line"> |</span><br><span class="line">f:3</span><br></pre></td></tr></table></figure>
+
+<p>节点（c,m）的条件FP树只有1个节点，所以只需要递归调用mine(null|f，c，m)。因此，以（c，m）结尾的频繁项集有{cm:3，fcm:3}。同理，以（f，m）结尾的频繁项集有{fm:3}。<br>在FP树中以b结尾的节点链共有三条，分别是f:4，c:3，a:3，b:1，f:4，b:1和c:1，b:1。由于节点b的条件模式基f:1，c:1，a:1，f:1和c:1都不满足支持度阈值，所以不需要再递归。因此，以b结尾的频繁项集只有{b:3}。<br>同理可得，以a结尾的频繁项集{fa:3，ca:3，fca:3，a:3}，以c结尾的频繁项集{fc:3，c:4}，以f结尾的频繁项集{f:4}。</p>
+
+            </div>
+            <hr/>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff;
+        background-color: #22AB38;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff;
+        background-color: #019FE8;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a class="reward-link btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs">
+                        <li class="tab wechat-tab waves-effect waves-light"><a class="active" href="#wechat">微信</a></li>
+                        <li class="tab alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                    </ul>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#reward .reward-link').on('click', function () {
+            $('#rewardModal').openModal();
+        });
+
+        $('#rewardModal .close').on('click', function () {
+            $('#rewardModal').closeModal();
+        });
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            <div class="reprint">
+                <p>
+                    <span class="reprint-tip">
+                        <i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;Reprint please specify:
+                    </span>
+                    <a href="https://wyg1996.cn" class="b-link-green">鱼缸屋</a>
+                    <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
+                    <a href="/2019/04/03/关联分析：Apriori和FPgrowth算法原理/" class="b-link-green">关联分析：Apriori和FPgrowth算法原理</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-04-03T23-36-29',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Wed Apr 03 2019 23:36:29 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
+    
+
+    
+        <div class="disqus-card card" data-aos="fade-up">
+    <div id="disqus_thread" class="card-content">
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+    </div>
+</div>
+
+<script type="text/javascript">
+    disqus_config = function () {
+        this.page.url = 'https://wyg1996.cn/2019/04/03/关联分析：Apriori和FPgrowth算法原理/';
+        this.page.identifier = '/2019/04/03/关联分析：Apriori和FPgrowth算法原理/';
+        this.page.title = '关联分析：Apriori和FPgrowth算法原理';
+    };
+    let disqus_shortname = '';
+
+    (function () { // DON'T EDIT BELOW THIS LINE
+        let d = document, s = d.createElement('script');
+        // 如：s.src = 'https://blinkfox.disqus.com/embed.js';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+    
+
+    
+    <div class="livere-card card" data-aos="fade-up">
+    <!-- 来必力City版安装代码 -->
+    <div id="lv-container" class="card-content" data-id="city" data-uid="">
+        <script type="text/javascript">
+            (function (d, s) {
+                let j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') {
+                    return;
+                }
+
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript。</noscript>
+    </div>
+    <!-- City版安装代码已完成 -->
+</div>
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2019/04/05/特征工程实践：泰坦尼克号幸存者预测/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="特征工程实践:泰坦尼克号幸存者预测">
+                        
+                        <span class="card-title">特征工程实践:泰坦尼克号幸存者预测</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">泰坦尼克号幸存者预测数据集下载地址:https://www.kaggle.com/c/titanic/data 。本案例主要展示特征工程对数据集的处理方法，模型只选择了简单的lr模型，最后得分并不高。
+1234567891011121314</div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-05
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/特征工程/" class="post-category" target="_blank">
+                                    特征工程
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/特征工程/" target="_blank">
+                        <span class="chip bg-color">特征工程</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/03/30/GAN原理、Tensorflow搭建GAN神经网络/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="GAN原理、Tensorflow搭建GAN神经网络">
+                        
+                        <span class="card-title">GAN原理、Tensorflow搭建GAN神经网络</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">GAN原理概述论文:GenerativeAdversarialNets论文地址:https://arxiv.org/pdf/1406.2661.pdf 。
+GAN模型中包括一个生成模型G和一个判别模型D。生成模型G接收一个均匀分布中取得的随</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-30
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/深度学习原理推导/" class="post-category" target="_blank">
+                                    深度学习原理推导
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/深度学习原理推导/" target="_blank">
+                        <span class="chip bg-color">深度学习原理推导</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + 'From: 鱼缸屋<br />'
+            + 'Author: ygwu<br />'
+            + 'Link: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+    </div>
+    <div class="col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+    });
+</script>
+    
+
+</main>
+
+
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy;<a href="mailto:ygwu@mail.ustc.edu.cn" target="_blank">鱼缸屋</a>
+            
+
+            
+                &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+                <span class="white-color">393.6k</span>
+            
+
+            
+			
+                <br>
+                
+                <span id="busuanzi_container_site_pv">
+                    <i class="fa fa-heart-o"></i>
+                    本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+                </span>
+                
+                
+                <span id="busuanzi_container_site_uv">
+                    <i class="fa fa-users"></i>
+                    次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+                </span>
+                
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/wygny" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ygwu@mail.ustc.edu.cn" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=321699849" class="tooltipped" data-tooltip="QQ联系我: 321699849" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://www.baidu.com" class="tooltipped" target="_blank" data-tooltip="访问百度" data-position="top" data-delay="50">
+        <i class="fa fa-paw"></i>
+</a>
+
+
+
+    <a href="https://www.google.com" class="tooltipped" target="_blank" data-tooltip="访问谷歌" data-position="top" data-delay="50">
+        <i class="fa fa-google"></i>
+</a>
+
+
+
+    <a href="https://www.bilibili.com" class="tooltipped" target="_blank" data-tooltip="访问哔哩哔哩" data-position="top" data-delay="50">
+        <i class="fa fa-bullseye"></i>
+</a>
+
+
+
+    <a href="https://blog.csdn.net/zgcr654321" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN博客" data-position="top" data-delay="50">
+        <i class="fa fa-copyright"></i>
+</a>
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input" autofocus="">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="/libs/materialize/js/materialize.min.js"></script>
+<script src="/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="/libs/aos/aos.js"></script>
+<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    <script src="/libs/others/clicklove.js"></script>
+
+
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+
+
+</body>
+</html>

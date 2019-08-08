@@ -1,0 +1,1030 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="基于霍夫变换的视频流车道线检测, 鱼缸屋">
+    <meta name="description" content="霍夫变换检测直线原理霍夫变换：用极坐标系表示直线在直角坐标系（x，y）中的直线通常用:$$y=k x+b$$表示。k为斜率，b为截距。而在霍夫变换中，使用极坐标系（r，θ）来表示直线。直角坐标系中的直线与x轴和y轴围成一个直角三角形，我们作">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>基于霍夫变换的视频流车道线检测 | 鱼缸屋</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+</head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="container">
+            <div class="nav-wrapper">
+                <div class="brand-logo">
+                    <a href="/" class="waves-effect waves-light">
+                        
+                        <img src="/medias/logo.png" class="logo-img hide-on-small-only">
+                        
+                        <span class="logo-span">鱼缸屋</span>
+                    </a>
+                </div>
+                
+
+<a href="#" data-activates="mobile-nav" class="button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a id="toggleSearch" class="waves-effect waves-light">
+            <i id="searchIcon" class="mdi-action-search" title="Search"></i>
+        </a>
+    </li>
+
+</ul>
+
+<div class="side-nav" id="mobile-nav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">鱼缸屋</div>
+        <div class="logo-desc">
+            
+            海纳百川，有容乃大，壁立千仞，无欲则刚
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/WYGNG" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>来github一起玩吧！
+            </a>
+        </li>
+        
+    </ul>
+
+    <div class="social-link">
+    <a href="https://github.com/wygny" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ygwu@mail.ustc.edu.cn" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=321699849" class="tooltipped" data-tooltip="QQ联系我: 321699849" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://www.baidu.com" class="tooltipped" target="_blank" data-tooltip="访问百度" data-position="top" data-delay="50">
+        <i class="fa fa-paw"></i>
+</a>
+
+
+
+    <a href="https://www.google.com" class="tooltipped" target="_blank" data-tooltip="访问谷歌" data-position="top" data-delay="50">
+        <i class="fa fa-google"></i>
+</a>
+
+
+
+    <a href="https://www.bilibili.com" class="tooltipped" target="_blank" data-tooltip="访问哔哩哔哩" data-position="top" data-delay="50">
+        <i class="fa fa-bullseye"></i>
+</a>
+
+
+
+    <a href="https://blog.csdn.net/zgcr654321" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN博客" data-position="top" data-delay="50">
+        <i class="fa fa-copyright"></i>
+</a>
+
+
+
+
+
+
+</div>
+</div>
+
+            </div>
+        </div>
+
+        
+        <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/WYGNG" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="来github一起玩吧！" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+</header>
+
+
+
+
+
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        基于霍夫变换的视频流车道线检测
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+</style>
+<div class="row">
+    <div class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/图像处理/" target="_blank">
+                                <span class="chip bg-color">图像处理</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/图像处理/" class="post-category" target="_blank">
+                                图像处理
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2019-05-05
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>Word Count:&nbsp;&nbsp;
+                        3.5k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>Read Times:&nbsp;&nbsp;
+                        14 Min
+                    </div>
+                    
+                
+				
+				
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="fa fa-eye fa-fw"></i>Read Count:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="霍夫变换检测直线原理"><a href="#霍夫变换检测直线原理" class="headerlink" title="霍夫变换检测直线原理"></a>霍夫变换检测直线原理</h1><p><strong>霍夫变换：用极坐标系表示直线</strong><br>在直角坐标系（x，y）中的直线通常用:<br>$$<br>y=k x+b<br>$$<br>表示。k为斜率，b为截距。<br>而在霍夫变换中，使用极坐标系（r，θ）来表示直线。<br><strong>直角坐标系中的直线与x轴和y轴围成一个直角三角形，我们作出这个三角形的高（即从原点出发到直线的垂线），则高的长度就是r，r称为该直线到原点的距离；θ就是高与x轴的夹角，θ称为该直线的垂线与x轴的夹角。</strong><br>对于每一条在直线坐标系中的直线，我们都能将其转化成极坐标系（r，θ）中的一个点（r0，θ0）。<br><strong>现在我们再从直角坐标系中直线上的某一个点来考虑:</strong><br>直角坐标系上某一点（x,y）转换成极坐标时，有:<br>$$<br>x=r \cos \theta, y=r \sin \theta<br>$$<br>$$<br>r^{2}=x^{2}+y^{2}<br>$$<br>$$<br>\tan \theta=\frac{y}{x}<br>$$<br>在直角坐标系上表示某条经过（x，y）的直线可以写成（假设（x，y）是原点出发到该直线的垂线与这条直线的交点）:<br>$$<br>y=k x+b<br>$$<br>用极坐标系来表示该直线（假设（x，y）是原点出发到该直线的垂线与这条直线的交点）:<br>$$<br>y=\left(-\frac{\cos \theta}{\sin \theta}\right) x+\left(\frac{r}{\sin \theta}\right)<br>$$<br><strong>那么通过点（x,y）的直线可以在极坐标系中统一定义为:</strong><br>$$<br>r=x \cos \theta+y \sin \theta<br>$$<br>我们可以发现一个点经过极坐标系变换后在极坐标系中是一条曲线，而在直角坐标系中在同一条直线上的多个点经过极坐标系变换形成的多条曲线都会在极坐标系中相交于某一点。<br><strong>一条在直角坐标系上的直线上的所有点经过极坐标系变换后得到的曲线都会在极坐标系中通过同一个点，这个点就是该直线转换成极坐标系中的点（r0，θ0）。</strong><br><strong>霍夫变换就是追踪图像中每一个像素点对应曲线间的交点。越多曲线交于一点也就意味着这个交点表示的直线由更多的点组成（越亮）。如果交于一点的曲线的数量超过了阈值，那么可以认为这个交点所代表的参数对在原图像中为一条直线。再用下面的公式反向计算直线即可。</strong><br>$$<br>y=\left(-\frac{\cos \theta}{\sin \theta}\right) x+\left(\frac{r}{\sin \theta}\right)<br>$$</p>
+<h1 id="opencv中的霍夫变换函数"><a href="#opencv中的霍夫变换函数" class="headerlink" title="opencv中的霍夫变换函数"></a>opencv中的霍夫变换函数</h1><h2 id="标准霍夫线变换"><a href="#标准霍夫线变换" class="headerlink" title="标准霍夫线变换"></a>标准霍夫线变换</h2><p><strong>函数原型:</strong><br>void HoughLines（InputArray image, OutputArray lines, double rho, double theta, int threshold, double srn=0, double stn=0）<br><strong>函数参数:</strong><br>image:边缘检测的输出图像。它应该是个灰度图 （但事实上是个二值化图），这是霍夫变换的输入图像。<br>lines:储存着检测到的直线的参数对（r，θ）的容器。这是最终输出，是极坐标系形式的直线。<br>rho:参数极径，即以像素值为单位的分辨率，我们使用1像素。<br>theta:参数极角，即以弧度为单位的分辨率，我们使用1度（即CV_PI/180）。<br>threshold:要”检测” 一条直线所需最少的的曲线交点个数。<br>srn and stn:如果srn和stn同时为0，就表示使用经典的霍夫变换。否则，这两个参数应该都为正数。</p>
+<p>使用HoughLines函数需要子集将极坐标系形式的直线反转换成直角坐标系形式的直线。</p>
+<h2 id="概率霍夫线变换"><a href="#概率霍夫线变换" class="headerlink" title="概率霍夫线变换"></a>概率霍夫线变换</h2><p>这是执行起来效率更高的概率霍夫线变换，它输出检测到的直线的端点 。<br><strong>函数原型:</strong><br>void HoughLinesP（InputArray image, OutputArray lines, double rho, double theta, int threshold,double minLineLength=0, double maxLineGap=0）<br><strong>函数参数:</strong><br>image:必须是二值图像，推荐使用canny边缘检测的结果图像。<br>rho:线段以像素为单位的距离精度，double类型的，推荐用1.0。<br>theta:线段以弧度为单位的角度精度，推荐用numpy.pi/180。<br>threshod:累加平面的阈值参数，int类型，超过设定阈值才被检测出线段，值越大，基本上意味着检出的线段越长，检出的线段个数越少。根据情况推荐先用100试试。<br>lines:储存着检测到的直线的端点的容器。<br>minLineLength:线段以像素为单位的最小长度，根据应用场景设置。<br>maxLineGap:同一方向上两条线段判定为一条线段的最大允许间隔（断裂），超过了设定值，则把两条线段当成一条线段，值越大，允许线段上的断裂越大，越有可能检出潜在的直线段。</p>
+<h1 id="车道线检测原理"><a href="#车道线检测原理" class="headerlink" title="车道线检测原理"></a>车道线检测原理</h1><p>彩色图像转化为灰度图像；<br>使用高斯滤波平滑图像；<br>使用膨胀填充内部空洞，使车道线变粗和更加连贯；<br>使用canny算子提取图片中物体边缘；<br>截取感兴趣区域（Region of Interest，ROI）比如截取一个三角形区域，遍历每个像素点坐标，如果发现当前点的坐标不在三角区域内，则将该点像素值置为0。然后只保留图片的ROI区域中的物体边缘；<br>使用霍夫变换来提取图片ROI区域中的直线（段）；<br>过滤掉一些角度不太符合的直线（段）；<br>对剩余直线（段）按斜率归类为左车道直线集合和右车道直线集合，然后求取其斜率和截距的平均值，计算出平均值直线的两个端点，这样我们就得到了1条左车道直线和1条右车道直线；<br>在全黑背景的图片上单独绘制车道线，如果两条车道线都存在，则填充两条车道线之间的区域；<br>在原始彩色图像与我们刚绘制的车道线图像进行比例融合。</p>
+<p>该算法在路面车道标志比较完整的情况下效果较好，且经过上述优化后在路面一般颠簸的情况下（比如高速路上过减速带时）仍能准确识别车道线，但如果标志不清晰或路面严重不平导致摄像头画面抖动非常厉害时，该算法的效果就会变差。此外，该算法对于转弯车道的识别较差。</p>
+<h1 id="Python-opencv实现代码"><a href="#Python-opencv实现代码" class="headerlink" title="Python-opencv实现代码"></a>Python-opencv实现代码</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">region_of_interest</span><span class="params">(img, vertices)</span>:</span></span><br><span class="line">	<span class="string">"""</span></span><br><span class="line"><span class="string">	生成ROI区域</span></span><br><span class="line"><span class="string">	:param img: 原始图像,是提取了物体边缘的图像</span></span><br><span class="line"><span class="string">	:param vertices: 多边形坐标</span></span><br><span class="line"><span class="string">	:return: 返回只保留了ROI区域内的物体边缘的图像</span></span><br><span class="line"><span class="string">	"""</span></span><br><span class="line">	<span class="comment"># 生成和img大小一致的图像矩阵,全部填充0(黑色)</span></span><br><span class="line">	roi = np.zeros_like(img)</span><br><span class="line">	<span class="comment"># vertices即三角形区域顶点,填充三角形内部区域为白色</span></span><br><span class="line">	ignore_mask_color = <span class="number">255</span></span><br><span class="line">	<span class="comment"># 填充函数,将vertices多边形区域填充为指定的灰度值</span></span><br><span class="line">	cv2.fillPoly(roi, vertices, ignore_mask_color)</span><br><span class="line">	<span class="comment"># 显示ROI区域</span></span><br><span class="line">	<span class="comment"># cv2.imshow("ROI", roi)</span></span><br><span class="line">	<span class="comment"># cv2.waitKey(0)</span></span><br><span class="line">	<span class="comment"># cv2.destroyAllWindows()</span></span><br><span class="line">	<span class="comment"># 两张图片上的像素进行与操作,ROI区域中已经填充白色,其他是黑色</span></span><br><span class="line">	<span class="comment"># img中是canny算子提取的物体边缘是白色，其他区域是黑色</span></span><br><span class="line">	<span class="comment"># 黑色与黑色与运算还是黑色，白色与白色与运算还是白色，白色与黑色与运算是黑色</span></span><br><span class="line">	<span class="comment"># bitwise_and即两张图片上相同位置像素点上的灰度值进行与运算</span></span><br><span class="line">	masked_image = cv2.bitwise_and(img, roi)</span><br><span class="line">	<span class="comment"># cv2.imshow("masked_image", masked_image)</span></span><br><span class="line">	<span class="comment"># cv2.waitKey(0)</span></span><br><span class="line">	<span class="comment"># cv2.destroyAllWindows()</span></span><br><span class="line">	<span class="keyword">return</span> masked_image</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bypass_angle_filter</span><span class="params">(lines, low_thres, high_thres)</span>:</span></span><br><span class="line">	<span class="string">"""</span></span><br><span class="line"><span class="string">	角度滤波器</span></span><br><span class="line"><span class="string">	:param lines: 概率霍夫变换得到的直线的端点对集合</span></span><br><span class="line"><span class="string">	:param low_thres:低阈值</span></span><br><span class="line"><span class="string">	:param high_thres:高阈值</span></span><br><span class="line"><span class="string">	:return:得到过滤后的直线端点对集合</span></span><br><span class="line"><span class="string">	"""</span></span><br><span class="line">	filtered_lines = []</span><br><span class="line">	<span class="keyword">if</span> lines <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">		<span class="keyword">return</span> filtered_lines</span><br><span class="line">	<span class="keyword">for</span> line <span class="keyword">in</span> lines:</span><br><span class="line">		<span class="keyword">for</span> x1, y1, x2, y2 <span class="keyword">in</span> line:</span><br><span class="line">			<span class="comment"># 过滤掉角度0或90度的直线</span></span><br><span class="line">			<span class="keyword">if</span> x1 == x2 <span class="keyword">or</span> y1 == y2:</span><br><span class="line">				<span class="keyword">continue</span></span><br><span class="line">			<span class="comment"># 保留角度在low_thres到high_thres之间的直线,角度按360度的标度来算</span></span><br><span class="line">			angle = abs(np.arctan((y2 - y1) / (x2 - x1)) * <span class="number">180</span> / np.pi)</span><br><span class="line">			<span class="keyword">if</span> low_thres &lt; angle &lt; high_thres:</span><br><span class="line">				filtered_lines.append([[x1, y1, x2, y2]])</span><br><span class="line">	<span class="keyword">return</span> filtered_lines</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">average_lines</span><span class="params">(lines, y_min, y_max)</span>:</span></span><br><span class="line">	<span class="string">"""</span></span><br><span class="line"><span class="string">	求霍夫变换得到的直线检测出的线的平均值，以平均值作为左右车道的线，这样左右车道各只有一条线，左右车道根据直线斜率判断</span></span><br><span class="line"><span class="string">	m为斜率，b为截距，norm为长度</span></span><br><span class="line"><span class="string">	:param lines:概率霍夫变换得到的直线两个端点</span></span><br><span class="line"><span class="string">	:param y_min:</span></span><br><span class="line"><span class="string">	:param y_max:</span></span><br><span class="line"><span class="string">	:return:</span></span><br><span class="line"><span class="string">	"""</span></span><br><span class="line">	<span class="comment"># 直线y=mx+b</span></span><br><span class="line">	<span class="comment"># 左右车道的候选直线存储集合,以斜率/截距/线段长度形式分别存储</span></span><br><span class="line">	hough_pts = &#123;<span class="string">'m_left'</span>: [], <span class="string">'b_left'</span>: [], <span class="string">'norm_left'</span>: [], <span class="string">'m_right'</span>: [], <span class="string">'b_right'</span>: [], <span class="string">'norm_right'</span>: []&#125;</span><br><span class="line">	<span class="keyword">if</span> lines <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">		<span class="keyword">for</span> line <span class="keyword">in</span> lines:</span><br><span class="line">			<span class="keyword">for</span> x1, y1, x2, y2 <span class="keyword">in</span> line:</span><br><span class="line">				<span class="comment"># poly_coef保存了多项式系数,对于一次项,第0个元素是k,第1个元素是b</span></span><br><span class="line">				poly_coef = np.polyfit([x2, x1], [y2, y1], <span class="number">1</span>)</span><br><span class="line">				norm = ((x2 - x1) ** <span class="number">2</span> + (y2 - y1) ** <span class="number">2</span>) ** <span class="number">0.5</span></span><br><span class="line">				<span class="keyword">if</span> poly_coef[<span class="number">0</span>] &gt; <span class="number">0</span>:</span><br><span class="line">					<span class="comment"># 如果是右车道线</span></span><br><span class="line">					hough_pts[<span class="string">'m_right'</span>].append(poly_coef[<span class="number">0</span>])</span><br><span class="line">					hough_pts[<span class="string">'b_right'</span>].append(poly_coef[<span class="number">1</span>])</span><br><span class="line">					hough_pts[<span class="string">'norm_right'</span>].append(norm)</span><br><span class="line">				<span class="keyword">if</span> poly_coef[<span class="number">0</span>] &lt; <span class="number">0</span>:</span><br><span class="line">					<span class="comment"># 如果是左车道线</span></span><br><span class="line">					hough_pts[<span class="string">'m_left'</span>].append(poly_coef[<span class="number">0</span>])</span><br><span class="line">					hough_pts[<span class="string">'b_left'</span>].append(poly_coef[<span class="number">1</span>])</span><br><span class="line">					hough_pts[<span class="string">'norm_left'</span>].append(norm)</span><br><span class="line">	<span class="keyword">if</span> len(hough_pts[<span class="string">'b_left'</span>]) != <span class="number">0</span> <span class="keyword">or</span> len(hough_pts[<span class="string">'m_left'</span>]) != <span class="number">0</span> <span class="keyword">or</span> len(hough_pts[<span class="string">'norm_left'</span>]) != <span class="number">0</span>:</span><br><span class="line">		<span class="comment"># 如果集合中左车道直线集合中有直线</span></span><br><span class="line">		b_avg_left = np.mean(np.array(hough_pts[<span class="string">'b_left'</span>]))</span><br><span class="line">		m_avg_left = np.mean(np.array(hough_pts[<span class="string">'m_left'</span>]))</span><br><span class="line">		xmin_left = int((y_min - b_avg_left) / m_avg_left)</span><br><span class="line">		xmax_left = int((y_max - b_avg_left) / m_avg_left)</span><br><span class="line">		left_lane = [[xmin_left, y_min, xmax_left, y_max]]</span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		left_lane = [[<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]]</span><br><span class="line">	<span class="keyword">if</span> len(hough_pts[<span class="string">'b_right'</span>]) != <span class="number">0</span> <span class="keyword">or</span> len(hough_pts[<span class="string">'m_right'</span>]) != <span class="number">0</span> <span class="keyword">or</span> len(hough_pts[<span class="string">'norm_right'</span>]) != <span class="number">0</span>:</span><br><span class="line">		<span class="comment"># 如果集合中右车道直线集合中有直线</span></span><br><span class="line">		b_avg_right = np.mean(np.array(hough_pts[<span class="string">'b_right'</span>]))</span><br><span class="line">		m_avg_right = np.mean(np.array(hough_pts[<span class="string">'m_right'</span>]))</span><br><span class="line">		xmin_right = int((y_min - b_avg_right) / m_avg_right)</span><br><span class="line">		xmax_right = int((y_max - b_avg_right) / m_avg_right)</span><br><span class="line">		right_lane = [[xmin_right, y_min, xmax_right, y_max]]</span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		right_lane = [[<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]]</span><br><span class="line">	<span class="keyword">return</span> [left_lane, right_lane]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">draw_lines</span><span class="params">(img, lines, color, thickness=<span class="number">2</span>)</span>:</span></span><br><span class="line">	<span class="string">"""</span></span><br><span class="line"><span class="string">	最后处理好的左右车道线集合输入，根据线两点坐标画直线</span></span><br><span class="line"><span class="string">	:param img: 输入背景图像（全黑）</span></span><br><span class="line"><span class="string">	:param lines: 输入左右车道线集合</span></span><br><span class="line"><span class="string">	:param color: 指定直线颜色</span></span><br><span class="line"><span class="string">	:param thickness: 指定直线宽度</span></span><br><span class="line"><span class="string">	:return:</span></span><br><span class="line"><span class="string">	"""</span></span><br><span class="line">	<span class="keyword">for</span> line <span class="keyword">in</span> lines:</span><br><span class="line">		<span class="keyword">for</span> x1, y1, x2, y2 <span class="keyword">in</span> line:</span><br><span class="line">			cv2.line(img, (x1, y1), (x2, y2), color, thickness)</span><br><span class="line">	<span class="comment"># 如果左右两条车道线都存在,那么填充两条车道线之间的区域(高亮)</span></span><br><span class="line">	<span class="keyword">if</span> lines[<span class="number">0</span>] != [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>] <span class="keyword">and</span> lines[<span class="number">1</span>] != [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]:</span><br><span class="line">		lines_np = np.array(lines)</span><br><span class="line">		lines_np_del = np.squeeze(lines_np)</span><br><span class="line">		polys = []</span><br><span class="line">		poly_1 = [(lines_np_del[<span class="number">0</span>][<span class="number">0</span>], lines_np_del[<span class="number">0</span>][<span class="number">1</span>]), (lines_np_del[<span class="number">0</span>][<span class="number">2</span>], lines_np_del[<span class="number">0</span>][<span class="number">3</span>]),</span><br><span class="line">		          (lines_np_del[<span class="number">1</span>][<span class="number">2</span>], lines_np_del[<span class="number">1</span>][<span class="number">3</span>]), (lines_np_del[<span class="number">1</span>][<span class="number">0</span>], lines_np_del[<span class="number">1</span>][<span class="number">1</span>])]</span><br><span class="line">		polys.append(poly_1)</span><br><span class="line">		cv2.fillPoly(img, np.array(polys), (<span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">process_image</span><span class="params">(img)</span>:</span></span><br><span class="line">	<span class="string">"""</span></span><br><span class="line"><span class="string">	对输入图像进行灰度化、高斯平滑、canny算子提取物体边缘、只保留ROI区域内物体边缘、霍夫变换求取图片内直线、将直线画到原图图像上</span></span><br><span class="line"><span class="string">	:param img: 原始彩色图像</span></span><br><span class="line"><span class="string">	:return: 标注了车道线的彩色图像</span></span><br><span class="line"><span class="string">	"""</span></span><br><span class="line">	<span class="comment"># 霍夫像素单位,取1</span></span><br><span class="line">	rho = <span class="number">1</span></span><br><span class="line">	<span class="comment"># 霍夫角度移动步长,使用1度</span></span><br><span class="line">	theta = np.pi / <span class="number">180</span></span><br><span class="line">	<span class="comment"># 霍夫平面累加阈值,即检测一条直线所需最少的曲线交点个数</span></span><br><span class="line">	hof_threshold = <span class="number">20</span></span><br><span class="line">	<span class="comment"># 线段最小长度</span></span><br><span class="line">	min_line_len = <span class="number">30</span></span><br><span class="line">	<span class="comment"># 线段最大允许断裂长度</span></span><br><span class="line">	max_line_gap = <span class="number">60</span></span><br><span class="line">	<span class="comment"># 高斯滤波核大小size</span></span><br><span class="line">	kernel_size = <span class="number">5</span></span><br><span class="line">	<span class="comment"># canny算子边缘检测低阈值</span></span><br><span class="line">	canny_low_threshold = <span class="number">75</span></span><br><span class="line">	<span class="comment"># canny算子边缘检测高阈值</span></span><br><span class="line">	canny_high_threshold = canny_low_threshold * <span class="number">3</span></span><br><span class="line">	<span class="comment"># 原图像权重</span></span><br><span class="line">	alpha = <span class="number">1</span></span><br><span class="line">	<span class="comment"># 车道线图像权重</span></span><br><span class="line">	beta = <span class="number">0.5</span></span><br><span class="line">	gamma = <span class="number">0.</span></span><br><span class="line">	<span class="comment"># 获取图像大小,注意shape[0]是高,shape[1]是宽</span></span><br><span class="line">	img_shape = img.shape</span><br><span class="line">	<span class="comment"># print(img_shape)</span></span><br><span class="line">	<span class="comment"># 彩色图转换成灰度图,使用cv2.imread()读到的img的数据排列为BGR,因此这里的参数为BGR2GRAY</span></span><br><span class="line">	gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)</span><br><span class="line">	<span class="comment"># 高斯滤波平滑图像</span></span><br><span class="line">	blur_gray = cv2.GaussianBlur(gray, (kernel_size, kernel_size), <span class="number">0</span>)</span><br><span class="line">	<span class="comment"># 平滑后的图像做一下膨胀,使物体边缘更容易检测到</span></span><br><span class="line">	dilate_gray = cv2.dilate(blur_gray, (<span class="number">3</span>, <span class="number">3</span>), iterations=<span class="number">10</span>)</span><br><span class="line">	<span class="comment"># Canny算子边缘检测</span></span><br><span class="line">	edge_image = cv2.Canny(dilate_gray, canny_low_threshold, canny_high_threshold)</span><br><span class="line">	<span class="comment"># 显示canny算子提取的边缘</span></span><br><span class="line">	<span class="comment"># cv2.imshow("canny_edge_image", edge_image)</span></span><br><span class="line">	<span class="comment"># cv2.waitKey(0)</span></span><br><span class="line">	<span class="comment"># cv2.destroyAllWindows()</span></span><br><span class="line">	<span class="comment"># 确定ROI多边形区域,两层的np数组是因为可以输入多个区域,但我们这里其实只有一个区域,内层每一个np数组记录了一个多边形的坐标</span></span><br><span class="line">	<span class="comment"># shape[0]是高,shape[1]是宽,图像坐标系以左上角为原点,向下为y轴正向,向右为x轴正向</span></span><br><span class="line">	<span class="comment"># 下面是一个三角形,底下两点是图像的左下角和右下角</span></span><br><span class="line">	vertices = np.array([[(<span class="number">0</span>, img_shape[<span class="number">0</span>]), (img_shape[<span class="number">1</span>] / <span class="number">2</span>, <span class="number">23</span> * img_shape[<span class="number">0</span>] / <span class="number">40</span>), (img_shape[<span class="number">1</span>], img_shape[<span class="number">0</span>])]],</span><br><span class="line">	                    dtype=np.int32)</span><br><span class="line">	masked_edges = region_of_interest(edge_image, vertices)</span><br><span class="line">	<span class="comment"># 基于概率霍夫变换的直线检测</span></span><br><span class="line">	lines = cv2.HoughLinesP(masked_edges, rho, theta, hof_threshold, np.array([]), minLineLength=min_line_len,</span><br><span class="line">	                        maxLineGap=max_line_gap)</span><br><span class="line">	<span class="comment"># img: 输入只保留了ROI区域内的物体边缘的图像</span></span><br><span class="line">	<span class="comment"># rho: 线段以像素为单位的距离精度, 一般取1</span></span><br><span class="line">	<span class="comment"># theta: 像素以弧度为单位的角度精度, 一般取1度(np.pi / 180)</span></span><br><span class="line">	<span class="comment"># threshold: 霍夫平面累加的阈值, 即检测一条直线所需最少的的曲线交点个数</span></span><br><span class="line">	<span class="comment"># min_line_len: 线段最小长度(像素级)</span></span><br><span class="line">	<span class="comment"># max_line_gap: 最大允许断裂长度</span></span><br><span class="line">	<span class="comment"># 返回检测到的直线的两个端点对的集合</span></span><br><span class="line">	<span class="comment"># 过滤掉一些角度不符合的直线</span></span><br><span class="line">	low_thres, high_thres = <span class="number">30</span>, <span class="number">80</span></span><br><span class="line">	angle_filter_lines = bypass_angle_filter(lines, low_thres, high_thres)</span><br><span class="line">	<span class="comment"># 求取左右车道直线集合的平均值作为左右车道线</span></span><br><span class="line">	y_min, y_max = int(img.shape[<span class="number">0</span>] * <span class="number">0.65</span>), int(img.shape[<span class="number">0</span>] * <span class="number">1.0</span>)</span><br><span class="line">	avg_hlines = average_lines(angle_filter_lines, y_min, y_max)</span><br><span class="line">	<span class="comment"># 创建一个新黑色背景图片,在图片上绘制检测到的车道线</span></span><br><span class="line">	lines_image = np.zeros_like(img)</span><br><span class="line">	lines_color = [<span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>]</span><br><span class="line">	<span class="comment"># 绘制车道线线段</span></span><br><span class="line">	draw_lines(lines_image, avg_hlines, lines_color, thickness=<span class="number">15</span>)</span><br><span class="line">	<span class="comment"># cv2.imshow("lines_image", lines_image)</span></span><br><span class="line">	<span class="comment"># cv2.waitKey(0)</span></span><br><span class="line">	<span class="comment"># cv2.destroyAllWindows()</span></span><br><span class="line">	<span class="comment"># 原彩色图像与车道线图像融合,alpha为第一个数组的权重,beta为第二个数组的权重,gamma为一个加到权重总和上的标量值</span></span><br><span class="line">	lines_edges = cv2.addWeighted(img, alpha, lines_image, beta, gamma)</span><br><span class="line">	<span class="keyword">return</span> lines_edges</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">	<span class="comment"># 检测视频流中的车道线</span></span><br><span class="line">	<span class="comment"># ./test_image_and_video/1.avi</span></span><br><span class="line">	cap = cv2.VideoCapture(<span class="string">"./test_image_and_video/video_1.mp4"</span>)</span><br><span class="line">	cap_width, cap_height = int(cap.get(<span class="number">3</span>)), int(cap.get(<span class="number">4</span>))</span><br><span class="line">	fps = <span class="number">0</span></span><br><span class="line">	<span class="keyword">while</span> cap.isOpened():</span><br><span class="line">		return_value, frame = cap.read()</span><br><span class="line">		<span class="keyword">if</span> return_value == <span class="number">0</span>:</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		start_time = time.time()</span><br><span class="line">		processed_image = process_image(frame)</span><br><span class="line">		<span class="comment"># cv2.waitKey(1)</span></span><br><span class="line">		fps = int(<span class="number">1.0</span> / (time.time() - start_time))</span><br><span class="line">		fps_str = <span class="string">"FPS: "</span> + str(fps)</span><br><span class="line">		cv2.putText(processed_image, text=fps_str, org=(cap_width - <span class="number">80</span>, <span class="number">15</span>), fontFace=cv2.FONT_HERSHEY_SIMPLEX,</span><br><span class="line">		            fontScale=<span class="number">0.50</span>, color=(<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>), thickness=<span class="number">2</span>)</span><br><span class="line">		cv2.imshow(<span class="string">"image"</span>, processed_image)</span><br><span class="line">		<span class="comment"># 按q可以退出</span></span><br><span class="line">		<span class="keyword">if</span> cv2.waitKey(<span class="number">1</span>) &amp; <span class="number">0xFF</span> == ord(<span class="string">'q'</span>):</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">	cap.release()</span><br><span class="line">	cv2.destroyAllWindows()</span><br><span class="line"></span><br><span class="line">	<span class="comment"># 检测图片中车道线</span></span><br><span class="line">	image = cv2.imread(<span class="string">"./test_image_and_video/0.jpg"</span>)</span><br><span class="line">	line_image = process_image(image)</span><br><span class="line">	cv2.imshow(<span class="string">"image"</span>, line_image)</span><br><span class="line">	cv2.waitKey(<span class="number">0</span>)</span><br><span class="line">	cv2.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+            </div>
+            <hr/>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff;
+        background-color: #22AB38;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff;
+        background-color: #019FE8;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a class="reward-link btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs">
+                        <li class="tab wechat-tab waves-effect waves-light"><a class="active" href="#wechat">微信</a></li>
+                        <li class="tab alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                    </ul>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#reward .reward-link').on('click', function () {
+            $('#rewardModal').openModal();
+        });
+
+        $('#rewardModal .close').on('click', function () {
+            $('#rewardModal').closeModal();
+        });
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            <div class="reprint">
+                <p>
+                    <span class="reprint-tip">
+                        <i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;Reprint please specify:
+                    </span>
+                    <a href="https://wyg1996.cn" class="b-link-green">鱼缸屋</a>
+                    <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
+                    <a href="/2019/05/05/基于霍夫变换的视频流车道线检测/" class="b-link-green">基于霍夫变换的视频流车道线检测</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-05-05T16-58-33',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Sun May 05 2019 16:58:33 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
+    
+
+    
+        <div class="disqus-card card" data-aos="fade-up">
+    <div id="disqus_thread" class="card-content">
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+    </div>
+</div>
+
+<script type="text/javascript">
+    disqus_config = function () {
+        this.page.url = 'https://wyg1996.cn/2019/05/05/基于霍夫变换的视频流车道线检测/';
+        this.page.identifier = '/2019/05/05/基于霍夫变换的视频流车道线检测/';
+        this.page.title = '基于霍夫变换的视频流车道线检测';
+    };
+    let disqus_shortname = '';
+
+    (function () { // DON'T EDIT BELOW THIS LINE
+        let d = document, s = d.createElement('script');
+        // 如：s.src = 'https://blinkfox.disqus.com/embed.js';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+    
+
+    
+    <div class="livere-card card" data-aos="fade-up">
+    <!-- 来必力City版安装代码 -->
+    <div id="lv-container" class="card-content" data-id="city" data-uid="">
+        <script type="text/javascript">
+            (function (d, s) {
+                let j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') {
+                    return;
+                }
+
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript。</noscript>
+    </div>
+    <!-- City版安装代码已完成 -->
+</div>
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2019/05/05/目标检测模型性能指标mAP的含义解释/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="目标检测模型性能指标mAP的含义解释">
+                        
+                        <span class="card-title">目标检测模型性能指标mAP的含义解释</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">准确率、精确率、召回率、P-R曲线图、平衡点、F1 score、Fβ123真实情况    预测为正        预测为反	正	       TP（真正例）	 FN（假反例）	反	       FP（假正例）	 TN（真反例）
+
+准确率$$</div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-05-05
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/目标检测/" class="post-category" target="_blank">
+                                    目标检测
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/目标检测/" target="_blank">
+                        <span class="chip bg-color">目标检测</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/05/04/视频流中的车牌区域检测/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="视频流中的车牌区域检测">
+                        
+                        <span class="card-title">视频流中的车牌区域检测</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">检测原理使用形态学梯度检测或sobel边缘检测（y方向）来检测出图片中物体的垂直边缘；将检测结果转化成二值化图像；使用闭运算（先膨胀，再腐蚀）进行区域填充，填补空洞，同时切断各个白色区域之间的连通；使用轮廓检测函数findContours，</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-05-04
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/图像处理/" class="post-category" target="_blank">
+                                    图像处理
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/图像处理/" target="_blank">
+                        <span class="chip bg-color">图像处理</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + 'From: 鱼缸屋<br />'
+            + 'Author: ygwu<br />'
+            + 'Link: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+    </div>
+    <div class="col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+    });
+</script>
+    
+
+</main>
+
+
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy;<a href="mailto:ygwu@mail.ustc.edu.cn" target="_blank">鱼缸屋</a>
+            
+
+            
+                &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+                <span class="white-color">393.6k</span>
+            
+
+            
+			
+                <br>
+                
+                <span id="busuanzi_container_site_pv">
+                    <i class="fa fa-heart-o"></i>
+                    本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+                </span>
+                
+                
+                <span id="busuanzi_container_site_uv">
+                    <i class="fa fa-users"></i>
+                    次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+                </span>
+                
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/wygny" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ygwu@mail.ustc.edu.cn" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=321699849" class="tooltipped" data-tooltip="QQ联系我: 321699849" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://www.baidu.com" class="tooltipped" target="_blank" data-tooltip="访问百度" data-position="top" data-delay="50">
+        <i class="fa fa-paw"></i>
+</a>
+
+
+
+    <a href="https://www.google.com" class="tooltipped" target="_blank" data-tooltip="访问谷歌" data-position="top" data-delay="50">
+        <i class="fa fa-google"></i>
+</a>
+
+
+
+    <a href="https://www.bilibili.com" class="tooltipped" target="_blank" data-tooltip="访问哔哩哔哩" data-position="top" data-delay="50">
+        <i class="fa fa-bullseye"></i>
+</a>
+
+
+
+    <a href="https://blog.csdn.net/zgcr654321" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN博客" data-position="top" data-delay="50">
+        <i class="fa fa-copyright"></i>
+</a>
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input" autofocus="">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="/libs/materialize/js/materialize.min.js"></script>
+<script src="/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="/libs/aos/aos.js"></script>
+<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    <script src="/libs/others/clicklove.js"></script>
+
+
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+
+
+</body>
+</html>

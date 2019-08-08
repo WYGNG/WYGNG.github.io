@@ -1,0 +1,1028 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="特征工程实践:泰坦尼克号幸存者预测, 鱼缸屋">
+    <meta name="description" content="泰坦尼克号幸存者预测数据集下载地址:https://www.kaggle.com/c/titanic/data 。本案例主要展示特征工程对数据集的处理方法，模型只选择了简单的lr模型，最后得分并不高。
+1234567891011121314">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>特征工程实践:泰坦尼克号幸存者预测 | 鱼缸屋</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+</head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="container">
+            <div class="nav-wrapper">
+                <div class="brand-logo">
+                    <a href="/" class="waves-effect waves-light">
+                        
+                        <img src="/medias/logo.png" class="logo-img hide-on-small-only">
+                        
+                        <span class="logo-span">鱼缸屋</span>
+                    </a>
+                </div>
+                
+
+<a href="#" data-activates="mobile-nav" class="button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a id="toggleSearch" class="waves-effect waves-light">
+            <i id="searchIcon" class="mdi-action-search" title="Search"></i>
+        </a>
+    </li>
+
+</ul>
+
+<div class="side-nav" id="mobile-nav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">鱼缸屋</div>
+        <div class="logo-desc">
+            
+            海纳百川，有容乃大，壁立千仞，无欲则刚
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/WYGNG" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>来github一起玩吧！
+            </a>
+        </li>
+        
+    </ul>
+
+    <div class="social-link">
+    <a href="https://github.com/wygny" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ygwu@mail.ustc.edu.cn" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=321699849" class="tooltipped" data-tooltip="QQ联系我: 321699849" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://www.baidu.com" class="tooltipped" target="_blank" data-tooltip="访问百度" data-position="top" data-delay="50">
+        <i class="fa fa-paw"></i>
+</a>
+
+
+
+    <a href="https://www.google.com" class="tooltipped" target="_blank" data-tooltip="访问谷歌" data-position="top" data-delay="50">
+        <i class="fa fa-google"></i>
+</a>
+
+
+
+    <a href="https://www.bilibili.com" class="tooltipped" target="_blank" data-tooltip="访问哔哩哔哩" data-position="top" data-delay="50">
+        <i class="fa fa-bullseye"></i>
+</a>
+
+
+
+    <a href="https://blog.csdn.net/zgcr654321" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN博客" data-position="top" data-delay="50">
+        <i class="fa fa-copyright"></i>
+</a>
+
+
+
+
+
+
+</div>
+</div>
+
+            </div>
+        </div>
+
+        
+        <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/WYGNG" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="来github一起玩吧！" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+</header>
+
+
+
+
+
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        特征工程实践:泰坦尼克号幸存者预测
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+</style>
+<div class="row">
+    <div class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/特征工程/" target="_blank">
+                                <span class="chip bg-color">特征工程</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/特征工程/" class="post-category" target="_blank">
+                                特征工程
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2019-04-05
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>Word Count:&nbsp;&nbsp;
+                        3.1k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>Read Times:&nbsp;&nbsp;
+                        14 Min
+                    </div>
+                    
+                
+				
+				
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="fa fa-eye fa-fw"></i>Read Count:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="泰坦尼克号幸存者预测"><a href="#泰坦尼克号幸存者预测" class="headerlink" title="泰坦尼克号幸存者预测"></a>泰坦尼克号幸存者预测</h1><p>数据集下载地址:<a href="https://www.kaggle.com/c/titanic/data" target="_blank" rel="noopener">https://www.kaggle.com/c/titanic/data</a> 。<br>本案例主要展示特征工程对数据集的处理方法，模型只选择了简单的lr模型，最后得分并不高。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="comment"># Seaborn其实是在matplotlib的基础上进行了更高级的API封装,从而使得作图更加容易</span></span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> scipy.stats <span class="keyword">import</span> boxcox</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split, learning_curve, validation_curve, cross_val_score</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> MinMaxScaler, PolynomialFeatures</span><br><span class="line"><span class="keyword">from</span> sklearn.feature_selection <span class="keyword">import</span> SelectKBest, chi2</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 统计每个特征的缺失值占总样本的比例</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">draw_missing_data_table</span><span class="params">(data)</span>:</span></span><br><span class="line">   total = data.isnull().sum().sort_values(ascending=<span class="literal">False</span>)</span><br><span class="line">   percent = (data.isnull().sum() / data.shape[<span class="number">0</span>]).sort_values(ascending=<span class="literal">False</span>)</span><br><span class="line">   missing_data = pd.concat([total, percent], axis=<span class="number">1</span>, keys=[<span class="string">"Total"</span>, <span class="string">"Percent"</span>])</span><br><span class="line">   <span class="keyword">return</span> missing_data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">train_data = pd.read_csv(<span class="string">"./titanic/train.csv"</span>)</span><br><span class="line"><span class="comment"># print(df.head(2))</span></span><br><span class="line"><span class="comment"># print(df.describe())</span></span><br><span class="line"><span class="comment"># print(df.dtypes)</span></span><br><span class="line"></span><br><span class="line">missing_df = draw_missing_data_table(train_data)</span><br><span class="line"><span class="comment"># print(missing_df)</span></span><br><span class="line"><span class="comment"># Cabin特征的缺失值超过了25%,故直接丢弃该特征,Age特征也有接近20%的值是缺失值,需要填充</span></span><br><span class="line">train_data.drop([<span class="string">"Ticket"</span>, <span class="string">"Cabin"</span>], axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># 我们利用姓名的中的头衔,统计每种头衔的平均年龄,然后用平均年龄填充每种头衔的人的Age特征的缺失值</span></span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> train_data:</span><br><span class="line">   <span class="comment"># 使用正则表达式提取头衔</span></span><br><span class="line">   train_data[<span class="string">"Title"</span>] = train_data[<span class="string">"Name"</span>].str.extract(<span class="string">"([A-Za-z]+)\."</span>, expand=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">train_data.drop([<span class="string">"Name"</span>], axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># # 画图看不同头衔的人的平均年龄</span></span><br><span class="line"><span class="comment"># plt.figure(figsize=(15, 5))</span></span><br><span class="line"><span class="comment"># # Seaborn会对Title列中的数值进行归类后按照estimator参数的方法(默认为平均值)计算相应的值,计算出来的值就作为条形图所显示的值</span></span><br><span class="line"><span class="comment"># # 条形图上的误差线则表示各类的数值相对于条形图所显示的值的误差</span></span><br><span class="line"><span class="comment"># sns.barplot(x=train_data["Title"], y=train_data["Age"])</span></span><br><span class="line"><span class="comment"># plt.show()</span></span><br><span class="line"><span class="comment"># plt.close()</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 字典形式记录每个头衔的样本数量(头衔出现次数)</span></span><br><span class="line"><span class="comment"># print(train_data["Title"].value_counts().to_dict())</span></span><br><span class="line"><span class="comment"># 字典形式记录每个头衔的人的age的平均值</span></span><br><span class="line">age_means = train_data.groupby(<span class="string">"Title"</span>)[<span class="string">"Age"</span>].mean().to_dict()</span><br><span class="line"><span class="comment"># 记录age特征是缺失值的行index</span></span><br><span class="line">index_nan_age = train_data.loc[np.isnan(train_data[<span class="string">"Age"</span>])].index</span><br><span class="line"><span class="comment"># .map(age_means)方法根据对应的键映射值</span></span><br><span class="line">train_data.loc[index_nan_age, <span class="string">"Age"</span>].loc[index_nan_age] = train_data[<span class="string">"Title"</span>].loc[index_nan_age].map(age_means)</span><br><span class="line">train_data[<span class="string">"Imputed"</span>] = <span class="number">0</span></span><br><span class="line"><span class="comment"># 生成一个新特征,用来记录哪些行的Age数据是用平均值填充的,填充过的记为1</span></span><br><span class="line">train_data.at[index_nan_age.values, <span class="string">"Imputed"</span>] = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># # 探索不同变量之间的关联关系,我们假设乘坐的舱等级越高,逃生的概率越大,我们先画出图看一看</span></span><br><span class="line"><span class="comment"># sns.barplot(train_data["Pclass"], train_data["Survived"])</span></span><br><span class="line"><span class="comment"># plt.show()</span></span><br><span class="line"><span class="comment"># plt.close()</span></span><br><span class="line"><span class="comment"># # 我们发现舱等级越高逃生概率越大</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 我们假设人们的头衔会影响他们受到的待遇,分析一下头衔,看看能否找到一种合理的方法来把它们组合起来</span></span><br><span class="line"><span class="comment"># print(train_data.groupby(["Title"])["PassengerId"].count().to_dict())</span></span><br><span class="line"><span class="comment"># 我们可以发现group以后的项还是太多了,我们可以进一步将其合并变成项数更少的五项:Other,Mrs,Miss,Mr,Master</span></span><br><span class="line">titles_dict = &#123;<span class="string">"Capt"</span>: <span class="string">"Other"</span>, <span class="string">"Major"</span>: <span class="string">"Other"</span>, <span class="string">"Jonkheer"</span>: <span class="string">"Other"</span>, <span class="string">"Don"</span>: <span class="string">"Other"</span>, <span class="string">"Sir"</span>: <span class="string">"Other"</span>, <span class="string">"Dr"</span>: <span class="string">"Other"</span>,</span><br><span class="line">               <span class="string">"Rev"</span>: <span class="string">"Other"</span>, <span class="string">"Countess"</span>: <span class="string">"Other"</span>, <span class="string">"Dona"</span>: <span class="string">"Other"</span>, <span class="string">"Mme"</span>: <span class="string">"Mrs"</span>, <span class="string">"Mlle"</span>: <span class="string">"Miss"</span>, <span class="string">"Ms"</span>: <span class="string">"Miss"</span>,</span><br><span class="line">               <span class="string">"Mr"</span>: <span class="string">"Mr"</span>, <span class="string">"Mrs"</span>: <span class="string">"Mrs"</span>, <span class="string">"Miss"</span>: <span class="string">"Miss"</span>, <span class="string">"Master"</span>: <span class="string">"Master"</span>, <span class="string">"Lady"</span>: <span class="string">"Other"</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># .map(age_means)方法根据对应的键映射值,这样Title特征项被映射成了更少的几种值</span></span><br><span class="line">train_data[<span class="string">"Title"</span>] = train_data[<span class="string">"Title"</span>].map(titles_dict)</span><br><span class="line"><span class="comment"># 将Title特征转为类别特征,这样我们可以将其转为one_hot编码</span></span><br><span class="line">train_data[<span class="string">"Title"</span>] = pd.Categorical(train_data[<span class="string">"Title"</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># # 我们再画图看一下Title对逃生几率的影响</span></span><br><span class="line"><span class="comment"># sns.barplot(train_data["Title"], train_data["Survived"])</span></span><br><span class="line"><span class="comment"># plt.show()</span></span><br><span class="line"><span class="comment"># plt.close()</span></span><br><span class="line"><span class="comment"># # 可以看到我们新的分类中Other和Master分类的误差线比较长,说明其均值存在明显的不确定性</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># # 再看看性别对逃生几率的影响</span></span><br><span class="line"><span class="comment"># train_data["Sex"] = pd.Categorical(train_data["Sex"])</span></span><br><span class="line"><span class="comment"># sns.barplot(train_data["Sex"], train_data["Survived"])</span></span><br><span class="line"><span class="comment"># plt.show()</span></span><br><span class="line"><span class="comment"># plt.close()</span></span><br><span class="line"><span class="comment"># # 显然女性的逃生几率更大</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># # 再看看年龄对逃生几率的影响,我们假设儿童更容易逃生,而老年人逃生几率更小</span></span><br><span class="line"><span class="comment"># limit_1, limit_2 = 12, 50</span></span><br><span class="line"><span class="comment"># x_limit_1 = np.size(train_data[train_data["Age"] &lt; limit_1]["Age"].unique())</span></span><br><span class="line"><span class="comment"># x_limit_2 = np.size(train_data[train_data["Age"] &lt; limit_2]["Age"].unique())</span></span><br><span class="line"><span class="comment"># plt.figure(figsize=(25, 10))</span></span><br><span class="line"><span class="comment"># sns.barplot(train_data["Age"], train_data["Survived"], ci=None)</span></span><br><span class="line"><span class="comment"># # .axvspan可以在途中特定x坐标范围的矩形显示特定的颜色</span></span><br><span class="line"><span class="comment"># plt.axvspan(-1, x_limit_1, alpha=0.25, color="green")</span></span><br><span class="line"><span class="comment"># plt.axvspan(x_limit_1, x_limit_2, alpha=0.25, color="red")</span></span><br><span class="line"><span class="comment"># plt.axvspan(x_limit_2, 100, alpha=0.25, color="yellow")</span></span><br><span class="line"><span class="comment"># plt.xticks(rotation=90)</span></span><br><span class="line"><span class="comment"># plt.show()</span></span><br><span class="line"><span class="comment"># plt.close()</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 我们将年龄分成三类更好些,分成0-12,12-50,50-80再看看</span></span><br><span class="line">train_data[<span class="string">"Age"</span>] = pd.cut(train_data[<span class="string">"Age"</span>], bins=[<span class="number">0</span>, <span class="number">12</span>, <span class="number">50</span>, <span class="number">200</span>], labels=[<span class="string">"Child"</span>, <span class="string">"Adult"</span>, <span class="string">"Elder"</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># # 再次画图</span></span><br><span class="line"><span class="comment"># sns.barplot(train_data["Age"], train_data["Survived"])</span></span><br><span class="line"><span class="comment"># plt.show()</span></span><br><span class="line"><span class="comment"># plt.close()</span></span><br><span class="line"><span class="comment"># # 显然儿童的存活率最高,而成年人和老人似乎没有显著的差别</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 我们将Sibsp(是否有兄弟姐妹/配偶)和Parch(是否有父母/孩子)组合成一个新的特征FamilySize</span></span><br><span class="line">train_data[<span class="string">"FamilySize"</span>] = train_data[<span class="string">"SibSp"</span>] + train_data[<span class="string">"Parch"</span>]</span><br><span class="line">train_data.drop([<span class="string">"SibSp"</span>, <span class="string">"Parch"</span>], axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># # 再看看这个新特征对逃生几率的影响,我们假设FamilySize越大逃生几率越大</span></span><br><span class="line"><span class="comment"># sns.barplot(train_data["FamilySize"], train_data["Survived"])</span></span><br><span class="line"><span class="comment"># plt.show()</span></span><br><span class="line"><span class="comment"># plt.close()</span></span><br><span class="line"><span class="comment"># # 我们可以看到FamilySize在O和3之间时,我们的假设得到了一些支持,但在4-10人时,逃生几率反而下降了</span></span><br><span class="line"><span class="comment"># # 这可能意味着FamilySize大于3时,我们的假设应该进行修正</span></span><br><span class="line"><span class="comment"># # 因此,我们不会对这个变量做任何变换,我们将它作为一个连续变量</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># # 再看看票价对逃生几率的影响,票价这个特征应当与舱位等级这个变量相关性很强</span></span><br><span class="line"><span class="comment"># plt.figure(figsize=(7.5, 5))</span></span><br><span class="line"><span class="comment"># # 这次我们画箱式图</span></span><br><span class="line"><span class="comment"># sns.boxplot(train_data["Survived"], train_data["Fare"])</span></span><br><span class="line"><span class="comment"># plt.show()</span></span><br><span class="line"><span class="comment"># plt.close()</span></span><br><span class="line"><span class="comment"># # 显然可以看出幸存者支付的票价更高</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># # 我们再看看票价、舱位等级与逃生几率之间的关系</span></span><br><span class="line"><span class="comment"># sns.barplot(train_data["Survived"], train_data["Fare"], train_data["Pclass"])</span></span><br><span class="line"><span class="comment"># plt.show()</span></span><br><span class="line"><span class="comment"># plt.close()</span></span><br><span class="line"><span class="comment"># # 这里我们发现,如果是二等舱或三等舱,票价对是否幸存没有什么影响,但是如果是头等舱,票价越高则幸存概率越大</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># # 上船地点应当对逃生几率没有什么影响,我们也画图看看</span></span><br><span class="line"><span class="comment"># # C=瑟堡,Q=昆士敦,S=南安普敦</span></span><br><span class="line"><span class="comment"># sns.barplot(train_data["Embarked"], train_data["Survived"])</span></span><br><span class="line"><span class="comment"># plt.show()</span></span><br><span class="line"><span class="comment"># plt.close()</span></span><br><span class="line"><span class="comment"># # 比较奇怪的是C地点上船的人生存概率更高,这可能受了性别或其他变量的影响</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># # 按Embarked特征分组求一下平均值,C地点上船的人票价更高</span></span><br><span class="line"><span class="comment"># print(train_data.groupby(["Embarked"]).mean())</span></span><br><span class="line"><span class="comment"># # 按Embarked特征分组,再按前面三种年龄分组,结果发现不同上船地点的年龄分组之间没有明显区别</span></span><br><span class="line"><span class="comment"># print(train_data.groupby(["Embarked", "Age"])["PassengerId"].count())</span></span><br><span class="line"><span class="comment"># # 按Embarked特征分组,再按性别分组,也没有发现明显的关系(女性数量总是少于男性的)</span></span><br><span class="line"><span class="comment"># print(train_data.groupby(["Embarked", "Sex"])["PassengerId"].count())</span></span><br><span class="line"><span class="comment"># # 综上,我们认为影响生存率的更可能是票价,上船地点这个特征不影响生存率</span></span><br><span class="line"></span><br><span class="line">train_data.drop([<span class="string">"PassengerId"</span>], axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">train_data[<span class="string">"Embarked"</span>] = pd.Categorical(train_data[<span class="string">"Embarked"</span>])</span><br><span class="line">train_data[<span class="string">"Pclass"</span>] = pd.Categorical(train_data[<span class="string">"Pclass"</span>])</span><br><span class="line"><span class="comment"># drop_first=1即丢弃一个特征转换成的one_hot编码中的第一个类别特征</span></span><br><span class="line"><span class="comment"># 丢弃原因是为了防止Dummy Variable Trap,即如果一个特征中有k个类别,那么我们实际上只需要k-1个one_hot编码类别就可以表示该特征所有k个类别</span></span><br><span class="line">train_data = pd.get_dummies(train_data, drop_first=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立训练用特征和标签</span></span><br><span class="line">x = train_data.drop([<span class="string">"Survived"</span>], axis=<span class="number">1</span>)</span><br><span class="line">y = train_data[<span class="string">"Survived"</span>]</span><br><span class="line"><span class="comment"># 划分训练集和测试集</span></span><br><span class="line">x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=<span class="number">.2</span>, random_state=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下面进行特征变换,使用Box-Cox变换,用于连续变量不满足正态分布的情况,变换之后可以一定程度上减小不可观测的误差和预测变量的相关性</span></span><br><span class="line"><span class="comment"># 即若λ!=0,Y=((Y^λ)−1)/λ;若λ=0,y=log(1+X)</span></span><br><span class="line"><span class="comment"># 使用Box-Cox变换一般都可以保证将数据进行成功的正态变换,但在二分变量或较少水平的等级变量的情况下,不能成功进行转换</span></span><br><span class="line">x_train_transformed = x_train.copy()</span><br><span class="line">x_train_transformed[<span class="string">"Fare"</span>] = boxcox(x_train_transformed[<span class="string">"Fare"</span>] + <span class="number">1</span>)[<span class="number">0</span>]</span><br><span class="line">x_test_transformed = x_test.copy()</span><br><span class="line">x_test_transformed[<span class="string">"Fare"</span>] = boxcox(x_test_transformed[<span class="string">"Fare"</span>] + <span class="number">1</span>)[<span class="number">0</span>]</span><br><span class="line"><span class="comment"># print(x_train_transformed)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 进行min-MAX标准化</span></span><br><span class="line">scaler = MinMaxScaler()</span><br><span class="line">x_train_transformed_scaled = scaler.fit_transform(x_train_transformed.astype(float))</span><br><span class="line">x_test_transformed_scaled = scaler.transform(x_test_transformed)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进行多项式变换创建新特征</span></span><br><span class="line">poly = PolynomialFeatures(degree=<span class="number">2</span>).fit(x_train_transformed)</span><br><span class="line"><span class="comment"># print(poly.get_feature_names())</span></span><br><span class="line"><span class="comment"># fit_transform相当于先调用fit再调用transform</span></span><br><span class="line">x_train_poly = poly.transform(x_train_transformed_scaled)</span><br><span class="line">x_test_poly = poly.transform(x_test_transformed_scaled)</span><br><span class="line"><span class="comment"># print(x_train_poly[0])</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用卡方检验选择特征x</span></span><br><span class="line"><span class="comment"># 先创建一个用于卡方检验的基础模型,C惩罚项系数</span></span><br><span class="line">ka_base_lr_model = LogisticRegression(solver=<span class="string">"liblinear"</span>, C=<span class="number">1</span>)</span><br><span class="line">ka_base_lr_model.fit(x_train, y_train)</span><br><span class="line">ka_lr_acc_list = cross_val_score(ka_base_lr_model, x_train, y_train, cv=<span class="number">10</span>, scoring=<span class="string">"accuracy"</span>)</span><br><span class="line"><span class="comment"># print("卡方检验基础lr模型的交叉验证平均准确率:&#123;:.3f&#125;".format(np.mean(ka_lr_acc_list)))</span></span><br><span class="line"><span class="comment"># 以初始模型的准确率作为最高准确率的初始值,以其方差作为最小方差的初始值</span></span><br><span class="line">highest_score = np.mean(ka_lr_acc_list)</span><br><span class="line">smallest_std = np.std(ka_lr_acc_list)</span><br><span class="line">k_features_highest_score = x_train_poly.shape[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进行特征选择</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, x_train_poly.shape[<span class="number">1</span>] + <span class="number">1</span>):</span><br><span class="line">   <span class="comment"># i即第i个特征,每次使用卡方检验时选择保留i个得分最高的特征</span></span><br><span class="line">   select = SelectKBest(score_func=chi2, k=i)</span><br><span class="line">   select.fit(x_train_poly, y_train)</span><br><span class="line">   <span class="comment"># 保留了i个得分最高的特征的数据集</span></span><br><span class="line">   x_train_poly_selected = select.transform(x_train_poly)</span><br><span class="line">   <span class="comment"># 使用保留了i个得分最高的特征的数据集拟合一个lr模型,计算其准确率</span></span><br><span class="line">   ka_base_lr_model.fit(x_train_poly_selected, y_train)</span><br><span class="line">   scores = cross_val_score(ka_base_lr_model, x_train_poly_selected, y_train, cv=<span class="number">10</span>, scoring=<span class="string">"accuracy"</span>)</span><br><span class="line">   <span class="comment"># print("选择&#123;&#125;个特征的数据集产生的lr模型的交叉验证平均准确率:&#123;:.3f&#125;".format(i, np.mean(scores)))</span></span><br><span class="line">   <span class="comment"># 如果这个新模型的准确率高于最高得分,那么以这个模型的准确率作为最高准确率</span></span><br><span class="line">   <span class="comment"># 如果准确率相同,那么判断谁的方差更小,以方差更小的模型作为最佳模型</span></span><br><span class="line">   <span class="keyword">if</span> np.mean(scores) &gt; highest_score:</span><br><span class="line">      highest_score = np.mean(scores)</span><br><span class="line">      smallest_std = np.std(scores)</span><br><span class="line">      k_features_highest_score = i</span><br><span class="line">   <span class="keyword">elif</span> np.mean(scores) == highest_score:</span><br><span class="line">      <span class="keyword">if</span> np.std(scores) &lt; smallest_std:</span><br><span class="line">         highest_score = np.mean(scores)</span><br><span class="line">         smallest_std = np.std(scores)</span><br><span class="line">         k_features_highest_score = i</span><br><span class="line"></span><br><span class="line">print(<span class="string">"取得最佳准确率时的模型由&#123;&#125;个特征的数据集拟合得到"</span>.format(k_features_highest_score))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 现在用我们取得的k来得到最佳模型</span></span><br><span class="line">select = SelectKBest(score_func=chi2, k=k_features_highest_score)</span><br><span class="line">select.fit(x_train_poly, y_train)</span><br><span class="line">x_train_poly_selected = select.transform(x_train_poly)</span><br><span class="line">lr = LogisticRegression(solver=<span class="string">"liblinear"</span>, C=<span class="number">1</span>)</span><br><span class="line">lr.fit(x_train_poly_selected, y_train)</span><br><span class="line">acc_list = cross_val_score(lr, x_train, y_train, cv=<span class="number">10</span>, scoring=<span class="string">"accuracy"</span>)</span><br><span class="line"></span><br><span class="line">print(<span class="string">"最佳lr模型的交叉验证平均准确率:&#123;:.3f&#125;"</span>.format(np.mean(acc_list)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 画出学习曲线</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_learning_curve</span><span class="params">(estimator, title, X, y, ylim=None, cv=None, n_jobs=<span class="number">1</span>, train_sizes=np.linspace<span class="params">(<span class="number">.1</span>, <span class="number">1.0</span>, <span class="number">5</span>)</span>)</span>:</span></span><br><span class="line">   plt.figure()</span><br><span class="line">   plt.title(title)</span><br><span class="line">   <span class="keyword">if</span> ylim <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">      plt.ylim(*ylim)</span><br><span class="line">   plt.xlabel(<span class="string">"Training examples"</span>)</span><br><span class="line">   plt.ylabel(<span class="string">"Score"</span>)</span><br><span class="line">   train_sizes, train_scores, test_scores = learning_curve(</span><br><span class="line">      estimator, X, y, cv=cv, n_jobs=n_jobs, train_sizes=train_sizes)</span><br><span class="line">   train_scores_mean = np.mean(train_scores, axis=<span class="number">1</span>)</span><br><span class="line">   train_scores_std = np.std(train_scores, axis=<span class="number">1</span>)</span><br><span class="line">   test_scores_mean = np.mean(test_scores, axis=<span class="number">1</span>)</span><br><span class="line">   test_scores_std = np.std(test_scores, axis=<span class="number">1</span>)</span><br><span class="line">   plt.grid()</span><br><span class="line">   plt.fill_between(train_sizes, train_scores_mean - train_scores_std, train_scores_mean + train_scores_std, alpha=<span class="number">0.1</span>,</span><br><span class="line">                    color=<span class="string">"r"</span>)</span><br><span class="line">   plt.fill_between(train_sizes, test_scores_mean - test_scores_std, test_scores_mean + test_scores_std, alpha=<span class="number">0.1</span>,</span><br><span class="line">                    color=<span class="string">"g"</span>)</span><br><span class="line">   plt.plot(train_sizes, train_scores_mean, <span class="string">"o-"</span>, color=<span class="string">"r"</span>, label=<span class="string">"Training score"</span>)</span><br><span class="line">   plt.plot(train_sizes, test_scores_mean, <span class="string">"o-"</span>, color=<span class="string">"g"</span>, label=<span class="string">"Validation score"</span>)</span><br><span class="line"></span><br><span class="line">   plt.legend(loc=<span class="string">"best"</span>)</span><br><span class="line">   <span class="keyword">return</span> plt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># title = "Learning Curves (Logistic Regression)"</span></span><br><span class="line"><span class="comment"># cv = 10</span></span><br><span class="line"><span class="comment"># plt_image = plot_learning_curve(lr, title, x_train, y_train, ylim=(0.7, 1.01), cv=cv, n_jobs=1)</span></span><br><span class="line"><span class="comment"># plt.show()</span></span><br><span class="line"><span class="comment"># plt.close()</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_validation_curve</span><span class="params">(estimator, title, x, y, param_name, param_range, ylim=None, n_jobs=<span class="number">1</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                          train_sizes=np.linspace<span class="params">(<span class="number">.1</span>, <span class="number">1.0</span>, <span class="number">5</span>)</span>)</span>:</span></span><br><span class="line">   train_scores, test_scores = validation_curve(estimator, x, y, param_name, param_range, cv=<span class="number">5</span>)</span><br><span class="line">   train_mean = np.mean(train_scores, axis=<span class="number">1</span>)</span><br><span class="line">   train_std = np.std(train_scores, axis=<span class="number">1</span>)</span><br><span class="line">   test_mean = np.mean(test_scores, axis=<span class="number">1</span>)</span><br><span class="line">   test_std = np.std(test_scores, axis=<span class="number">1</span>)</span><br><span class="line">   plt.plot(param_range, train_mean, color=<span class="string">"r"</span>, marker=<span class="string">"o"</span>, markersize=<span class="number">5</span>, label=<span class="string">"Training score"</span>)</span><br><span class="line">   plt.fill_between(param_range, train_mean + train_std, train_mean - train_std, alpha=<span class="number">0.15</span>, color=<span class="string">"r"</span>)</span><br><span class="line">   plt.plot(param_range, test_mean, color=<span class="string">"g"</span>, linestyle=<span class="string">"--"</span>, marker=<span class="string">"s"</span>, markersize=<span class="number">5</span>, label=<span class="string">"Validation score"</span>)</span><br><span class="line">   plt.fill_between(param_range, test_mean + test_std, test_mean - test_std, alpha=<span class="number">0.15</span>, color=<span class="string">"g"</span>)</span><br><span class="line">   plt.grid()</span><br><span class="line">   plt.xscale(<span class="string">"log"</span>)</span><br><span class="line">   plt.legend(loc=<span class="string">"best"</span>)</span><br><span class="line">   plt.xlabel(<span class="string">"Parameter"</span>)</span><br><span class="line">   plt.ylabel(<span class="string">"Score"</span>)</span><br><span class="line">   plt.ylim(ylim)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># # 画出不同惩罚项系数C下的准确率</span></span><br><span class="line"><span class="comment"># title = "Validation Curve (Logistic Regression)"</span></span><br><span class="line"><span class="comment"># param_name = "C"</span></span><br><span class="line"><span class="comment"># param_range = [0.001, 0.01, 0.1, 1.0, 10.0, 100.0]</span></span><br><span class="line"><span class="comment"># plot_validation_curve(estimator=lr, title=title, x=x_train_poly_selected, y=y_train, param_name=param_name,</span></span><br><span class="line"><span class="comment">#                       ylim=(0.5, 1.01), param_range=param_range)</span></span><br><span class="line"><span class="comment"># plt.show()</span></span><br><span class="line"><span class="comment"># plt.close()</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 对测试集测试</span></span><br><span class="line">test_data = pd.read_csv(<span class="string">"./titanic/test.csv"</span>)</span><br><span class="line">test_data[<span class="string">"FamilySize"</span>] = test_data[<span class="string">"SibSp"</span>] + test_data[<span class="string">"Parch"</span>]</span><br><span class="line">test_data.drop([<span class="string">"SibSp"</span>, <span class="string">"Parch"</span>], axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">test_data.drop([<span class="string">"Ticket"</span>, <span class="string">"Cabin"</span>], axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> test_data:</span><br><span class="line">   test_data[<span class="string">"Title"</span>] = test_data[<span class="string">"Name"</span>].str.extract(<span class="string">"([A-Za-z]+)\."</span>, expand=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">test_data.drop([<span class="string">"Name"</span>], axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">test_age_means = test_data.groupby(<span class="string">"Title"</span>)[<span class="string">"Age"</span>].mean().to_dict()</span><br><span class="line">test_index_nan_age = test_data.loc[np.isnan(test_data[<span class="string">"Age"</span>])].index</span><br><span class="line">test_data.loc[test_index_nan_age, <span class="string">"Age"</span>] = test_data[<span class="string">"Title"</span>].loc[test_index_nan_age].map(test_age_means)</span><br><span class="line">test_data[<span class="string">"Title"</span>] = test_data[<span class="string">"Title"</span>].map(titles_dict)</span><br><span class="line">test_data[<span class="string">"Title"</span>] = pd.Categorical(test_data[<span class="string">"Title"</span>])</span><br><span class="line">test_data[<span class="string">"Imputed"</span>] = <span class="number">0</span></span><br><span class="line">test_data.at[test_index_nan_age.values, <span class="string">"Imputed"</span>] = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">test_data[<span class="string">"Age"</span>] = pd.cut(test_data[<span class="string">"Age"</span>], bins=[<span class="number">0</span>, <span class="number">12</span>, <span class="number">50</span>, <span class="number">200</span>], labels=[<span class="string">"Child"</span>, <span class="string">"Adult"</span>, <span class="string">"Elder"</span>])</span><br><span class="line">passenger_id = test_data[<span class="string">"PassengerId"</span>].values</span><br><span class="line">test_data.drop(<span class="string">"PassengerId"</span>, axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">test_data[<span class="string">"Embarked"</span>] = pd.Categorical(test_data[<span class="string">"Embarked"</span>])</span><br><span class="line">test_data[<span class="string">"Pclass"</span>] = pd.Categorical(test_data[<span class="string">"Pclass"</span>])</span><br><span class="line">test_data = pd.get_dummies(test_data, drop_first=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Fare有一个缺失值,用平均值填充</span></span><br><span class="line">test_data = test_data.fillna(test_data.mean())</span><br><span class="line"></span><br><span class="line">X = test_data</span><br><span class="line">X_transformed = X.copy()</span><br><span class="line">X_transformed[<span class="string">"Fare"</span>] = boxcox(X_transformed[<span class="string">"Fare"</span>] + <span class="number">1</span>)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">Scaler = MinMaxScaler()</span><br><span class="line">X_transformed_scaled = Scaler.fit_transform(X_transformed.astype(float))</span><br><span class="line">poly = PolynomialFeatures(degree=<span class="number">2</span>).fit(X_transformed)</span><br><span class="line">X_poly = poly.transform(X_transformed_scaled)</span><br><span class="line">X_poly_selected = select.transform(X_poly)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 预测并将预测结果写入提交文件</span></span><br><span class="line">predictions = lr.predict(X_poly_selected)</span><br><span class="line">submission = pd.DataFrame(&#123;<span class="string">"PassengerId"</span>: passenger_id, <span class="string">"Survived"</span>: predictions&#125;)</span><br><span class="line">submission.to_csv(<span class="string">"submission.csv"</span>, index=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+            </div>
+            <hr/>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff;
+        background-color: #22AB38;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff;
+        background-color: #019FE8;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a class="reward-link btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs">
+                        <li class="tab wechat-tab waves-effect waves-light"><a class="active" href="#wechat">微信</a></li>
+                        <li class="tab alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                    </ul>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#reward .reward-link').on('click', function () {
+            $('#rewardModal').openModal();
+        });
+
+        $('#rewardModal .close').on('click', function () {
+            $('#rewardModal').closeModal();
+        });
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            <div class="reprint">
+                <p>
+                    <span class="reprint-tip">
+                        <i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;Reprint please specify:
+                    </span>
+                    <a href="https://wyg1996.cn" class="b-link-green">鱼缸屋</a>
+                    <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
+                    <a href="/2019/04/05/特征工程实践：泰坦尼克号幸存者预测/" class="b-link-green">特征工程实践:泰坦尼克号幸存者预测</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-04-05T18-08-50',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Fri Apr 05 2019 18:08:50 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
+    
+
+    
+        <div class="disqus-card card" data-aos="fade-up">
+    <div id="disqus_thread" class="card-content">
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+    </div>
+</div>
+
+<script type="text/javascript">
+    disqus_config = function () {
+        this.page.url = 'https://wyg1996.cn/2019/04/05/特征工程实践：泰坦尼克号幸存者预测/';
+        this.page.identifier = '/2019/04/05/特征工程实践：泰坦尼克号幸存者预测/';
+        this.page.title = '特征工程实践:泰坦尼克号幸存者预测';
+    };
+    let disqus_shortname = '';
+
+    (function () { // DON'T EDIT BELOW THIS LINE
+        let d = document, s = d.createElement('script');
+        // 如：s.src = 'https://blinkfox.disqus.com/embed.js';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+    
+
+    
+    <div class="livere-card card" data-aos="fade-up">
+    <!-- 来必力City版安装代码 -->
+    <div id="lv-container" class="card-content" data-id="city" data-uid="">
+        <script type="text/javascript">
+            (function (d, s) {
+                let j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') {
+                    return;
+                }
+
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript。</noscript>
+    </div>
+    <!-- City版安装代码已完成 -->
+</div>
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2019/04/06/特征工程sklearn基础实践、特征工程数据可视化/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="特征工程sklearn基础实践、特征工程数据可视化">
+                        
+                        <span class="card-title">特征工程sklearn基础实践、特征工程数据可视化</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">数据和特征决定了机器学习的上限,而模型和算法只是逼近这个上限而已。
+特征工程sklearn实践这里主要以iris数据集为例，展示了数据预处理方法、三大类特征选择方法、降维方法。数据预处理方法:
+
+z_score标准化；
+min_max标准化</div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-06
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/特征工程/" class="post-category" target="_blank">
+                                    特征工程
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/特征工程/" target="_blank">
+                        <span class="chip bg-color">特征工程</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/04/03/关联分析：Apriori和FPgrowth算法原理/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="关联分析：Apriori和FPgrowth算法原理">
+                        
+                        <span class="card-title">关联分析：Apriori和FPgrowth算法原理</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">关联分析:频繁项集和关联规则从大规模的数据中发现物品间隐含关系的方法被称为关联分析。关联分析是一种在大规模数据集中寻找有趣关系的任务。关联规则:关联规则是形如X→Y的表达式，其中X和Y是不相交的项集，即X∩Y=∅。关联规则的强度可以用它的支</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-04-03
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/推荐系统/" class="post-category" target="_blank">
+                                    推荐系统
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/推荐系统/" target="_blank">
+                        <span class="chip bg-color">推荐系统</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + 'From: 鱼缸屋<br />'
+            + 'Author: ygwu<br />'
+            + 'Link: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+    </div>
+    <div class="col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+    });
+</script>
+    
+
+</main>
+
+
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy;<a href="mailto:ygwu@mail.ustc.edu.cn" target="_blank">鱼缸屋</a>
+            
+
+            
+                &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+                <span class="white-color">393.6k</span>
+            
+
+            
+			
+                <br>
+                
+                <span id="busuanzi_container_site_pv">
+                    <i class="fa fa-heart-o"></i>
+                    本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+                </span>
+                
+                
+                <span id="busuanzi_container_site_uv">
+                    <i class="fa fa-users"></i>
+                    次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+                </span>
+                
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/wygny" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ygwu@mail.ustc.edu.cn" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=321699849" class="tooltipped" data-tooltip="QQ联系我: 321699849" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://www.baidu.com" class="tooltipped" target="_blank" data-tooltip="访问百度" data-position="top" data-delay="50">
+        <i class="fa fa-paw"></i>
+</a>
+
+
+
+    <a href="https://www.google.com" class="tooltipped" target="_blank" data-tooltip="访问谷歌" data-position="top" data-delay="50">
+        <i class="fa fa-google"></i>
+</a>
+
+
+
+    <a href="https://www.bilibili.com" class="tooltipped" target="_blank" data-tooltip="访问哔哩哔哩" data-position="top" data-delay="50">
+        <i class="fa fa-bullseye"></i>
+</a>
+
+
+
+    <a href="https://blog.csdn.net/zgcr654321" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN博客" data-position="top" data-delay="50">
+        <i class="fa fa-copyright"></i>
+</a>
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input" autofocus="">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="/libs/materialize/js/materialize.min.js"></script>
+<script src="/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="/libs/aos/aos.js"></script>
+<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    <script src="/libs/others/clicklove.js"></script>
+
+
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,1289 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="hexo博客next主题6.0版本个性化设置, 鱼缸屋">
+    <meta name="description" content="hexo博客源码目录结构12345678910├── .deploy_git├── public├── scaffolds├── scripts├── source|   ├── _drafts|   └── _posts├── theme">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>hexo博客next主题6.0版本个性化设置 | 鱼缸屋</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+</head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="container">
+            <div class="nav-wrapper">
+                <div class="brand-logo">
+                    <a href="/" class="waves-effect waves-light">
+                        
+                        <img src="/medias/logo.png" class="logo-img hide-on-small-only">
+                        
+                        <span class="logo-span">鱼缸屋</span>
+                    </a>
+                </div>
+                
+
+<a href="#" data-activates="mobile-nav" class="button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a id="toggleSearch" class="waves-effect waves-light">
+            <i id="searchIcon" class="mdi-action-search" title="Search"></i>
+        </a>
+    </li>
+
+</ul>
+
+<div class="side-nav" id="mobile-nav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">鱼缸屋</div>
+        <div class="logo-desc">
+            
+            海纳百川，有容乃大，壁立千仞，无欲则刚
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/WYGNG" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>来github一起玩吧！
+            </a>
+        </li>
+        
+    </ul>
+
+    <div class="social-link">
+    <a href="https://github.com/wygny" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ygwu@mail.ustc.edu.cn" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=321699849" class="tooltipped" data-tooltip="QQ联系我: 321699849" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://www.baidu.com" class="tooltipped" target="_blank" data-tooltip="访问百度" data-position="top" data-delay="50">
+        <i class="fa fa-paw"></i>
+</a>
+
+
+
+    <a href="https://www.google.com" class="tooltipped" target="_blank" data-tooltip="访问谷歌" data-position="top" data-delay="50">
+        <i class="fa fa-google"></i>
+</a>
+
+
+
+    <a href="https://www.bilibili.com" class="tooltipped" target="_blank" data-tooltip="访问哔哩哔哩" data-position="top" data-delay="50">
+        <i class="fa fa-bullseye"></i>
+</a>
+
+
+
+    <a href="https://blog.csdn.net/zgcr654321" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN博客" data-position="top" data-delay="50">
+        <i class="fa fa-copyright"></i>
+</a>
+
+
+
+
+
+
+</div>
+</div>
+
+            </div>
+        </div>
+
+        
+        <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/WYGNG" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="来github一起玩吧！" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+</header>
+
+
+
+
+
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        hexo博客next主题6.0版本个性化设置
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+</style>
+<div class="row">
+    <div class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/博客搭建/" target="_blank">
+                                <span class="chip bg-color">博客搭建</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/博客搭建/" class="post-category" target="_blank">
+                                博客搭建
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2019-02-05
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>Word Count:&nbsp;&nbsp;
+                        8.6k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>Read Times:&nbsp;&nbsp;
+                        38 Min
+                    </div>
+                    
+                
+				
+				
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="fa fa-eye fa-fw"></i>Read Count:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="hexo博客源码目录结构"><a href="#hexo博客源码目录结构" class="headerlink" title="hexo博客源码目录结构"></a>hexo博客源码目录结构</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">├── .deploy_git</span><br><span class="line">├── public</span><br><span class="line">├── scaffolds</span><br><span class="line">├── scripts</span><br><span class="line">├── source</span><br><span class="line">|   ├── _drafts</span><br><span class="line">|   └── _posts</span><br><span class="line">├── themes</span><br><span class="line">├── _config.yml</span><br><span class="line">└── package.json</span><br></pre></td></tr></table></figure>
+
+<p>.deploy_git：执行hexo deploy命令后部署到GitHub/Gitlab上的内容都在这个目录中。<br>public：执行hexo generate命令，输出的静态网页内容都在这个目录中。<br>source：站点资源目录，你写的文章，素材等等都是放在这个目录下,包括以后你需要新建的菜单项如about页、tags页、categories页等也是放在这里。<br>_drafts：草稿文章。<br>_posts：成功发布的文章都在这个目录下。<br>themes：主题文件目录。<br>_config.yml：hexo博客全局配置文件，注意和同名的主题目录下的配置文件区别开。</p>
+<p>本教程中大部分效果在修改配置文件后使用hexo g，hexo s命令，再在浏览器中访问:<a href="http://localhost:4000" target="_blank" rel="noopener">http://localhost:4000</a> 即可看到。有少量效果需要将站点发布到线上后才能正常显示。</p>
+<h1 id="设置next主题-next主题scheme"><a href="#设置next主题-next主题scheme" class="headerlink" title="设置next主题/next主题scheme"></a>设置next主题/next主题scheme</h1><p>next主题是hexo的一个著名的第三方主题，在hexo博客源码目录打开Git bash here，使用以下命令下载next主题：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
+
+<p>使用git clone的方式下载主题后，如果博客是在Gitlab上使用CI方式自动部署，一定要删除hexo博客源码目录/themes/next目录下的.git目录，因为在.git目录下最好不要出现.git目录，这会造成推送到Gitlab上生成的博客页面一片空白，无法正常显示。</p>
+<p><strong>注意：</strong></p>
+<p>在Gitlab上使用CI方式自动部署hexo博客时，只有hexo博客源码目录下的.git目录保留，其他子目录中的.git目录一律都要删掉(比如git clone某个主题后该主题文件夹中就会有.git目录)!!!如果不删掉，会造成Gitlab线上博客能够正常访问，不出现404提示，但是整个博客页面一片空白，无法正常显示。</p>
+<p>下载完成后，打开hexo源码根目录下的_config.yml文件，修改相应部分为以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Extensions</span><br><span class="line">## Plugins: https://hexo.io/plugins/</span><br><span class="line">## Themes: https://hexo.io/themes/</span><br><span class="line">theme: next</span><br></pre></td></tr></table></figure>
+
+<p>next主题目前支持四种scheme：</p>
+<p>Muse:这是next主题的默认Scheme，黑白主调，大量留白。<br>Mist：Muse的紧凑版本，整洁有序的单栏外观。<br>Pisces：双栏Scheme，左侧网站信息及目录，块+片段结构布局。<br>Gemini：也是双栏Scheme，但右侧要更宽一些。</p>
+<p>要修改next主题风格，只需打开hexo博客源码目录下\themes\next目录下的_config.yml文件，找到下面几行配置，将你想启用的scheme前面注释#去除即可(只能有一种scheme配置前面去掉#)。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Schemes</span><br><span class="line">scheme: Muse</span><br><span class="line">#scheme: Mist</span><br><span class="line">#scheme: Pisces</span><br><span class="line">#scheme: Gemini</span><br></pre></td></tr></table></figure>
+
+<h1 id="设置站点标题-站点作者-站点语言-站点logo-侧边栏头像-是否加载动画"><a href="#设置站点标题-站点作者-站点语言-站点logo-侧边栏头像-是否加载动画" class="headerlink" title="设置站点标题/站点作者/站点语言/站点logo/侧边栏头像/是否加载动画/"></a>设置站点标题/站点作者/站点语言/站点logo/侧边栏头像/是否加载动画/</h1><p>要设置站点首页标题和站点作者，打开hexo博客源码目录下的_config.yml文件，找到下面内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Site</span><br><span class="line">title: Hexo</span><br><span class="line">subtitle:</span><br><span class="line">description:</span><br><span class="line">keywords:</span><br><span class="line">author: John Doe</span><br><span class="line">language: zh-Hans</span><br><span class="line">timezone:</span><br></pre></td></tr></table></figure>
+
+<p>其中title即为标题，修改该项即可。subtitle为副标题。author为站点作者，修改该项即可。description为站点描述，会显示在首页的标题下方。</p>
+<p>要设置站点语言，首先在 Hexo博客源码根目录\themes\next\languages找是否有该语言文件，如zh-Hans.yml（中文简体)，然后在Hexo博客源码根目录_config.yml 中设置 language为zh-Hans。即修改language项。注意如果上面的站点标题和作者中包含中文，请将_config.yml保存为UTF-8编码格式的TXT文档，否则博客上不能正常显示中文。遇到其他配置文件修改时包含中文后网站不能正常显示中文，也可以用这个方法解决。</p>
+<p>要设置站点logo，即打开博客站点后在网页标签栏上显示的那个小图，打开hexo博客源码目录\themes\next目录下的_config.yml文件，找到下面内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">favicon:</span><br><span class="line">  small: /images/favicon-16x16-next.png</span><br><span class="line">  medium: /images/favicon-32x32-next.png</span><br><span class="line">  apple_touch_icon: /images/apple-touch-icon-next.png</span><br><span class="line">  safari_pinned_tab: /images/logo.svg</span><br><span class="line">  #android_manifest: /images/manifest.json</span><br><span class="line">  #ms_browserconfig: /images/browserconfig.xml</span><br></pre></td></tr></table></figure>
+
+<p>我们可以看到logo可以看到有四种效果，一般我们只需将medium换成我们自己的图标路径就行了。建议把自定义logo放在hexo博客源码目录\themes\next\source\images目录下。logo大小与默认logo大小相同。</p>
+<p>要设置首页的侧边栏头像，打开hexo博客源码目录\themes\next目录下的_config.yml文件，找到下面内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Sidebar Avatar</span><br><span class="line"># in theme directory(source/images): /images/avatar.gif</span><br><span class="line"># in site  directory(source/uploads): /uploads/avatar.gif</span><br><span class="line">avatar: /images/avatar.gif</span><br></pre></td></tr></table></figure>
+
+<p>其中avatar: /images/avatar.gif即为侧边栏头像，头像图片放在Hexo博客源码目录\themes\next\source\images\avatar.gif。只要把我们的自定义头像放在这个目录下，然后将上面配置路径做相应修改即可。图片支持jpg、png、gif等格式。当然你也可以用网上的图片，路径改成http URL即可。</p>
+<p>要打开或关闭加载动画，在hexo博客源码目录下\themes\next目录下的_config.yml文件中找到下面内容，将enable项设为true(打开)或false(关闭)即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># Use velocity to animate everything.</span><br><span class="line">motion:</span><br><span class="line">  enable: true</span><br><span class="line">  async: false</span><br><span class="line">  transition:</span><br><span class="line">    # Transition variants:</span><br><span class="line">    # fadeIn | fadeOut | flipXIn | flipXOut | flipYIn | flipYOut | flipBounceXIn | flipBounceXOut | flipBounceYIn | flipBounceYOut</span><br><span class="line">    # swoopIn | swoopOut | whirlIn | whirlOut | shrinkIn | shrinkOut | expandIn | expandOut</span><br><span class="line">    # bounceIn | bounceOut | bounceUpIn | bounceUpOut | bounceDownIn | bounceDownOut | bounceLeftIn | bounceLeftOut | bounceRightIn | bounceRightOut</span><br><span class="line">    # slideUpIn | slideUpOut | slideDownIn | slideDownOut | slideLeftIn | slideLeftOut | slideRightIn | slideRightOut</span><br><span class="line">    # slideUpBigIn | slideUpBigOut | slideDownBigIn | slideDownBigOut | slideLeftBigIn | slideLeftBigOut | slideRightBigIn | slideRightBigOut</span><br><span class="line">    # perspectiveUpIn | perspectiveUpOut | perspectiveDownIn | perspectiveDownOut | perspectiveLeftIn | perspectiveLeftOut | perspectiveRightIn | perspectiveRightOut</span><br><span class="line">    post_block: fadeIn</span><br><span class="line">    post_header: slideDownIn</span><br><span class="line">    post_body: slideDownIn</span><br><span class="line">    coll_header: slideLeftIn</span><br><span class="line">    # Only for Pisces | Gemini.</span><br><span class="line">    sidebar: slideUpIn</span><br></pre></td></tr></table></figure>
+
+<h1 id="设置侧边栏头像圆形和旋转效果-侧边栏位置和侧边栏显示时机-侧边栏推荐站点-如友站-修改标题栏背景颜色"><a href="#设置侧边栏头像圆形和旋转效果-侧边栏位置和侧边栏显示时机-侧边栏推荐站点-如友站-修改标题栏背景颜色" class="headerlink" title="设置侧边栏头像圆形和旋转效果/侧边栏位置和侧边栏显示时机/侧边栏推荐站点(如友站)/修改标题栏背景颜色"></a>设置侧边栏头像圆形和旋转效果/侧边栏位置和侧边栏显示时机/侧边栏推荐站点(如友站)/修改标题栏背景颜色</h1><p>打开hexo博客源码目录\themes\next\source\css_common\components\sidebar\sidebar-author.styl文件，找到.site-author-image代码块，替换成以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">.site-author-image &#123;</span><br><span class="line">  display: block;</span><br><span class="line">  margin: 0 auto;</span><br><span class="line">  padding: $site-author-image-padding;</span><br><span class="line">  max-width: $site-author-image-width;</span><br><span class="line">  height: $site-author-image-height;</span><br><span class="line">  border: $site-author-image-border-width solid $site-author-image-border-color;</span><br><span class="line">  border-radius: 60%;</span><br><span class="line">  transition: 2.5s all;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.site-author-image:hover &#123;</span><br><span class="line">    transform: rotate(360deg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，侧边栏仅在文章页面（拥有目录列表）时才显示，并放置于右侧位置。我们打开hexo博客源码目录/themes/next/下的_config.yml文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">sidebar:</span><br><span class="line">  # Sidebar Position, available value: left | right (only for Pisces | Gemini).</span><br><span class="line">  position: left</span><br><span class="line">  #position: right</span><br><span class="line"></span><br><span class="line">  # Sidebar Display, available value (only for Muse | Mist):</span><br><span class="line">  #  - post    expand on posts automatically. Default.</span><br><span class="line">  #  - always  expand for all pages automatically</span><br><span class="line">  #  - hide    expand only when click on the sidebar toggle icon.</span><br><span class="line">  #  - remove  Totally remove sidebar including sidebar toggle.</span><br><span class="line">  #display: post</span><br><span class="line">  display: always</span><br><span class="line">  #display: hide</span><br><span class="line">  #display: remove</span><br></pre></td></tr></table></figure>
+
+<p>上面position中可选left和right(只有Pisces | Gemini两种scheme中才生效)，下面display中有四个选项，选择你想设置的那项，去掉前面的注释即可。</p>
+<p>要在侧边栏显示推荐站点，打开hexo博客源码目录下\themes\next目录下的_config.yml文件，找到下列代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># Blog rolls</span><br><span class="line">links_icon: link</span><br><span class="line">links_title: Links</span><br><span class="line">links_layout: block</span><br><span class="line">#links_layout: inline</span><br><span class="line">#links:</span><br><span class="line">  #Title: http://example.com/</span><br></pre></td></tr></table></figure>
+
+<p>将#links:前面的#注册去掉就会显示推荐站点了，同时修改下面的#Title: <a href="http://example.com/" target="_blank" rel="noopener">http://example.com/</a> ，去掉#注释，比如修改为百度: <a href="http://www.baidu.com/" target="_blank" rel="noopener">http://www.baidu.com/</a> 。links_title项是下面这些链接的说明，比如你链接的如果都是友站，可以写links_title: 友站。</p>
+<p>使用Pisces或Gemini主题时，网站标题栏背景颜色是黑色的，我们可以在hexo博客源码目录/themes/next/source/css/_custom目录下的custom.styl文件中添加下面的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.site-meta &#123;</span><br><span class="line">  background: $blue; //修改为自己喜欢的颜色</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="设置显示的菜单项-创建关于页-标签页-分类页"><a href="#设置显示的菜单项-创建关于页-标签页-分类页" class="headerlink" title="设置显示的菜单项/创建关于页/标签页/分类页"></a>设置显示的菜单项/创建关于页/标签页/分类页</h1><p>打开hexo博客源码目录下\themes\next目录下的_config.yml文件，找到下面的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: / || home # 首页</span><br><span class="line">  #about: /about/ || user # 关于</span><br><span class="line">  #tags: /tags/ || tags # 标签</span><br><span class="line">  #categories: /categories/ || th # 分类</span><br><span class="line">  archives: /archives/ || archive # 归档</span><br><span class="line">  #schedule: /schedule/ || calendar # 日程表</span><br><span class="line">  #sitemap: /sitemap.xml || sitemap # 站点地图</span><br><span class="line">  #commonweal: /404/ || heartbeat # 公益404</span><br></pre></td></tr></table></figure>
+
+<p>想显示哪一项菜单，就去掉对应菜单项的#注释。如果对页面的相关简体中文翻译不满意，可以打开hexo博客源码目录/themes/next/languages/zh-Hans.yml，对相关的翻译内容进行修改。你还可以按照上面的格式自己创建一些菜单项，以music为例，在上面的menu字段中添加一项：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">music: /music/ || music</span><br><span class="line"># 标签名 相应的文件夹名 网站上对应的图标名</span><br></pre></td></tr></table></figure>
+
+<p>然后在相关翻译文件zh-Hans.yml中的menu字段中也添加一项对应的翻译。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: 首页</span><br><span class="line">  archives: 归档</span><br><span class="line">  categories: 分类</span><br><span class="line">  tags: 标签</span><br><span class="line">  about: 关于</span><br><span class="line">  music: 音乐</span><br><span class="line">  search: 搜索</span><br><span class="line">  schedule: 日程表</span><br><span class="line">  sitemap: 站点地图</span><br><span class="line">  commonweal: 公益404</span><br></pre></td></tr></table></figure>
+
+<p>注意上面about、tags、categories、schedule、sitemap、commonweal页都需要另外设置后才可正常访问。</p>
+<p>要建立关于页/标签页/分类页，只需使用下面的命令即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo new page about</span><br><span class="line">hexo new page tags</span><br><span class="line">hexo new page categories</span><br></pre></td></tr></table></figure>
+
+<p>然后修改hexo博客源码目录/source/目录中about/tages/categories目录中的index.md文件，新增加一行type属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">type: about/tags/categories</span><br></pre></td></tr></table></figure>
+
+<h1 id="设置个人社交图标和链接"><a href="#设置个人社交图标和链接" class="headerlink" title="设置个人社交图标和链接"></a>设置个人社交图标和链接</h1><p>打开hexo博客源码目录下\themes\next目录下的_config.yml文件，找到下面的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#social:</span><br><span class="line">  #GitHub: https://github.com/yourname || github</span><br><span class="line">  #E-Mail: mailto:yourname@gmail.com || envelope</span><br><span class="line">  #Google: https://plus.google.com/yourname || google</span><br><span class="line">  #Twitter: https://twitter.com/yourname || twitter</span><br><span class="line">  #FB Page: https://www.facebook.com/yourname || facebook</span><br><span class="line">  #VK Group: https://vk.com/yourname || vk</span><br><span class="line">  #StackOverflow: https://stackoverflow.com/yourname || stack-overflow</span><br><span class="line">  #YouTube: https://youtube.com/yourname || youtube</span><br><span class="line">  #Instagram: https://instagram.com/yourname || instagram</span><br><span class="line">  #Skype: skype:yourname?call|chat || skype</span><br><span class="line"></span><br><span class="line">social_icons:</span><br><span class="line">  enable: true</span><br><span class="line">  icons_only: false</span><br><span class="line">  transition: false</span><br></pre></td></tr></table></figure>
+
+<p>想要在侧边栏显示社交图标，就将social前面的注释#去掉，要显示哪几种社交图标，就将对于的社交图标项前面的#去掉，并修改后面的链接为你个人的链接。你还可以自己添加一些自定义社交图标项。格式仿照上面的格式即可。||之后是在图标库中对应的图标，对于自定义社交图标项，在图标库中找到你想设定的图标的名称，填在||之后即可。图标库链接：<a href="http://fontawesome.io/icons/" target="_blank" rel="noopener">http://fontawesome.io/icons/</a> 。</p>
+<p>比如我要添加微信和CSDN图标：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">微信: https://www.yourname.com/about/ || weixin</span><br><span class="line">CSDN: https://blog.csdn.net/yourname || copyright</span><br></pre></td></tr></table></figure>
+
+<p>上面的链接可以填你的博客站点的about页URL和CSDN博客首页的URL。</p>
+<h1 id="设置站点左上角或者右上角的fork-me-on-github"><a href="#设置站点左上角或者右上角的fork-me-on-github" class="headerlink" title="设置站点左上角或者右上角的fork me on github"></a>设置站点左上角或者右上角的fork me on github</h1><p>在：<a href="http://tholman.com/github-corners/" target="_blank" rel="noopener">http://tholman.com/github-corners/</a> 或：<a href="https://github.com/blog/273-github-ribbons" target="_blank" rel="noopener">https://github.com/blog/273-github-ribbons</a> 选择合适的样式，复制其代码到hexo博客源码目录/themes/next/layout/_layout.swig，添加到div class=”headband”下面，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;https://your-url&quot; class=&quot;github-corner&quot; aria-label=&quot;View source on GitHub&quot;&gt;&lt;svg width=&quot;100&quot; height=&quot;100&quot; viewBox=&quot;0 0 250 250&quot; style=&quot;fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2&quot; fill=&quot;currentColor&quot; style=&quot;transform-origin: 130px 106px;&quot; class=&quot;octo-arm&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z&quot; fill=&quot;currentColor&quot; class=&quot;octo-body&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;style&gt;.github-corner:hover .octo-arm&#123;animation:octocat-wave 560ms ease-in-out&#125;@keyframes octocat-wave&#123;0%,100%&#123;transform:rotate(0)&#125;20%,60%&#123;transform:rotate(-25deg)&#125;40%,80%&#123;transform:rotate(10deg)&#125;&#125;@media (max-width:500px)&#123;.github-corner:hover .octo-arm&#123;animation:none&#125;.github-corner .octo-arm&#123;animation:octocat-wave 560ms ease-in-out&#125;&#125;&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<p>注意把a href=”<a href="https://github.com/yourname&quot;中的URL改成你的github主页URL。" target="_blank" rel="noopener">https://github.com/yourname&quot;中的URL改成你的github主页URL。</a></p>
+<h1 id="设置hexo博客背景图片-浏览页面时显示浏览进度"><a href="#设置hexo博客背景图片-浏览页面时显示浏览进度" class="headerlink" title="设置hexo博客背景图片/浏览页面时显示浏览进度"></a>设置hexo博客背景图片/浏览页面时显示浏览进度</h1><p>要设置博客的背景图片，打开hexo博客源码目录\themes\next\source\css\ _custom\custom.styl文件，添加以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">body&#123;</span><br><span class="line">    background:url(/images/background1.jpg);</span><br><span class="line">    background-size:cover;</span><br><span class="line">    background-repeat:no-repeat;</span><br><span class="line">    background-attachment:fixed;</span><br><span class="line">    background-position:center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.main-inner &#123; </span><br><span class="line">    background: #fff;</span><br><span class="line">    opacity: 0.9;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中url可更换为自己喜欢的图片的地址。如果考虑到网上的图片加载可能会比较慢，我们可以把图片放到本地/images/文件夹内，然后url设定为本地图片的路径。repeat即是否重复出现；attachment：定义背景图片随滚动轴的移动方式；position：设置背景图像的起始位置；opacity: 0.9为不透明度。</p>
+<p>想在浏览页面时显示浏览进度，打开hexo博客源码目录/themes/next/_config.yml文件，找到下列代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Back to top in sidebar (only for Pisces | Gemini).</span><br><span class="line">b2t: false</span><br><span class="line"></span><br><span class="line"># Scroll percent label in b2t button.</span><br><span class="line">scrollpercent: false</span><br></pre></td></tr></table></figure>
+
+<p>将scrollpercent改为true即可。如果想把 top按钮放在侧边栏上，则把b2t也改为true。</p>
+<h1 id="设置站点动态背景-设置站点顶部滚动加载条"><a href="#设置站点动态背景-设置站点顶部滚动加载条" class="headerlink" title="设置站点动态背景/设置站点顶部滚动加载条"></a>设置站点动态背景/设置站点顶部滚动加载条</h1><p>目前next主题为6.0版本，这个版本中有4种动态背景：Canvas-nest、three_waves、canvas_lines、canvas_sphere。</p>
+<p>打开hexo博客源码目录themes/next/_config.yml文件，从中找到以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># Canvas-nest</span><br><span class="line">canvas_nest: false</span><br><span class="line"></span><br><span class="line"># three_waves</span><br><span class="line">three_waves: false</span><br><span class="line"></span><br><span class="line"># canvas_lines</span><br><span class="line">canvas_lines: false</span><br><span class="line"></span><br><span class="line"># canvas_sphere</span><br><span class="line">canvas_sphere: false</span><br></pre></td></tr></table></figure>
+
+<p>想设置哪一种动态背景，设置里需要的动态背景为true即可。</p>
+<p>要设置站点顶部动态加载条，打开hexo博客源码目录\themes\next目录下_config.yml文件，找到下面的内容:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># Progress bar in the top during page loading.</span><br><span class="line">pace: false</span><br><span class="line"># Themes list:</span><br><span class="line">#pace-theme-big-counter</span><br><span class="line">#pace-theme-bounce</span><br><span class="line">#pace-theme-barber-shop</span><br><span class="line">#pace-theme-center-atom</span><br><span class="line">#pace-theme-center-circle</span><br><span class="line">#pace-theme-center-radar</span><br><span class="line">#pace-theme-center-simple</span><br><span class="line">#pace-theme-corner-indicator</span><br><span class="line">#pace-theme-fill-left</span><br><span class="line">#pace-theme-flash</span><br><span class="line">#pace-theme-loading-bar</span><br><span class="line">#pace-theme-mac-osx</span><br><span class="line">#pace-theme-minimal</span><br><span class="line"># For example</span><br><span class="line"># pace_theme: pace-theme-center-simple</span><br><span class="line">pace_theme: pace-theme-minimal</span><br></pre></td></tr></table></figure>
+
+<p>将pace项修改为true即启用加载条。</p>
+<h1 id="博客底部显示完整时间-隐藏powered-By-Hexo-显示桃心-显示总访问量-显示网站运行时间"><a href="#博客底部显示完整时间-隐藏powered-By-Hexo-显示桃心-显示总访问量-显示网站运行时间" class="headerlink" title="博客底部显示完整时间/隐藏powered By Hexo/显示桃心/显示总访问量/显示网站运行时间"></a>博客底部显示完整时间/隐藏powered By Hexo/显示桃心/显示总访问量/显示网站运行时间</h1><p>打开hexo博客源码目录/themes/next/layout/_partials/footer.swig，找到下列代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;copyright&quot;&gt;&#123;#</span><br><span class="line">#&#125;&#123;% set current = date(Date.now(), &quot;YYYY&quot;) %&#125;&#123;#</span><br><span class="line">#&#125;&amp;copy; &#123;% if theme.footer.since and theme.footer.since != current %&#125;&#123;&#123; theme.footer.since &#125;&#125; &amp;mdash; &#123;% endif %&#125;&#123;#</span><br><span class="line">#&#125;&lt;span itemprop=&quot;copyrightYear&quot;&gt;&#123;&#123; current &#125;&#125;&lt;/span&gt;</span><br><span class="line">  &lt;span class=&quot;with-love&quot;&gt;</span><br><span class="line">    &lt;i class=&quot;fa fa-&#123;&#123; theme.footer.icon &#125;&#125;&quot;&gt;&lt;/i&gt;</span><br><span class="line">  &lt;/span&gt;</span><br><span class="line">  &lt;span class=&quot;author&quot; itemprop=&quot;copyrightHolder&quot;&gt;&#123;&#123; theme.footer.copyright || config.author &#125;&#125;&lt;/span&gt;</span><br></pre></td></tr></table></figure>
+
+<p>把”YYYY”改为”YYYY-MM-DD”即可。</p>
+<p>要隐藏网页底部显示的powered By Hexo / 强力驱动，打开hexo博客源码目录\themes\next目录下的_config.yml文件，找到下列代码块，删除。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;% if theme.footer.powered %&#125;</span><br><span class="line">  &lt;div class=&quot;powered-by&quot;&gt;&#123;#</span><br><span class="line">  #&#125;&#123;&#123; __(&apos;footer.powered&apos;, &apos;&lt;a class=&quot;theme-link&quot; target=&quot;_blank&quot; href=&quot;https://hexo.io&quot;&gt;Hexo&lt;/a&gt;&apos;) &#125;&#125;&#123;#</span><br><span class="line">#&#125;&lt;/div&gt;</span><br><span class="line">&#123;% endif %&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#123;% if theme.footer.powered and theme.footer.theme.enable %&#125;</span><br><span class="line">  &lt;span class=&quot;post-meta-divider&quot;&gt;|&lt;/span&gt;</span><br><span class="line">&#123;% endif %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% if theme.footer.theme.enable %&#125;</span><br><span class="line">  &lt;div class=&quot;theme-info&quot;&gt;&#123;#</span><br><span class="line">  #&#125;&#123;&#123; __(&apos;footer.theme&apos;) &#125;&#125; &amp;mdash; &#123;#</span><br><span class="line">  #&#125;&lt;a class=&quot;theme-link&quot; target=&quot;_blank&quot; href=&quot;https://github.com/iissnan/hexo-theme-next&quot;&gt;&#123;#</span><br><span class="line">    #&#125;NexT.&#123;&#123; theme.scheme &#125;&#125;&#123;#</span><br><span class="line">  #&#125;&lt;/a&gt;&#123;% if theme.footer.theme.version %&#125; v&#123;&#123; theme.version &#125;&#125;&#123;% endif %&#125;&#123;#</span><br><span class="line">#&#125;&lt;/div&gt;</span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>要将博客底部改为桃心，还是在hexo博客源码目录/themes/next/layout/_partials/footer.swig文件中，找到下列代码块：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;span class=&quot;with-love&quot;&gt;</span><br><span class="line">  &lt;i class=&quot;fa fa-&#123;&#123; theme.footer.icon &#125;&#125;&quot;&gt;&lt;/i&gt;</span><br><span class="line">&lt;/span&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在图标库：<a href="http://fontawesome.io/icons/" target="_blank" rel="noopener">http://fontawesome.io/icons/</a> 中选择合适的图标，记住图标名称，如我们选择图标heart，那么将上面的代码块修改成下面的代码即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;span class=&quot;with-love&quot; id=&quot;animate&quot;&gt;</span><br><span class="line">    &lt;i class=&quot;fa fa-heart&quot;&gt;&lt;/i&gt;</span><br><span class="line">  &lt;/span&gt;</span><br></pre></td></tr></table></figure>
+
+<p>要在博客底部显示总访问量，打开hexo博客源码目录/themes/next目录下的_config.yml文件，找到下列代码块：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">busuanzi_count:</span><br><span class="line">  # count values only if the other configs are false</span><br><span class="line">  enable: false</span><br><span class="line">  # custom uv span for the whole site</span><br><span class="line">  site_uv: true</span><br><span class="line">  site_uv_header: &lt;i class=&quot;fa fa-user&quot;&gt;&lt;/i&gt;</span><br><span class="line">  site_uv_footer:</span><br><span class="line">  # custom pv span for the whole site</span><br><span class="line">  site_pv: true</span><br><span class="line">  site_pv_header: &lt;i class=&quot;fa fa-eye&quot;&gt;&lt;/i&gt;</span><br><span class="line">  site_pv_footer:</span><br><span class="line">  # custom pv span for one page only</span><br><span class="line">  page_pv: true</span><br><span class="line">  page_pv_header: &lt;i class=&quot;fa fa-file-o&quot;&gt;&lt;/i&gt;</span><br><span class="line">  page_pv_footer:</span><br></pre></td></tr></table></figure>
+
+<p>将上面代码修改为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">busuanzi_count:</span><br><span class="line">  # count values only if the other configs are false</span><br><span class="line">  enable: true</span><br><span class="line">  # custom uv span for the whole site</span><br><span class="line">  site_uv: true  # 整个网站的访客数</span><br><span class="line">  site_uv_header: 访客数</span><br><span class="line">  site_uv_footer: 人</span><br><span class="line">  # custom pv span for the whole site</span><br><span class="line">  site_pv: true # 整个网站的访问量</span><br><span class="line">  site_pv_header: 本站总访问量</span><br><span class="line">  site_pv_footer: 次</span><br><span class="line">  # custom pv span for one page only</span><br><span class="line">  page_pv: true # 每个页面的访问量</span><br><span class="line">  page_pv_header: &lt;i class=&quot;fa fa-file-o&quot;&gt;&lt;/i&gt; 阅读数</span><br><span class="line">  page_pv_footer:</span><br></pre></td></tr></table></figure>
+
+<p>然后打开hexo博客源码目录\themes\next\layout_third-party\analytics\busuanzi-counter.swig文件，找到下面的代码块：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% if theme.busuanzi_count.enable %&#125;</span><br><span class="line">&lt;div class=&quot;busuanzi-count&quot;&gt;</span><br><span class="line">  &lt;script async src=&quot;https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>将上面的代码块修改为下面的代码即可。注意hexo s命令运行时的次数和人数统计不正常，不要紧，将网站发布到线上后就正常了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% if theme.busuanzi_count.enable %&#125;</span><br><span class="line">&lt;div class=&quot;busuanzi-count&quot;&gt;</span><br><span class="line">  &lt;script async src=&quot;https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>要在博客底部添加网站运行时间，打开hexo博客源码目录/themes/next/layout/_partials/footer.swig文件，添加下列代码，注意以UTF-8编码格式保存：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 在网页底部添加网站运行时间 --&gt;</span><br><span class="line">&lt;span id=&quot;timeDate&quot;&gt;载入天数...&lt;/span&gt;&lt;span id=&quot;times&quot;&gt;载入时分秒...&lt;/span&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    var now = new Date();</span><br><span class="line">    function createtime() &#123;</span><br><span class="line">        var grt= new Date(&quot;02/01/2019 00:00:00&quot;);//此处修改你的建站时间或者网站上线时间</span><br><span class="line">        now.setTime(now.getTime()+250);</span><br><span class="line">        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);</span><br><span class="line">        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);</span><br><span class="line">        if(String(hnum).length ==1 )&#123;hnum = &quot;0&quot; + hnum;&#125; minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);</span><br><span class="line">        mnum = Math.floor(minutes); if(String(mnum).length ==1 )&#123;mnum = &quot;0&quot; + mnum;&#125;</span><br><span class="line">        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);</span><br><span class="line">        snum = Math.round(seconds); if(String(snum).length ==1 )&#123;snum = &quot;0&quot; + snum;&#125;</span><br><span class="line">        document.getElementById(&quot;timeDate&quot;).innerHTML = &quot;网站已运行 &quot;+dnum+&quot; 天 &quot;;</span><br><span class="line">        document.getElementById(&quot;times&quot;).innerHTML = hnum + &quot; 小时 &quot; + mnum + &quot; 分 &quot; + snum + &quot; 秒&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">setInterval(&quot;createtime()&quot;,250);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>注意初始建站时间是你手动设置的。</p>
+<h1 id="hexo创建和编辑文章"><a href="#hexo创建和编辑文章" class="headerlink" title="hexo创建和编辑文章"></a>hexo创建和编辑文章</h1><p>创建一篇新文章：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;文章名&quot;</span><br></pre></td></tr></table></figure>
+
+<p>文章创建后，想要编辑文章，则使用markdown编辑器(如typora)打开hexo博客源码目录\source_posts目录下的同名.md文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">title: 测试文章1</span><br><span class="line">date: 2019-02-02 23:45:50</span><br><span class="line">tags:</span><br><span class="line">- tag1</span><br><span class="line">- tag2</span><br><span class="line">categories:</span><br><span class="line">- 类1</span><br><span class="line">- 子类1</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码块设置了文章的标题、日期、所属标签、所属分类，这个代码块之下就可以写文章的正文了。</p>
+<h1 id="开启hexo博客Latex公式支持"><a href="#开启hexo博客Latex公式支持" class="headerlink" title="开启hexo博客Latex公式支持"></a>开启hexo博客Latex公式支持</h1><p>首先更换hexo的markdown渲染引擎，使用下面的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked --save</span><br><span class="line">npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure>
+
+<p>hexo-renderer-kramed插件的Github主页在这里：<a href="https://github.com/sun11/hexo-renderer-kramed" target="_blank" rel="noopener">https://github.com/sun11/hexo-renderer-kramed</a> 。这个插件fork了 hexo-renderer-marked项目，并且只针对MathJax支持进行了改进。如果使用Gitlab CI方式自动部署hexo博客，请将上面两个命令加入到.gitlab-ci.yml脚本中。</p>
+<p>然后打开hexo博客源码目录/themes/next目录下的_config.yml文件，找到下列代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># MathJax Support</span><br><span class="line">mathjax:</span><br><span class="line">  enable: false</span><br><span class="line">  per_page: false</span><br><span class="line">  cdn: //cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML</span><br></pre></td></tr></table></figure>
+
+<p>将enable改为true。此时hexo博客渲染时只有文件头中含mathjax: true这项时才对这篇文章进行mathjax渲染，这可以提高博客的加载速度。如果想让每个页面都自动开启mathjax渲染，则把per_page设为true。</p>
+<p>然后试了一下几个例子，发现Latex公式只能简单地正确显示几秒中，然后就变成了一堆不知道显示什么的小方块。这是上面代码块中的cdn的问题，将上面的cdn那一行换成下面的cdn即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cdn: //cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML</span><br></pre></td></tr></table></figure>
+
+<p>特别要注意的一点是，按上述方法必须要前后都用两个$$符号的形式将Latex公式括起来才可以正常显示。</p>
+<h1 id="修改hexo博客next主题文章字体大小"><a href="#修改hexo博客next主题文章字体大小" class="headerlink" title="修改hexo博客next主题文章字体大小"></a>修改hexo博客next主题文章字体大小</h1><p>打开hexo博客源码目录\themes\next\source\css_variables目录下的custom.styl文件，添加下列代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 标题，修改成你期望的字体族</span><br><span class="line">$font-family-headings = Georgia, sans</span><br><span class="line"></span><br><span class="line">// 修改成你期望的字体族</span><br><span class="line">$font-family-base = &quot;Microsoft YaHei&quot;, Verdana, sans-serif</span><br><span class="line"></span><br><span class="line">// 代码字体</span><br><span class="line">$code-font-family = &quot;Input Mono&quot;, &quot;PT Mono&quot;, Consolas, Monaco, Menlo, monospace</span><br><span class="line"></span><br><span class="line">// 正文字体的大小</span><br><span class="line">$font-size-base = 16px</span><br><span class="line"></span><br><span class="line">// 代码字体的大小</span><br><span class="line">$code-font-size = 13px</span><br></pre></td></tr></table></figure>
+
+<p>修改font-size-base后面的数值大小即可。</p>
+<h1 id="设置文章代码高亮主题"><a href="#设置文章代码高亮主题" class="headerlink" title="设置文章代码高亮主题"></a>设置文章代码高亮主题</h1><p>NexT使用Tomorrow Theme作为代码高亮，共有5款主题供你选择。NexT默认使用的是 白色的normal主题，可选的值有 normal，night，night blue，night bright，night eighties。</p>
+<p>只需打开hexo博客源码目录/themes/next目录下的_config.yml文件，修改其highlight_theme项值即可。</p>
+<h1 id="hexo博客显示自带图片"><a href="#hexo博客显示自带图片" class="headerlink" title="hexo博客显示自带图片"></a>hexo博客显示自带图片</h1><p>一般情况下，在hexo博客中要显示图片，我们建议将图片上传到某个在线图床中，然后引用图片的URL即可，不建议将图片打包到网站的source文件夹中，这是因为图片一般都比较大， 且后面博客文章越来越多时，使用这种方式会使整个网站源码文件变得很大，不方便上传。</p>
+<p>但是有少量的图片仍然可以采用自带图片的形式，比如我们现在要在about页中插入微信二维码，方便读者扫码加站点作者的微信。</p>
+<p>首先在hexo博客源码目录下运行Git bash here，运行下列命令，注意如果采用Gitlab CI方式自动部署hexo博客，该命令还要加入到.gitlab-ci.yml脚本中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-asset-image --save</span><br></pre></td></tr></table></figure>
+
+<p>然后打开hexo博客源码目录\themes\next目录下_config.yml文件，修改相应部分为如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post_asset_folder: true</span><br></pre></td></tr></table></figure>
+
+<p>现在我们要在about页中插入自带图片，首先用命令hexo new page about新建一个about页，然后打开hexo博客源码目录\source\about目录，在该目录下新建一个和index.md文件同名文件夹index，将要显示在index.md文章中的图片都放在这个文件夹中。然后打开index.md文件中添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![你想输入的替代文字](index/图片名.jpg)</span><br></pre></td></tr></table></figure>
+
+<p>这样该图片就会在这篇文章中显示了。</p>
+<h1 id="首页设置文章预览-阅读全文-文章末尾添加版权声明-修改文章内链接样式-文章末尾添加”本文结束”标记"><a href="#首页设置文章预览-阅读全文-文章末尾添加版权声明-修改文章内链接样式-文章末尾添加”本文结束”标记" class="headerlink" title="首页设置文章预览(阅读全文)/文章末尾添加版权声明/修改文章内链接样式/文章末尾添加”本文结束”标记"></a>首页设置文章预览(阅读全文)/文章末尾添加版权声明/修改文章内链接样式/文章末尾添加”本文结束”标记</h1><p>打开hexo博客源码目录\themes\next目录下的_config.yml文件，查找以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">auto_excerpt:</span><br><span class="line">  enable: false</span><br><span class="line">  length: 150</span><br></pre></td></tr></table></figure>
+
+<p>将enable设为true，length为想要预览的文章字数。建议改为100字。</p>
+<p>要在文章末尾添加版权声明，还是在上面的_config.yml文件中查找以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">post_copyright:</span><br><span class="line">  enable: false</span><br><span class="line">  license: CC BY-NC-SA 3.0</span><br><span class="line">  license_url: https://creativecommons.org/licenses/by-nc-sa/3.0/</span><br></pre></td></tr></table></figure>
+
+<p>将enable改为true即可。</p>
+<p>要修改文章中的链接样式，修改hexo博客源码目录\themes\next\source\css_common\components\post\post.styl的文件，在末尾添加如下代码即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 文章内链接文本样式</span><br><span class="line">.post-body p a&#123;</span><br><span class="line">  color: #0593d3;</span><br><span class="line">  border-bottom: none;</span><br><span class="line">  border-bottom: 1px solid #0593d3;</span><br><span class="line">  &amp;:hover &#123;</span><br><span class="line">    color: #fc6423;</span><br><span class="line">    border-bottom: none;</span><br><span class="line">    border-bottom: 1px solid #fc6423;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>要在文章末尾添加”本文结束”标记，在hexo博客源码目录\themes\next\layout_macro中新建passage-end-tag.swig文件,并添加以下内容，使用UTF-8编码格式保存(否则中文不能正常显示)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &#123;% if not is_index %&#125;</span><br><span class="line">        &lt;div style=&quot;text-align:center;color: #ccc;font-size:14px;&quot;&gt;----------------本文结束&lt;i class=&quot;fa fa-heart&quot;&gt;&lt;/i&gt;感谢阅读----------------&lt;/div&gt;</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>然后打开hexo博客源码目录\themes\next\layout_macro\post.swig文件，在post-body 之后， post-footer上面的两个DIV之上，即if (theme.alipay or theme.wechatpay or theme.bitcoin) and not is_index之前添加如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">  &#123;% if not is_index %&#125;</span><br><span class="line">    &#123;% include &apos;passage-end-tag.swig&apos; %&#125;</span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>然后打开hexo博客源码目录\themes\next目录下的_config.yml，在末尾添加以下代码，就大功告成了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 文章末尾添加“本文结束”标记</span><br><span class="line">passage_end_tag:</span><br><span class="line">  enabled: true</span><br></pre></td></tr></table></figure>
+
+<h1 id="博文加密-博文置顶-文章首部添加置顶标志-文章底部打赏-显示文章字数统计、阅读时长-文章顶部显示更新时间"><a href="#博文加密-博文置顶-文章首部添加置顶标志-文章底部打赏-显示文章字数统计、阅读时长-文章顶部显示更新时间" class="headerlink" title="博文加密/博文置顶/文章首部添加置顶标志/文章底部打赏/显示文章字数统计、阅读时长/文章顶部显示更新时间"></a>博文加密/博文置顶/文章首部添加置顶标志/文章底部打赏/显示文章字数统计、阅读时长/文章顶部显示更新时间</h1><p>想加密某篇博文，首先打开hexo博客源码目录\themes\next\layout_partials\head.swig文件，在meta name=”theme-color”下第三行插入以下代码，注意这个文件不要用UTF-8编码格式保存。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">    (function()&#123;</span><br><span class="line">        if(&apos;&#123;&#123; page.password &#125;&#125;&apos;)&#123;</span><br><span class="line">            if (prompt(&apos;please enter password&apos;) !== &apos;&#123;&#123; page.password &#125;&#125;&apos;)&#123;</span><br><span class="line">                alert(&apos;wrong password!&apos;);</span><br><span class="line">                history.back();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)();</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如果某篇文章需要加密，则在文章的head头加上一行password: 123456(123456就是密码)，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">title: 测试文章1</span><br><span class="line">date: 2019-02-02 23:45:50</span><br><span class="line">tags:</span><br><span class="line">- tag2</span><br><span class="line">categories:</span><br><span class="line">- 类1</span><br><span class="line">- 子类1</span><br><span class="line">password: 123456</span><br><span class="line">top: 50</span><br></pre></td></tr></table></figure>
+
+<p>想让某篇博文置顶，现在已经有修改后支持置顶的仓库，可以打开Git bash here，直接用以下命令安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall hexo-generator-index --save</span><br><span class="line">npm install hexo-generator-index-pin-top --save</span><br></pre></td></tr></table></figure>
+
+<p>注意如果是在Gitlab用CI脚本自动部署hexo博客，则上面两行还要加入到.gitlab-ci.yml文件中。</p>
+<p>然后在需要置顶的文章的文件头中加入一项top: 数值即可。数值可以是任意大于等于0的数字。置顶排序时会按数值从大到小的顺序排序。</p>
+<p>我们还可以在文章首部添加一个置顶标志。打开hexo博客源码目录/themes/next/layout/_macro目录下的post.swig文件，定位到div class=”post-meta”，在其后插入如下代码即可，注意保存时要使用UTF-8编码格式保存：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% if post.top %&#125;</span><br><span class="line">  &lt;i class=&quot;fa fa-thumb-tack&quot;&gt;&lt;/i&gt;</span><br><span class="line">  &lt;font color=7D26CD&gt;置顶&lt;/font&gt;</span><br><span class="line">  &lt;span class=&quot;post-meta-divider&quot;&gt;|&lt;/span&gt;</span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>要开启文章底部打赏，首先准备好微信和支付宝二维码图片。然后打开hexo博客源码目录\themes\next目录下的_config.yml文件，找到下列代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Reward</span><br><span class="line">#reward_comment: Donate comment here</span><br><span class="line">#wechatpay: /images/wechatpay.jpg</span><br><span class="line">#alipay: /images/alipay.jpg</span><br><span class="line">#bitcoin: /images/bitcoin.png</span><br></pre></td></tr></table></figure>
+
+<p>如果只打开微信和支付宝打赏，那么把3、4行的注释去掉，然后把wechatpay和alipay后面的路径换成图片的路径，建议先把图片放到themes\next\source\images目录下。</p>
+<p>要显示文章字数统计和阅读时长，只需打开hexo博客源码目录\themes\next目录下的_config.yml文件，找到下列代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Post wordcount display settings</span><br><span class="line"># Dependencies: https://github.com/willin/hexo-wordcount</span><br><span class="line">post_wordcount:</span><br><span class="line">  item_text: true</span><br><span class="line">  wordcount: false</span><br><span class="line">  min2read: false</span><br><span class="line">  totalcount: false</span><br><span class="line">  separated_meta: true</span><br></pre></td></tr></table></figure>
+
+<p>将wordcount、min2read设为true即可。此时部署后会发现字数统计和阅读时长后面没有对应的xxx字，xx分钟等字样。我们再打开hexo博客源码目录\themes\next\layout_macro\post.swig 文件，找到相应部分修改成下面的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;span title=&quot;&#123;&#123; __(&apos;post.wordcount&apos;) &#125;&#125;&quot;&gt;</span><br><span class="line">  &#123;&#123; wordcount(post.content) &#125;&#125; 字</span><br><span class="line">&lt;/span&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;span title=&quot;&#123;&#123; __(&apos;post.min2read&apos;) &#125;&#125;&quot;&gt;</span><br><span class="line">  &#123;&#123; min2read(post.content) &#125;&#125; 分钟</span><br><span class="line">&lt;/span&gt;</span><br></pre></td></tr></table></figure>
+
+<p>注意保存时要以UTF-8编码格式保存。</p>
+<p>此时我们还发现统计的字数没有显示，这是因为没有安装 hexo-wordcount 插件，使用下面的命令安装即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i --save hexo-wordcount</span><br></pre></td></tr></table></figure>
+
+<p>注意如果在Gitlab上使用CI自动部署hexo博客，则上面的命令也要写入.gitlab-ci.yml文件中。</p>
+<p>要在文章顶部显示更新时间，打开hexo博客源码目录\themes\next目录下的 _config.yml 文件，找到下列代码块：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Post meta display settings</span><br><span class="line">post_meta:</span><br><span class="line">  item_text: true</span><br><span class="line">  created_at: true</span><br><span class="line">  updated_at: false</span><br><span class="line">  categories: true</span><br></pre></td></tr></table></figure>
+
+<p>把updated_at设为true即可。</p>
+<h1 id="hexo博客添加live2d看板娘"><a href="#hexo博客添加live2d看板娘" class="headerlink" title="hexo博客添加live2d看板娘"></a>hexo博客添加live2d看板娘</h1><p>live2d的Github地址:<a href="https://github.com/EYHN/hexo-helper-live2d" target="_blank" rel="noopener">https://github.com/EYHN/hexo-helper-live2d</a> 。</p>
+<p>要预览各个模型的样子，可以从这里:<a href="https://github.com/xiazeyu/live2d-widget-models" target="_blank" rel="noopener">https://github.com/xiazeyu/live2d-widget-models</a> 获得模型名称，然后在这里:<a href="http://summerscar.me/live2dDemo/预览模型。推荐模型:wanko(小狗)、tororo(小猫)。" target="_blank" rel="noopener">http://summerscar.me/live2dDemo/预览模型。推荐模型:wanko(小狗)、tororo(小猫)。</a></p>
+<p>首先在hexo博客源码目录运行下列命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install --save hexo-helper-live2d</span><br><span class="line">npm install --save live2d-widget-model-tororo</span><br></pre></td></tr></table></figure>
+
+<p>如果采用Gitlab CI方式部署hexo博客，请将上面两条命令添加到.gitlab-ci.yml文件中。</p>
+<p>然后打开hexo博客源码目录的_config.yml文件，在末尾添加下列代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"># Live2D</span><br><span class="line">## https://github.com/xiazeyu/live2d-widget.js</span><br><span class="line">## https://l2dwidget.js.org/docs/class/src/index.js~L2Dwidget.html#instance-method-init</span><br><span class="line">live2d:</span><br><span class="line">  model:</span><br><span class="line">    scale: 1</span><br><span class="line">    hHeadPos: 0.5</span><br><span class="line">    vHeadPos: 0.618</span><br><span class="line">    use: live2d-widget-model-tororo</span><br><span class="line">  display:</span><br><span class="line">    superSample: 2</span><br><span class="line">    width: 90</span><br><span class="line">    height: 180</span><br><span class="line">    position: right</span><br><span class="line">    hOffset: -30</span><br><span class="line">    vOffset: -20</span><br><span class="line">  mobile:</span><br><span class="line">    show: true  </span><br><span class="line">    scale: 0.5</span><br><span class="line">  react:</span><br><span class="line">    opacityDefault: 0.7</span><br><span class="line">    opacityOnHover: 0.2</span><br></pre></td></tr></table></figure>
+
+<h1 id="hexo博客添加valine评论系统"><a href="#hexo博客添加valine评论系统" class="headerlink" title="hexo博客添加valine评论系统"></a>hexo博客添加valine评论系统</h1><p>Valine是一款极简的评论系统。它的特点是：无后端实现；使用国内后端云服务提供商LeanCloud提供的存储服务；支持表情；支持邮件通知；支持验证码；支持 Markdown格式；支持匿名评论，无需注册和登录账号。</p>
+<p>首先在leancloud官网注册一个账号。官网地址: <a href="https://leancloud.cn/" target="_blank" rel="noopener">https://leancloud.cn/</a> 。新账号要先验证邮箱和手机号。然后点击创建应用，自己命名，选择开发版。选择刚创建好的应用，选择左侧菜单中的设置-&gt;应用key，保存App ID和App key，待会儿要用到。然后选择左侧菜单中的安全域名，填写你的博客的域名。</p>
+<p>打开hexo博客源码目录，使用下面的命令安装valine插件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install valine --save</span><br></pre></td></tr></table></figure>
+
+<p>如果使用gitlab CI方式部署hexo博客，还要把上面这条命令加入.gitlab-ci.yml文件中。</p>
+<p>然后打开hexo博客源码目录/themes/next目录下的_config.yml文件，找到下列代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">valine:</span><br><span class="line">  enable: false</span><br><span class="line">  appid:  # your leancloud application appid</span><br><span class="line">  appkey:  # your leancloud application appkey</span><br><span class="line">  notify: false # mail notifier , https://github.com/xCss/Valine/wiki</span><br><span class="line">  verify: false # Verification code</span><br><span class="line">  placeholder: Just go go # comment box placeholder</span><br><span class="line">  avatar: mm # gravatar style</span><br><span class="line">  guest_info: nick,mail,link # custom comment header</span><br><span class="line">  pageSize: 10 # pagination size</span><br></pre></td></tr></table></figure>
+
+<p>修改enable为true，修改appid和appkey为上面保存的App ID和App key。这样博客中的valine评论系统就开启了。如果想评论时开启验证码，则verify项改为true，同时Leancloud官网-&gt;应用-&gt;设置-&gt;安全中心中的验证码项也要打开。</p>
+<p>评论的管理在leancloud官网，进入应用项目，选择左侧菜单存储-&gt;comment，就可以管理评论了。</p>
+<h1 id="hexo博客添加need-more-share2分享"><a href="#hexo博客添加need-more-share2分享" class="headerlink" title="hexo博客添加need more share2分享"></a>hexo博客添加need more share2分享</h1><p>这个项目在Github上的仓库地址：<a href="https://github.com/revir/need-more-share2" target="_blank" rel="noopener">https://github.com/revir/need-more-share2</a> 。</p>
+<p>我们的next主题中已经集成了这个项目。打开hexo博客源码目录/themes/next目录下的_config.yml文件，找到相应部分代码，修改为以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">needmoreshare2:</span><br><span class="line">  enable: true</span><br><span class="line">  postbottom:</span><br><span class="line">    enable: true</span><br><span class="line">    options:</span><br><span class="line">      iconStyle: default</span><br><span class="line">      boxForm: horizontal</span><br><span class="line">      position: bottomCenter</span><br><span class="line">      networks: Weibo,Wechat,Douban,Evernote,Facebook,Twitter</span><br><span class="line">  float:</span><br><span class="line">    enable: true</span><br><span class="line">    options:</span><br><span class="line">      iconStyle: default</span><br><span class="line">      boxForm: horizontal</span><br><span class="line">      position: topRight</span><br><span class="line">      networks: Weibo,Wechat,Douban,Evernote,Facebook,Twitter</span><br></pre></td></tr></table></figure>
+
+<p>注意从上到下三个enable分别是开启need more share2，开启底部的need more share2按钮，开启左侧悬浮的need more share2按钮。</p>
+<p>由于目前微信二维码不能正确加载，因此我们按照这个issue中最后仓库作者回复的方法修改一下:<a href="https://github.com/revir/need-more-share2/issues/4" target="_blank" rel="noopener">https://github.com/revir/need-more-share2/issues/4</a> 。</p>
+<p>打开hexo博客源码目录\themes\next\source\lib\needsharebutton\needsharebutton.js文件，找到下面的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var imgSrc = &quot;https://api.qinco.me/api/qr?size=400&amp;content=&quot; + encodeURIComponent(myoptions.url);</span><br></pre></td></tr></table></figure>
+
+<p>修改为下面的代码即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var imgSrc = &apos;https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=&apos;+encodeURIComponent(myoptions.url);</span><br></pre></td></tr></table></figure>
+
+<h1 id="开启博客站点内部搜索"><a href="#开启博客站点内部搜索" class="headerlink" title="开启博客站点内部搜索"></a>开启博客站点内部搜索</h1><p>在hexo博客源码目录，运行Git bash here，运行下面的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
+
+<p>注意如果在Gitlab上使用CI自动部署hexo博客，则上面的命令也要写入.gitlab-ci.yml文件中。</p>
+<p>打开hexo博客源码目录中的_config.yml文件，在末尾下添加下列代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post</span><br><span class="line">  format: html</span><br><span class="line">  limit: 10000</span><br></pre></td></tr></table></figure>
+
+<p>然后打开hexo博客源码目录/themes/next目录下的_config.yml文件，找到下列代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># Local search</span><br><span class="line"># Dependencies: https://github.com/flashlab/hexo-generator-search</span><br><span class="line">local_search:</span><br><span class="line">  enable: false</span><br><span class="line">  # if auto, trigger search by changing input</span><br><span class="line">  # if manual, trigger search by pressing enter key or search button</span><br><span class="line">  trigger: auto</span><br><span class="line">  # show top n results per article, show all results by setting to -1</span><br><span class="line">  top_n_per_article: 1</span><br></pre></td></tr></table></figure>
+
+<p>将enable改为true即可。</p>
+<h1 id="部署hexo博客"><a href="#部署hexo博客" class="headerlink" title="部署hexo博客"></a>部署hexo博客</h1><p>要注意一点的是，我们在上面操作中所有涉及npm安装的操作必须加入到.gitlab-ci.yml文件的script:项中，这样在Gitlab线上才能正确生成博客。</p>
+<p>在hexo博客源码目录点击鼠标右键Git bash here，依次运行下列命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br><span class="line">git add -A</span><br><span class="line">git commit -m &quot;init blog&quot;</span><br><span class="line">git remote add origin git@gitlab.com:username/username.gitlab.io.git</span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+
+<p>最后一步如果失败，试试先使用命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull origin master --allow-unrelated-histories</span><br></pre></td></tr></table></figure>
+
+<p>然后重新进行最后一步。</p>
+<p>这样我们就将hexo博客的源码推送到Gitlab pages仓库上了。然后Gitlab服务器会自动检查.gitlab-ci.yml脚本是否有效，校验通过后，会自动开始执行脚本。过5-10分钟执行完成后，我们就可以看到线上的博客更新了。<br>第一次部署后，以后部署我们只要使用下面的命令即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add -A</span><br><span class="line">git commit -m &quot;提交描述&quot;</span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+            </div>
+            <hr/>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff;
+        background-color: #22AB38;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff;
+        background-color: #019FE8;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a class="reward-link btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs">
+                        <li class="tab wechat-tab waves-effect waves-light"><a class="active" href="#wechat">微信</a></li>
+                        <li class="tab alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                    </ul>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#reward .reward-link').on('click', function () {
+            $('#rewardModal').openModal();
+        });
+
+        $('#rewardModal .close').on('click', function () {
+            $('#rewardModal').closeModal();
+        });
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            <div class="reprint">
+                <p>
+                    <span class="reprint-tip">
+                        <i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;Reprint please specify:
+                    </span>
+                    <a href="https://wyg1996.cn" class="b-link-green">鱼缸屋</a>
+                    <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
+                    <a href="/2019/02/05/hexo博客next主题6.0版本个性化设置/" class="b-link-green">hexo博客next主题6.0版本个性化设置</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-02-05T16-29-43',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Tue Feb 05 2019 16:29:43 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
+    
+
+    
+        <div class="disqus-card card" data-aos="fade-up">
+    <div id="disqus_thread" class="card-content">
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+    </div>
+</div>
+
+<script type="text/javascript">
+    disqus_config = function () {
+        this.page.url = 'https://wyg1996.cn/2019/02/05/hexo博客next主题6.0版本个性化设置/';
+        this.page.identifier = '/2019/02/05/hexo博客next主题6.0版本个性化设置/';
+        this.page.title = 'hexo博客next主题6.0版本个性化设置';
+    };
+    let disqus_shortname = '';
+
+    (function () { // DON'T EDIT BELOW THIS LINE
+        let d = document, s = d.createElement('script');
+        // 如：s.src = 'https://blinkfox.disqus.com/embed.js';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+    
+
+    
+    <div class="livere-card card" data-aos="fade-up">
+    <!-- 来必力City版安装代码 -->
+    <div id="lv-container" class="card-content" data-id="city" data-uid="">
+        <script type="text/javascript">
+            (function (d, s) {
+                let j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') {
+                    return;
+                }
+
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript。</noscript>
+    </div>
+    <!-- City版安装代码已完成 -->
+</div>
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2019/02/20/人月神话读书笔记/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="人月神话读书笔记">
+                        
+                        <span class="card-title">人月神话读书笔记</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">第1章 焦油坑1.1 编程系统产品（Programming Systems Product）开发的工作量是供个人使用的、独立开发的构件程序的九倍。
+我估计软件构件产品化引起了3倍工作量，将软件构件整合成完整系统所需要的设计、集成和测试又强加</div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-02-20
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/软件工程/" class="post-category" target="_blank">
+                                    软件工程
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/软件工程/" target="_blank">
+                        <span class="chip bg-color">软件工程</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/02/05/使用Gitlab pages自动部署hexo博客/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="使用Gitlab pages自动部署hexo博客">
+                        
+                        <span class="card-title">使用Gitlab pages自动部署hexo博客</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">Github pages部署hexo博客的缺点使用Github pages+hexo搭建个人博客非常简单方便，但是github目前不允许百度蜘蛛的爬取，因此，如果我们希望自己用Github pages+hexo搭建的个人博客能被百度收录，就</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-02-05
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/博客搭建/" class="post-category" target="_blank">
+                                    博客搭建
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/博客搭建/" target="_blank">
+                        <span class="chip bg-color">博客搭建</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + 'From: 鱼缸屋<br />'
+            + 'Author: ygwu<br />'
+            + 'Link: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+    </div>
+    <div class="col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+    });
+</script>
+    
+
+</main>
+
+
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy;<a href="mailto:ygwu@mail.ustc.edu.cn" target="_blank">鱼缸屋</a>
+            
+
+            
+                &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+                <span class="white-color">393.6k</span>
+            
+
+            
+			
+                <br>
+                
+                <span id="busuanzi_container_site_pv">
+                    <i class="fa fa-heart-o"></i>
+                    本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+                </span>
+                
+                
+                <span id="busuanzi_container_site_uv">
+                    <i class="fa fa-users"></i>
+                    次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+                </span>
+                
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/wygny" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ygwu@mail.ustc.edu.cn" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=321699849" class="tooltipped" data-tooltip="QQ联系我: 321699849" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://www.baidu.com" class="tooltipped" target="_blank" data-tooltip="访问百度" data-position="top" data-delay="50">
+        <i class="fa fa-paw"></i>
+</a>
+
+
+
+    <a href="https://www.google.com" class="tooltipped" target="_blank" data-tooltip="访问谷歌" data-position="top" data-delay="50">
+        <i class="fa fa-google"></i>
+</a>
+
+
+
+    <a href="https://www.bilibili.com" class="tooltipped" target="_blank" data-tooltip="访问哔哩哔哩" data-position="top" data-delay="50">
+        <i class="fa fa-bullseye"></i>
+</a>
+
+
+
+    <a href="https://blog.csdn.net/zgcr654321" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN博客" data-position="top" data-delay="50">
+        <i class="fa fa-copyright"></i>
+</a>
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input" autofocus="">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="/libs/materialize/js/materialize.min.js"></script>
+<script src="/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="/libs/aos/aos.js"></script>
+<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    <script src="/libs/others/clicklove.js"></script>
+
+
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+
+
+</body>
+</html>

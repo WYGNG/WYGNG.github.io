@@ -1,0 +1,1035 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="高级图像处理扩展实验, 鱼缸屋">
+    <meta name="description" content="实验一：对视频进行物体边缘检测（Laplacian/canny）实验一内容读取摄像头或视频，对每一帧的图片使用拉普拉斯算子进行或canny算子进行物体边缘检测。拉普拉斯算子我们在前一篇文章中已经介绍过，现在介绍一下canny算子。
+cann">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>高级图像处理扩展实验 | 鱼缸屋</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+</head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="container">
+            <div class="nav-wrapper">
+                <div class="brand-logo">
+                    <a href="/" class="waves-effect waves-light">
+                        
+                        <img src="/medias/logo.png" class="logo-img hide-on-small-only">
+                        
+                        <span class="logo-span">鱼缸屋</span>
+                    </a>
+                </div>
+                
+
+<a href="#" data-activates="mobile-nav" class="button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a id="toggleSearch" class="waves-effect waves-light">
+            <i id="searchIcon" class="mdi-action-search" title="Search"></i>
+        </a>
+    </li>
+
+</ul>
+
+<div class="side-nav" id="mobile-nav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">鱼缸屋</div>
+        <div class="logo-desc">
+            
+            海纳百川，有容乃大，壁立千仞，无欲则刚
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/WYGNG" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>来github一起玩吧！
+            </a>
+        </li>
+        
+    </ul>
+
+    <div class="social-link">
+    <a href="https://github.com/wygny" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ygwu@mail.ustc.edu.cn" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=321699849" class="tooltipped" data-tooltip="QQ联系我: 321699849" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://www.baidu.com" class="tooltipped" target="_blank" data-tooltip="访问百度" data-position="top" data-delay="50">
+        <i class="fa fa-paw"></i>
+</a>
+
+
+
+    <a href="https://www.google.com" class="tooltipped" target="_blank" data-tooltip="访问谷歌" data-position="top" data-delay="50">
+        <i class="fa fa-google"></i>
+</a>
+
+
+
+    <a href="https://www.bilibili.com" class="tooltipped" target="_blank" data-tooltip="访问哔哩哔哩" data-position="top" data-delay="50">
+        <i class="fa fa-bullseye"></i>
+</a>
+
+
+
+    <a href="https://blog.csdn.net/zgcr654321" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN博客" data-position="top" data-delay="50">
+        <i class="fa fa-copyright"></i>
+</a>
+
+
+
+
+
+
+</div>
+</div>
+
+            </div>
+        </div>
+
+        
+        <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/WYGNG" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="来github一起玩吧！" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+</header>
+
+
+
+
+
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        高级图像处理扩展实验
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+</style>
+<div class="row">
+    <div class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/图像处理/" target="_blank">
+                                <span class="chip bg-color">图像处理</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/图像处理/" class="post-category" target="_blank">
+                                图像处理
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2019-05-04
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>Word Count:&nbsp;&nbsp;
+                        2.7k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>Read Times:&nbsp;&nbsp;
+                        11 Min
+                    </div>
+                    
+                
+				
+				
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="fa fa-eye fa-fw"></i>Read Count:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="实验一：对视频进行物体边缘检测（Laplacian-canny）"><a href="#实验一：对视频进行物体边缘检测（Laplacian-canny）" class="headerlink" title="实验一：对视频进行物体边缘检测（Laplacian/canny）"></a>实验一：对视频进行物体边缘检测（Laplacian/canny）</h1><h2 id="实验一内容"><a href="#实验一内容" class="headerlink" title="实验一内容"></a>实验一内容</h2><p>读取摄像头或视频，对每一帧的图片使用拉普拉斯算子进行或canny算子进行物体边缘检测。拉普拉斯算子我们在前一篇文章中已经介绍过，现在介绍一下canny算子。</p>
+<h2 id="canny算子原理"><a href="#canny算子原理" class="headerlink" title="canny算子原理"></a>canny算子原理</h2><p>首先用高斯滤波器平滑图像（去噪）；<br>用用一阶偏导有限差分计算梯度幅值和方向，如使用Sobel算子；<br>对梯度幅值进行非极大值抑制，即一个点的梯度幅值如果大于该点至少两个梯度方向的梯度幅值,那么这个点的梯度就是局部极大值点,令其为0；<br>用双阈值算法检测和连接边缘，如果边缘像素点梯度值大于高阈值,则被认为是强边缘点；如果边缘梯度值小于高阈值,大于低阈值,则标记为弱边缘点；小于低阈值的点则被抑制掉。强边缘点可以认为是真的边缘,弱边缘点则可能是真的边缘,也可能是噪声或颜色变化引起的,为得到精确的结果,后者引起的弱边缘点应该去掉。使用深度优先算法,这个算法搜索所有连通的弱边缘,如果一条连通的弱边缘的任何一个点和强边缘点连通,则保留这条弱边缘,否则抑制这条弱边缘。</p>
+<h1 id="实验二：Harris角点检测"><a href="#实验二：Harris角点检测" class="headerlink" title="实验二：Harris角点检测"></a>实验二：Harris角点检测</h1><h2 id="实验二内容"><a href="#实验二内容" class="headerlink" title="实验二内容"></a>实验二内容</h2><p>对图片中的物体检测其角点。</p>
+<h2 id="Harris角点算子原理"><a href="#Harris角点算子原理" class="headerlink" title="Harris角点算子原理"></a>Harris角点算子原理</h2><p>使用一个固定窗口在图像上进行任意方向上的滑动,比较滑动前与滑动后两种情况,窗口中的像素灰度变化程度。如果存在任意方向上的滑动,都有着较大灰度变化,那么我们可以认为该窗口中存在角点。<br><strong>步骤如下:</strong></p>
+<ul>
+<li>当窗口发生[u,v]移动时，那么滑动前与滑动后对应的窗口中的像素点灰度变化描述如下（u,v是窗口在水平、竖直方向的偏移）:<br>$$<br>E(u, v)=\sum_{x, y} w(x, y)[I(x+u, y+v)-I(x, y)]^{2}<br>$$<br>其中[u,v]是窗口的偏移量，（x,y）是窗口内所对应的像素点，w（x,y）是窗口函数,最简单情形就是窗口内的所有像素所对应的w权重系数均为1，有时我们会将w（x,y）函数设定为以窗口中心为原点的二元正态分布。</li>
+<li>对I(x+u,y+v)进行二维泰勒级数展开，我们取一阶近似<br>$$<br>\begin{aligned} &amp; \sum[I(x+u, y+v)-I(x, y)]^{2} \\ \approx &amp; \sum\left[I(x, y)+u I_{x}+v I_{y}-I(x, y)\right]^{2} \\=&amp; \sum u^{2} I_{x}^{2}+2 u v I_{x} I_{y}+v^{2} I_{y}^{2} \end{aligned}<br>$$<br>$$<br>=\sum \left[ \begin{array}{ll}{u} &amp; {v}\end{array}\right] \left[ \begin{array}{cc}{I_{x}^{2}} &amp; {I_{x} I_{y}} \\ {I_{x} I_{y}} &amp; {I_{y}^{2}}\end{array}\right] \left[ \begin{array}{l}{u} \\ {v}\end{array}\right]<br>$$<br>Ix和Iy是图像在x和y方向的导数,可以使用函数Sobel算子计算得到。<br>$$<br>= \left[ \begin{array}{ll}{u} &amp; {v}\end{array}\right]  \sum \left(\left[ \begin{array}{cc}{I_{x}^{2}} &amp; {I_{x} I_{y}} \\ {I_{x} I_{y}} &amp; {I_{y}^{2}}\end{array}\right]\right) \left[ \begin{array}{l}{u} \\ {v}\end{array}\right]<br>$$<br>故有<br>$$<br>E(u, v) \cong[u, v] M \left[ \begin{array}{l}{u} \\ {v}\end{array}\right]<br>$$<br>其中M:<br>$$<br>M=\sum_{x, y} w(x, y) \left[ \begin{array}{cc}{I_{x}^{2}} &amp; {I_{x} I_{y}} \\ {I_{x} I_{y}} &amp; {I_{y}^{2}}\end{array}\right]<br>$$</li>
+<li>使用R来度量是否是角点，R:<br>$$<br>R=\operatorname{det} M-k(\operatorname{trace} M)^{2}<br>$$<br>$$<br>\begin{aligned} \operatorname{det} M &amp;=\lambda_{1} \lambda_{2} \\ \operatorname{trace} M &amp;=\lambda_{1}+\lambda_{2} \end{aligned}<br>$$<br>k是常量，一般取值为0.04~0.06。λ1和λ2是矩阵M的特征值。根据这些特征中我们可以判断一个区域是否是角点，边界或者是平面。</li>
+<li>设定一个R的阈值。当λ1和λ2都小时，|R|也小，这个区域就是一个平坦区域；当λ1&gt;&gt;λ2 或者λ1&lt;&lt;λ2，R小于0，这个区域是边缘；当λ1和λ2都很大是，R也很大（λ1和λ2中的最小值都大于阈值），说明这个区域是角点。</li>
+</ul>
+<h1 id="实验三：基于帧间差分法的运动目标检测"><a href="#实验三：基于帧间差分法的运动目标检测" class="headerlink" title="实验三：基于帧间差分法的运动目标检测"></a>实验三：基于帧间差分法的运动目标检测</h1><h2 id="实验三内容"><a href="#实验三内容" class="headerlink" title="实验三内容"></a>实验三内容</h2><p>使用帧间差分法检测运动目标。该方法只对固定摄像头（所摄的是一片固定区域）的视频有比较好的效果。</p>
+<h2 id="帧间差分法原理"><a href="#帧间差分法原理" class="headerlink" title="帧间差分法原理"></a>帧间差分法原理</h2><p>使用后一帧灰度图像的灰度值减去前一帧灰度图像同样位置的灰度值，得到一个差值矩阵。将该矩阵做二值化处理，得到二值化图像。使用中值滤波消除小的噪声。然后使用腐蚀，将白色区域相互之间断开，再使用膨胀，填充白色区域内的小空洞。最后使用查找轮廓函数查找各个白色区域的外切矩形，获取其坐标，并再原图上根据坐标绘制框即可。对于视频的第一帧，我们使用首帧灰度图像减首帧灰度图像，后面的帧都是使用后一帧灰度图像减去前一帧灰度图像。</p>
+<h1 id="实验代码（三个实验）"><a href="#实验代码（三个实验）" class="headerlink" title="实验代码（三个实验）"></a>实验代码（三个实验）</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/opencv.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/core/core.hpp&gt; </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/highgui/highgui.hpp&gt; //包含imread, imshow等</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/imgproc/imgproc.hpp&gt; //包含cvtColor等</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> cv;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 拉普拉斯算子</span></span><br><span class="line"><span class="function">Mat <span class="title">laplacian</span><span class="params">(Mat &amp;pScr)</span> </span>&#123;</span><br><span class="line">	Mat res, graypScr;</span><br><span class="line">	cvtColor(pScr, graypScr, CV_BGR2GRAY);</span><br><span class="line">	<span class="keyword">int</span> row = graypScr.rows;</span><br><span class="line">	<span class="keyword">int</span> col = graypScr.cols;</span><br><span class="line">	<span class="comment">// 锐化后的图像像素值g(x,y)=f(x,y)+或-二阶差分值(即filter2D)计算后的结果,这里是-</span></span><br><span class="line">	Mat kernel = (Mat_&lt;<span class="keyword">float</span>&gt;(<span class="number">3</span>, <span class="number">3</span>) &lt;&lt; <span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>, <span class="number">8</span>, <span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>);</span><br><span class="line">	<span class="comment">// 使用上面的核中的权重对图像中每个像素点的像素值进行卷积计算时与下面拉普拉斯函数效果相同</span></span><br><span class="line">	filter2D(graypScr, res, graypScr.depth(), kernel);</span><br><span class="line">	<span class="comment">// 使用拉普拉斯函数进行锐化,ksize=1时拉普拉斯算子是0,1,0,1,-4,1,0,1,0</span></span><br><span class="line">	<span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用拉普拉斯算子对视频或摄像头做边缘检测</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">video_edge_detect_laplacian</span><span class="params">(<span class="built_in">string</span> load_path)</span> </span>&#123;</span><br><span class="line">	VideoCapture capture;</span><br><span class="line">	Mat frame;</span><br><span class="line">	<span class="built_in">string</span> window_name = <span class="string">"laplacian_detect_video"</span>;</span><br><span class="line">	<span class="keyword">if</span> (load_path == <span class="string">""</span>)</span><br><span class="line">		frame = capture.open(<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		frame = capture.open(load_path);</span><br><span class="line">	<span class="keyword">if</span> (capture.isOpened()) &#123;</span><br><span class="line">		<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">			capture &gt;&gt; frame;</span><br><span class="line">			<span class="keyword">if</span> (frame.empty())</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">if</span> (waitKey(<span class="number">10</span>) &gt;= <span class="number">0</span>)</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			namedWindow(window_name, WINDOW_AUTOSIZE);</span><br><span class="line">			frame = laplacian(frame);</span><br><span class="line">			imshow(window_name, frame);</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用canny算子对视频或摄像头做边缘检测</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">video_edge_detect_canny</span><span class="params">(<span class="built_in">string</span> load_path, <span class="keyword">int</span> lowthreshold, <span class="keyword">int</span> highthreshold)</span> </span>&#123;</span><br><span class="line">	VideoCapture capture;</span><br><span class="line">	Mat frame;</span><br><span class="line">	<span class="built_in">string</span> window_name = <span class="string">"canny_detect_video"</span>;</span><br><span class="line">	<span class="keyword">if</span> (load_path == <span class="string">""</span>)</span><br><span class="line">		frame = capture.open(<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		frame = capture.open(load_path);</span><br><span class="line">	<span class="keyword">if</span> (capture.isOpened()) &#123;</span><br><span class="line">		<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">			capture &gt;&gt; frame;</span><br><span class="line">			<span class="keyword">if</span> (frame.empty())</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">if</span> (waitKey(<span class="number">10</span>) &gt;= <span class="number">0</span>)</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			namedWindow(window_name, WINDOW_AUTOSIZE);</span><br><span class="line">			Mat frame_gray;</span><br><span class="line">			cvtColor(frame, frame_gray, CV_BGR2GRAY);</span><br><span class="line">			createTrackbar(<span class="string">"lowthreshold value:"</span>, window_name, &amp;lowthreshold, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">			createTrackbar(<span class="string">"highthreshold value:"</span>, window_name, &amp;highthreshold, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">			Canny(frame_gray, frame_gray, lowthreshold, highthreshold);</span><br><span class="line">			imshow(window_name, frame_gray);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用harris角点检测算法检测角点</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">harris_corner_detect</span><span class="params">(<span class="built_in">string</span> load_path, <span class="built_in">string</span> save_path_harris_corner_detect, <span class="keyword">int</span> thresh)</span> </span>&#123;</span><br><span class="line">	Mat pScr, graypScr, res, res_norm, res_norm_scaled;</span><br><span class="line">	res = Mat::zeros(pScr.size(), CV_32FC1);</span><br><span class="line">	<span class="comment">// 1为加载图像的颜色类型,1为原图返回,0为灰度返回</span></span><br><span class="line">	pScr = imread(load_path, <span class="number">1</span>);</span><br><span class="line">	cvtColor(pScr, graypScr, CV_BGR2GRAY);</span><br><span class="line">	cornerHarris(graypScr, res, <span class="number">2</span>, <span class="number">3</span>, <span class="number">0.04</span>, BORDER_DEFAULT);</span><br><span class="line">	<span class="comment">/// 归一化 </span></span><br><span class="line">	normalize(res, res_norm, <span class="number">0</span>, <span class="number">255</span>, NORM_MINMAX);</span><br><span class="line">	<span class="comment">// 转成CV8U图像</span></span><br><span class="line">	convertScaleAbs(res_norm, res_norm_scaled);</span><br><span class="line">	<span class="comment">// 画圈圈出角点</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; res_norm.rows; j++) &#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; res_norm.cols; i++) &#123;</span><br><span class="line">			<span class="keyword">if</span> ((<span class="keyword">int</span>)res_norm.at&lt;<span class="keyword">float</span>&gt;(j, i) &gt; thresh) &#123;</span><br><span class="line">				<span class="comment">// 在归一化后的R分数矩阵上圈出角点,Point(i, j)为圆心,5为半径,2表示线条粗细,8为线条类型,0为圆心坐标点和半径值的小数点位数</span></span><br><span class="line">				circle(res_norm_scaled, Point(i, j), <span class="number">5</span>, Scalar(<span class="number">0</span>), <span class="number">2</span>, <span class="number">8</span>, <span class="number">0</span>);</span><br><span class="line">				<span class="comment">// 在原图上圈出角点,-1表示圆被填充</span></span><br><span class="line">				circle(pScr, Point(i, j), <span class="number">5</span>, Scalar(<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>), <span class="number">-1</span>, <span class="number">8</span>, <span class="number">0</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">string</span> window_name_1 = <span class="string">"harris_corner_detect_R_score_picture"</span>;</span><br><span class="line">	<span class="built_in">string</span> window_name_2 = <span class="string">"harris_corner_detect_picture"</span>;</span><br><span class="line">	<span class="comment">// 角点矩阵图上圈出角点和原图上圈出角点</span></span><br><span class="line">	namedWindow(window_name_1, WINDOW_AUTOSIZE);</span><br><span class="line">	imshow(window_name_1, res_norm_scaled);</span><br><span class="line">	waitKey(<span class="number">0</span>);</span><br><span class="line">	destroyAllWindows();</span><br><span class="line">	namedWindow(window_name_2, WINDOW_AUTOSIZE);</span><br><span class="line">	imshow(window_name_2, pScr);</span><br><span class="line">	waitKey(<span class="number">0</span>);</span><br><span class="line">	destroyAllWindows();</span><br><span class="line">	imwrite(save_path_harris_corner_detect, pScr);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//  帧间差分法检测运动物体,前一帧图像和后一帧图像作差,然后二值化处理,再用中值滤波消除小噪声,再作腐蚀和膨胀</span></span><br><span class="line"><span class="function">Mat <span class="title">move_detect</span><span class="params">(Mat background, Mat frame)</span> </span>&#123;</span><br><span class="line">	Mat result = frame.clone();</span><br><span class="line">	<span class="comment">// 将background和frame转为灰度图  </span></span><br><span class="line">	Mat gray1, gray2;</span><br><span class="line">	cvtColor(background, gray1, CV_BGR2GRAY);</span><br><span class="line">	cvtColor(frame, gray2, CV_BGR2GRAY);</span><br><span class="line">	<span class="comment">// 将background和frame做差  </span></span><br><span class="line">	Mat diff;</span><br><span class="line">	<span class="comment">//得到差分图像diff</span></span><br><span class="line">	absdiff(gray1, gray2, diff);</span><br><span class="line">	<span class="comment">//imshow("diff", diff);</span></span><br><span class="line">	<span class="comment">// 差分图像做阈值化处理,得到处理后的二值化图像diff_thresh</span></span><br><span class="line">	Mat diff_thresh;</span><br><span class="line">	<span class="comment">// 对单通道的图像做阈值处理,THRESH_BINARY表示当前点值大于阈值时，点置为第四个参数,否则设置为0</span></span><br><span class="line">	threshold(diff, diff_thresh, <span class="number">50</span>, <span class="number">255</span>, CV_THRESH_BINARY);</span><br><span class="line">	<span class="comment">//imshow("diff_thresh", diff_thresh);</span></span><br><span class="line">	<span class="comment">// 作中值滤波,消除小的噪声</span></span><br><span class="line">	<span class="comment">//medianBlur(diff_thresh, diff_thresh, 3);</span></span><br><span class="line">	<span class="comment">//imshow("diff_thresh", diff_thresh);</span></span><br><span class="line">	<span class="comment">// 腐蚀,进行腐蚀操作时，将内核b划过图像,将内核b覆盖区域的最小相素值提取，并代替锚点位置的相素。</span></span><br><span class="line">	Mat kernel_erode = getStructuringElement(MORPH_RECT, Size(<span class="number">3</span>, <span class="number">3</span>));</span><br><span class="line">	Mat kernel_dilate = getStructuringElement(MORPH_RECT, Size(<span class="number">18</span>, <span class="number">18</span>));</span><br><span class="line">	<span class="comment">//  kernel_erode为用于腐蚀操作的结构元素，如果取值为mat(),那么默认使用一个3 x 3的方形结构元素,可以使用getstructuringelement来创建结构元素</span></span><br><span class="line">	erode(diff_thresh, diff_thresh, kernel_erode);</span><br><span class="line">	<span class="comment">//imshow("erode", diff_thresh);</span></span><br><span class="line">	<span class="comment">// 膨胀  </span></span><br><span class="line">	<span class="comment">// dilate()函数可以对输入图像用特定结构元素进行膨胀操作,该结构元素确定膨胀操作过程中的邻域的形状,各点像素值将被替换为kernel_dilate大小邻域上的最大值</span></span><br><span class="line">	dilate(diff_thresh, diff_thresh, kernel_dilate);</span><br><span class="line">	<span class="comment">//imshow("dilate", diff_thresh);</span></span><br><span class="line">	<span class="comment">// 查找轮廓并绘制轮廓  </span></span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;Point&gt;&gt; contours;</span><br><span class="line">	findContours(diff_thresh, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);</span><br><span class="line">	<span class="comment">// 在result上绘制轮廓</span></span><br><span class="line">	drawContours(result, contours, <span class="number">-1</span>, Scalar(<span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>), <span class="number">2</span>);</span><br><span class="line">	<span class="comment">// 查找正外接矩形  </span></span><br><span class="line">	<span class="built_in">vector</span>&lt;Rect&gt; boundRect(contours.size());</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; contours.size(); i++) &#123;</span><br><span class="line">		boundRect[i] = boundingRect(contours[i]);</span><br><span class="line">		<span class="comment">// 在result上绘制正外接矩形</span></span><br><span class="line">		rectangle(result, boundRect[i], Scalar(<span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>), <span class="number">2</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 返回result</span></span><br><span class="line">	<span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">video_move_detect</span><span class="params">(<span class="built_in">string</span> load_path)</span> </span>&#123;</span><br><span class="line">	VideoCapture capture;</span><br><span class="line">	<span class="comment">// 存储当前帧和前一帧图像,以及结果图像</span></span><br><span class="line">	Mat frame, frame_pre, result;</span><br><span class="line">	<span class="built_in">string</span> window_name = <span class="string">"video_move_detect"</span>;</span><br><span class="line">	<span class="keyword">if</span> (load_path == <span class="string">""</span>)</span><br><span class="line">		frame = capture.open(<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		frame = capture.open(load_path);</span><br><span class="line">	<span class="keyword">if</span> (capture.isOpened()) &#123;</span><br><span class="line">		<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">			capture &gt;&gt; frame;</span><br><span class="line">			<span class="keyword">if</span> (frame.empty())</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">if</span> (waitKey(<span class="number">10</span>) &gt;= <span class="number">0</span>)</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">int</span> frame_index = capture.get(CV_CAP_PROP_POS_FRAMES);</span><br><span class="line">			<span class="comment">//如果为第一帧</span></span><br><span class="line">			<span class="keyword">if</span> (frame_index == <span class="number">1</span>)</span><br><span class="line">				<span class="comment">//调用MoveDetect()进行运动物体检测，返回值存入result  </span></span><br><span class="line">				result = move_detect(frame, frame);</span><br><span class="line">			<span class="comment">//如果不是第一帧</span></span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">				<span class="comment">//调用MoveDetect()进行运动物体检测，返回值存入result  </span></span><br><span class="line">				result = move_detect(frame_pre, frame);</span><br><span class="line">			frame_pre = frame.clone();</span><br><span class="line">			namedWindow(window_name, WINDOW_AUTOSIZE);</span><br><span class="line">			imshow(window_name, result);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">string</span> load_path = <span class="string">"C:/Users/zgcr6/Desktop/高图实验/kuozhan/save/1.avi"</span>;</span><br><span class="line">	<span class="built_in">string</span> load_path_2 = <span class="string">"C:/Users/zgcr6/Desktop/高图实验/kuozhan/save/2.avi"</span>;</span><br><span class="line">	<span class="built_in">string</span> load_path_image_corner_detect = <span class="string">"C:/Users/zgcr6/Desktop/高图实验/kuozhan/save/test_1.jpg"</span>;</span><br><span class="line">	<span class="built_in">string</span> save_path_image_corner_detect_result = <span class="string">"C:/Users/zgcr6/Desktop/高图实验/kuozhan/save/corner_detect_result.jpg"</span>;</span><br><span class="line">	<span class="comment">//video_edge_detect_laplacian(load_path);</span></span><br><span class="line">	<span class="comment">//video_edge_detect_canny(load_path,50,150);</span></span><br><span class="line">	<span class="comment">//harris_corner_detect(load_path_image_corner_detect, save_path_image_corner_detect_result, 100);</span></span><br><span class="line">	video_move_detect(load_path_2);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            </div>
+            <hr/>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff;
+        background-color: #22AB38;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff;
+        background-color: #019FE8;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a class="reward-link btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs">
+                        <li class="tab wechat-tab waves-effect waves-light"><a class="active" href="#wechat">微信</a></li>
+                        <li class="tab alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                    </ul>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#reward .reward-link').on('click', function () {
+            $('#rewardModal').openModal();
+        });
+
+        $('#rewardModal .close').on('click', function () {
+            $('#rewardModal').closeModal();
+        });
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            <div class="reprint">
+                <p>
+                    <span class="reprint-tip">
+                        <i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;Reprint please specify:
+                    </span>
+                    <a href="https://wyg1996.cn" class="b-link-green">鱼缸屋</a>
+                    <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
+                    <a href="/2019/05/04/高级图像处理扩展实验/" class="b-link-green">高级图像处理扩展实验</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-05-04T16-48-38',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Sat May 04 2019 16:48:38 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
+    
+
+    
+        <div class="disqus-card card" data-aos="fade-up">
+    <div id="disqus_thread" class="card-content">
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+    </div>
+</div>
+
+<script type="text/javascript">
+    disqus_config = function () {
+        this.page.url = 'https://wyg1996.cn/2019/05/04/高级图像处理扩展实验/';
+        this.page.identifier = '/2019/05/04/高级图像处理扩展实验/';
+        this.page.title = '高级图像处理扩展实验';
+    };
+    let disqus_shortname = '';
+
+    (function () { // DON'T EDIT BELOW THIS LINE
+        let d = document, s = d.createElement('script');
+        // 如：s.src = 'https://blinkfox.disqus.com/embed.js';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+    
+
+    
+    <div class="livere-card card" data-aos="fade-up">
+    <!-- 来必力City版安装代码 -->
+    <div id="lv-container" class="card-content" data-id="city" data-uid="">
+        <script type="text/javascript">
+            (function (d, s) {
+                let j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') {
+                    return;
+                }
+
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript。</noscript>
+    </div>
+    <!-- City版安装代码已完成 -->
+</div>
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2019/05/04/视频流中的车牌区域检测/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="视频流中的车牌区域检测">
+                        
+                        <span class="card-title">视频流中的车牌区域检测</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">检测原理使用形态学梯度检测或sobel边缘检测（y方向）来检测出图片中物体的垂直边缘；将检测结果转化成二值化图像；使用闭运算（先膨胀，再腐蚀）进行区域填充，填补空洞，同时切断各个白色区域之间的连通；使用轮廓检测函数findContours，</div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-05-04
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/图像处理/" class="post-category" target="_blank">
+                                    图像处理
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/图像处理/" target="_blank">
+                        <span class="chip bg-color">图像处理</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/05/04/高级图像处理基础实验与图像处理基础理论知识/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="高级图像处理基础实验与图像处理基础理论知识">
+                        
+                        <span class="card-title">高级图像处理基础实验与图像处理基础理论知识</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">实验1：图像灰度变换实验一内容1、利用OpenCV读取图像具体内容：用OpenCV打开图像，并在窗口中显示。2、灰度图像二值化处理具体内容：设置并调整阈值对图像进行二值化处理。3、灰度图像的对数变换具体内容：设置并调整r值对图像进行对数变换</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-05-04
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/图像处理/" class="post-category" target="_blank">
+                                    图像处理
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/图像处理/" target="_blank">
+                        <span class="chip bg-color">图像处理</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + 'From: 鱼缸屋<br />'
+            + 'Author: ygwu<br />'
+            + 'Link: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+    </div>
+    <div class="col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+    });
+</script>
+    
+
+</main>
+
+
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy;<a href="mailto:ygwu@mail.ustc.edu.cn" target="_blank">鱼缸屋</a>
+            
+
+            
+                &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+                <span class="white-color">393.6k</span>
+            
+
+            
+			
+                <br>
+                
+                <span id="busuanzi_container_site_pv">
+                    <i class="fa fa-heart-o"></i>
+                    本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+                </span>
+                
+                
+                <span id="busuanzi_container_site_uv">
+                    <i class="fa fa-users"></i>
+                    次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+                </span>
+                
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/wygny" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ygwu@mail.ustc.edu.cn" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=321699849" class="tooltipped" data-tooltip="QQ联系我: 321699849" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://www.baidu.com" class="tooltipped" target="_blank" data-tooltip="访问百度" data-position="top" data-delay="50">
+        <i class="fa fa-paw"></i>
+</a>
+
+
+
+    <a href="https://www.google.com" class="tooltipped" target="_blank" data-tooltip="访问谷歌" data-position="top" data-delay="50">
+        <i class="fa fa-google"></i>
+</a>
+
+
+
+    <a href="https://www.bilibili.com" class="tooltipped" target="_blank" data-tooltip="访问哔哩哔哩" data-position="top" data-delay="50">
+        <i class="fa fa-bullseye"></i>
+</a>
+
+
+
+    <a href="https://blog.csdn.net/zgcr654321" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN博客" data-position="top" data-delay="50">
+        <i class="fa fa-copyright"></i>
+</a>
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input" autofocus="">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="/libs/materialize/js/materialize.min.js"></script>
+<script src="/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="/libs/aos/aos.js"></script>
+<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    <script src="/libs/others/clicklove.js"></script>
+
+
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+
+
+</body>
+</html>

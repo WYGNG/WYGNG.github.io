@@ -1,0 +1,1116 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="隐马尔可夫模型（HMM）原理, 鱼缸屋">
+    <meta name="description" content="概率图模型与隐马尔可夫模型概率图模型是一类用图来表示变量相关关系的模型。可以分为两类:一类是用有向无环图表示变量间的依赖关系，称为有向图模型；另一类是使用无向图表示变量间的相关关系，称为无向图模型。隐马尔可夫模型（HMM）是一种有向图模型，">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>隐马尔可夫模型（HMM）原理 | 鱼缸屋</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+</head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="container">
+            <div class="nav-wrapper">
+                <div class="brand-logo">
+                    <a href="/" class="waves-effect waves-light">
+                        
+                        <img src="/medias/logo.png" class="logo-img hide-on-small-only">
+                        
+                        <span class="logo-span">鱼缸屋</span>
+                    </a>
+                </div>
+                
+
+<a href="#" data-activates="mobile-nav" class="button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a id="toggleSearch" class="waves-effect waves-light">
+            <i id="searchIcon" class="mdi-action-search" title="Search"></i>
+        </a>
+    </li>
+
+</ul>
+
+<div class="side-nav" id="mobile-nav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">鱼缸屋</div>
+        <div class="logo-desc">
+            
+            海纳百川，有容乃大，壁立千仞，无欲则刚
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/WYGNG" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>来github一起玩吧！
+            </a>
+        </li>
+        
+    </ul>
+
+    <div class="social-link">
+    <a href="https://github.com/wygny" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ygwu@mail.ustc.edu.cn" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=321699849" class="tooltipped" data-tooltip="QQ联系我: 321699849" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://www.baidu.com" class="tooltipped" target="_blank" data-tooltip="访问百度" data-position="top" data-delay="50">
+        <i class="fa fa-paw"></i>
+</a>
+
+
+
+    <a href="https://www.google.com" class="tooltipped" target="_blank" data-tooltip="访问谷歌" data-position="top" data-delay="50">
+        <i class="fa fa-google"></i>
+</a>
+
+
+
+    <a href="https://www.bilibili.com" class="tooltipped" target="_blank" data-tooltip="访问哔哩哔哩" data-position="top" data-delay="50">
+        <i class="fa fa-bullseye"></i>
+</a>
+
+
+
+    <a href="https://blog.csdn.net/zgcr654321" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN博客" data-position="top" data-delay="50">
+        <i class="fa fa-copyright"></i>
+</a>
+
+
+
+
+
+
+</div>
+</div>
+
+            </div>
+        </div>
+
+        
+        <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/WYGNG" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="来github一起玩吧！" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+</header>
+
+
+
+
+
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        隐马尔可夫模型（HMM）原理
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+</style>
+<div class="row">
+    <div class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/机器学习原理推导/" target="_blank">
+                                <span class="chip bg-color">机器学习原理推导</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/机器学习原理推导/" class="post-category" target="_blank">
+                                机器学习原理推导
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2019-06-21
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>Word Count:&nbsp;&nbsp;
+                        7.1k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>Read Times:&nbsp;&nbsp;
+                        31 Min
+                    </div>
+                    
+                
+				
+				
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="fa fa-eye fa-fw"></i>Read Count:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="概率图模型与隐马尔可夫模型"><a href="#概率图模型与隐马尔可夫模型" class="headerlink" title="概率图模型与隐马尔可夫模型"></a>概率图模型与隐马尔可夫模型</h1><p>概率图模型是一类用图来表示变量相关关系的模型。可以分为两类:一类是用有向无环图表示变量间的依赖关系，称为有向图模型；另一类是使用无向图表示变量间的相关关系，称为无向图模型。<br>隐马尔可夫模型（HMM）是一种有向图模型，它是关于时序的概率模型，描述由一个隐藏的马尔可夫链随机生成不可观测的状态随机序列，再由各个状态生成一个观测而产生观测随机序列的过程。隐藏的马尔可夫链随机生成不可观测的状态的序列称为状态序列；每个状态生成一个观测，再由此产生的观测的随机序列，称为观测序列。序列的每一个位置可以看作是一个时刻。</p>
+<h1 id="隐马尔可夫模型原理"><a href="#隐马尔可夫模型原理" class="headerlink" title="隐马尔可夫模型原理"></a>隐马尔可夫模型原理</h1><h2 id="隐马尔可夫模型定义"><a href="#隐马尔可夫模型定义" class="headerlink" title="隐马尔可夫模型定义"></a>隐马尔可夫模型定义</h2><p>隐马尔可夫模型由初始概率分布、状态转移概率分布、观测概率分布确定。设Q是所有可能的状态的集合，V是所有可能的观测的集合，即:<br>$$<br>Q=(q_{1}, q_{2}, \cdots, q_{N}), \quad V=(v_{1}, v_{2}, \cdots, v_{M})<br>$$<br>其中，N是可能的状态数，M是可能的观测数。<br>I是长度为T的状态序列，O是对应的观测序列，即:<br>$$<br>I=\left(i_{1}, i_{2}, \cdots, i_{T}\right), \quad O=\left(o_{1}, o_{2}, \cdots, o_{T}\right)<br>$$<br>A为状态转移概率矩阵（NXN矩阵）:<br>$$<br>A=\left[a_{i j}\right]<br>$$<br>其中:<br>$$<br>a_{i j}=P\left(i_{t+1}=q_{j} | i_{t}=q_{i}\right), \quad i=1,2, \cdots, N ; j=1,2, \cdots, N<br>$$<br>即在时刻t处于状态qi的条件下在时刻t+1转移到状态qj的概率。<br>B为观测概率矩阵（NXM矩阵）:<br>$$<br>B=\left[b_{j}(k)\right]<br>$$<br>其中:<br>$$<br>b_{j}(k)=P\left(o_{t}=v_{k} | i_{t}=q_{j}\right), \quad k=1,2, \cdots, M ; j=1,2, \cdots, N<br>$$<br>是在时刻t处于状态qj的条件下生成观测vk的概率。<br>记π为初始状态概率向量:<br>$$<br>\pi=\left(\pi_{i}\right)<br>$$<br>其中:<br>$$<br>\pi_{i}=P\left(i_{1}=q_{i}\right), \quad i=1,2, \cdots, N<br>$$<br>表示时刻t=1处于状态qi的概率。<br>因此，HMM模型λ可以用三元符号表示，即：<br>$$<br>\lambda=(A, B, \pi)<br>$$<br>A,B,π称为HMM模型的三要素。<br><strong>举例:</strong><br>假设有4个盒子，每个盒子都有红白两种颜色的球，球的数量如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">盒子        1        2        3        4</span><br><span class="line">红球数      5        3        6        8</span><br><span class="line">白球数      5        7        4        2</span><br></pre></td></tr></table></figure>
+
+<p>按下面的方法抽取球:<br>开始时，从4个盒子中等概率地抽取一个，再从盒子中随机抽一个球，记录颜色后放回。然后从当前盒子转移到下一个盒子，如果当前为盒子1，下一个盒子一定是2；如果当前为盒子2或3，以概率0.4和0.6转移到左边或右边的盒子；如果当前为盒子4，各以0.5概率停留在盒子4或转移到盒子3。转移后，再从盒子中随机抽一个球，记录颜色后放回。<br>现在假设我们要连续地抽5次。抽取结果如下:<br>$$<br>O=(红,红,白,白,红)<br>$$<br>这个例子中有两个随机序列:<br>盒子序列（状态序列）和球颜色序列（观测序列）。前者是隐藏的，后者是可观测的。<br>则状态集合Q和观测集合V为:<br>$$<br>Q=(盒子1,盒子2,盒子3,盒子4), \quad V=(红,白)<br>$$<br>状态序列和观测序列长度T=5。<br>开始时，从4个盒子中等概率地抽取一个，则初始概率分布π为:<br>$$<br>\pi=(0.25,0.25,0.25,0.25)^{\mathrm{T}}<br>$$<br>状态转移概率分布A为（由盒子转移规则得出）:<br>$$<br>A=\left[\begin{array}{cccc}{0} &amp; {1} &amp; {0} &amp; {0} \\ {0.4} &amp; {0} &amp; {0.6} &amp; {0} \\ {0} &amp; {0.4} &amp; {0} &amp; {0.6} \\ {0} &amp; {0} &amp; {0.5} &amp; {0.5}\end{array}\right]<br>$$<br>观测概率分布B为（由每个盒子红白球比例计算得出）:<br>$$<br>B=\left[\begin{array}{ll}{0.5} &amp; {0.5} \\ {0.3} &amp; {0.7} \\ {0.6} &amp; {0.4} \\ {0.8} &amp; {0.2}\end{array}\right]<br>$$</p>
+<h2 id="两个基本假设和三个基本问题"><a href="#两个基本假设和三个基本问题" class="headerlink" title="两个基本假设和三个基本问题"></a>两个基本假设和三个基本问题</h2><p><strong>隐马尔可夫模型做了两个基本假设:</strong></p>
+<ul>
+<li>齐次马尔可夫性假设，即假设隐藏的马尔可夫链在任意时刻t的状态只依赖于其前一时刻的状态，与其他时刻的状态及观测无关，也与时刻t无关，即:<br>$$<br>P\left(i_{t} | i_{t-1}, o_{t-1}, \cdots, i_{1}, o_{1}\right)=P\left(i_{t} | i_{t-1}\right), \quad t=1,2, \cdots, T<br>$$</li>
+<li>观测独立性假设，即假设任意时刻的观测只依赖于该时刻的马尔可夫链的状态，与其他的观测和状态无关，即:<br>$$<br>P\left(o_{t} | i_{T}, o_{T}, i_{T-1}, o_{T-1}, \cdots, i_{t+1}, o_{t+1}, i_{t-1}, i_{t-1}, \cdots, i_{1}, o_{1}\right)=P\left(o_{t} | i_{t}\right)<br>$$</li>
+</ul>
+<p><strong>隐马尔可夫模型有3个基本问题:</strong></p>
+<ol>
+<li>概率计算问题。给定模型λ和观测序列O，计算在模型λ下观测序列O出现的慨率P（O|λ）。</li>
+<li>学习问题。已知观测序列O，估计模型λ的参数，使得在该模型下观测序列概率P（O|λ）最大。即用极大似然估计的方法估计参数。</li>
+<li>预测问题，也称为解码问题。已知模型λ和观测序列O，求对给定观测序列条件概率P（I|O）最大的状态序列。即给定观测序列，求最有可能的对应的状态序列。</li>
+</ol>
+<h2 id="概率计算问题-P（O-λ）的计算方法"><a href="#概率计算问题-P（O-λ）的计算方法" class="headerlink" title="概率计算问题:P（O|λ）的计算方法"></a>概率计算问题:P（O|λ）的计算方法</h2><p>给定模型λ和观测序列O，计算在模型λ下，观测序列O出现的概率P（O|λ）。</p>
+<h3 id="直接计算方法（概念上可行，计算上不可行）"><a href="#直接计算方法（概念上可行，计算上不可行）" class="headerlink" title="直接计算方法（概念上可行，计算上不可行）"></a>直接计算方法（概念上可行，计算上不可行）</h3><p>列举所有可能的长度为T的状态序列I<br>$$<br>I=\left(i_{1}, i_{2}, \cdots, i_{T}\right)<br>$$<br>求各个状态序列I和给定的观测序列O的联合概率P（O,I∣λ），然后对所有可能的状态序列求和，得到P（O|λ）。<br>对某个状态序列I的概率为:<br>$$<br>P(I | \lambda)=\pi_{i_{1}} a_{i_{1} i_{2}} a_{i_{2} i_{3}} \cdots a_{i_{T-1} i_{T}}<br>$$<br>对上面的状态序列I，输入的观测序列O的概率P（O|I,λ）:<br>$$<br>P(O | I, \lambda)=b_{i_{1}}\left(o_{1}\right) b_{i_{2}}\left(o_{2}\right) \cdots b_{i_{T}}\left(o_{T}\right)<br>$$<br>O和I同时出现的l联合概率为:<br>$$<br>P(O, I | \lambda)=P(O | I, \lambda) P(I | \lambda)=\pi_{i_{1}} b_{i_{1}}\left(o_{1}\right) a_{i_{1} i_{2}} b_{i_{2}}\left(o_{2}\right) \cdots a_{i_{i-1} i_{\tau}} b_{i_{\tau}}\left(o_{T}\right)<br>$$<br>然后，对所有可能的状态序列I求和，得到观测序列O的概率P（O|λ）:<br>$$<br>P(O | \lambda)=\sum_{I} P(O | I, \lambda) P(I | \lambda)=<br>\sum_{i_{1}, i_{2}, \cdots, i_{T}} \pi_{i_{1}} b_{i_{1}}\left(o_{1}\right) a_{i_{1} i_{2}} b_{i_{2}}\left(o_{2}\right) \cdots a_{i_{i-1} i_{\tau}} b_{i_{\tau}}\left(o_{T}\right)<br>$$<br>通过这种计算方式的计算量非常大，其复杂度为:<br>$$<br>O\left(T N^{T}\right)<br>$$<br>实际是不可行的。在真实情况下，一般采用更有效的算法，即前向-后向算法。</p>
+<h3 id="前向算法"><a href="#前向算法" class="headerlink" title="前向算法"></a>前向算法</h3><p>给定隐马尔可夫模型λ和观测序列O，定义到时刻t部分观测序列为:<br>$$<br>o_{1}, o_{2}, \cdots, o_{t}<br>$$<br>且状态为qi的概率为前向概率，记作:<br>$$<br>\alpha_{t}(i)=P\left(o_{1}, o_{2}, \cdots, o_{t}, i_{t}=q_{i} | \lambda\right)<br>$$<br><strong>下面要计算观测序列概率P（O∣λ）。</strong><br>计算初值:<br>$$<br>\alpha_{1}(i)=\pi_{i} b_{i}\left(o_{1}\right), \qquad i=1,2, \cdots, N<br>$$<br>递推，对t=1,2,⋯,T−1，有<br>$$<br>\alpha_{t+1}(i)=\left[\sum_{j=1}^{N} \alpha_{t}(j) a_{j i}\right] b_{i}\left(o_{t+1}\right), \quad i=1,2, \cdots, N<br>$$<br>终止:<br>$$<br>P(O | \lambda)=\sum_{i=1}^{N} \alpha_{T}(i)<br>$$<br>该算法时间复杂度为:<br>$$<br>O\left(N^{2} T\right)<br>$$<br>比直接计算法小很多。<br><strong>计算实例:</strong><br>现在有盒子和球模型λ=（A,B,π），状态集合Q=（1,2,3），观测集合V=（红，白）。<br>状态转移概率分布A、观测概率分布B、初始概率分布π为:<br>$$<br>A=\left[\begin{array}{lll}{0.5} &amp; {0.2} &amp; {0.3} \\ {0.3} &amp; {0.5} &amp; {0.2} \\ {0.2} &amp; {0.3} &amp; {0.5}\end{array}\right]<br>$$<br>$$<br>B=\left[\begin{array}{ll}{0.5} &amp; {0.5} \\ {0.4} &amp; {0.6} \\ {0.7} &amp; {0.3}\end{array}\right]<br>$$<br>$$<br>\pi=(0.2,0.4,0.4)^{\mathrm{T}}<br>$$<br>设T=3, O=（红,白,红），试用前向算法计算P（O|λ）。<br>计算初值:<br>$$<br>\alpha_{1}(1)=\pi_{1} b_{1}\left(o_{1}\right)=0.10 \\ \alpha_{1}(2)=\pi_{2} b_{2}\left(o_{1}\right)=0.16 \\ \alpha_{1}(3)=\pi_{3} b_{3}\left(o_{1}\right)=0.28<br>$$<br>递推计算:<br>$$<br>\alpha_{2}(1)=\left[\sum_{i=1}^{3} \alpha_{1}(i) a_{i 1}\right] b_{1}\left(o_{2}\right)=0.154 \times 0.5=0.077 \\ \alpha_{2}(2)=\left[\sum_{i=1}^{3} \alpha_{1}(i) a_{i 2}\right] b_{2}\left(o_{2}\right)=0.184 \times 0.6=0.1104 \\ \alpha_{2}(3)=\left[\sum_{i=1}^{3} \alpha_{1}(i) a_{13}\right] b_{3}\left(o_{2}\right)=0.202 \times 0.3=0.0606<br>$$<br>$$<br>\alpha_{3}(1)=\left[\sum_{i=1}^{3} \alpha_{2}(i) a_{i 1}\right] b_{1}\left(o_{3}\right)=0.04187 \\ \alpha_{3}(2)=\left[\sum_{i=1}^{3} \alpha_{2}(i) a_{i 2}\right] b_{2}\left(o_{3}\right)=0.03551 \\<br>\alpha_{3}(3)=\left[\sum_{i=1}^{3} \alpha_{2}(i) a_{i 3}\right] b_{3}\left(o_{3}\right)=0.05284<br>$$<br>终止:<br>$$<br>P(O | \lambda)=\sum_{i=1}^{3} \alpha_{3}(i)=0.13022<br>$$</p>
+<h3 id="后向算法"><a href="#后向算法" class="headerlink" title="后向算法"></a>后向算法</h3><p>给定隐马尔可夫模型λ和观测序列O，定义在时刻t状态为qi的条件下，从t+1到T的部分观测序列为:<br>$$<br>o_{t+1}, o_{t+2}, \cdots, o_{T}<br>$$<br>的概率为后向概率，记作:<br>$$<br>\beta_{t}(i)=P\left(o_{t+1}, o_{t+2}, \cdots, o_{T} | i_{t}=q_{i}, \lambda\right)<br>$$<br><strong>下面要计算观测序列概率P（O∣λ）。</strong><br>初值:<br>$$<br>\beta_{T}(i)=1, \quad i=1,2, \cdots, N<br>$$<br>递推，对t=1, 2,…,T-1，有:<br>$$<br>\beta_{t}(i)=\sum_{j=1}^{N} a_{i j} b_{j}\left(o_{t+1}\right) \beta_{t+1}(j), \quad i=1,2, \cdots, N<br>$$<br>终止:<br>$$<br>P(O | \lambda)=\sum_{i=1}^{N} \pi_{i} b_{i}\left(o_{1}\right) \beta_{1}(i)<br>$$<br><strong>利用前向概率和后向概率的定义可以将观测序列概率P（O∣λ）统一写成:</strong><br>$$<br>P(O | \lambda)=\sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_{t}(i) a_{i j} b_{j}\left(o_{t+1}\right) \beta_{t+1}(j), \quad t=1,2, \cdots, T-1<br>$$<br>此式当t=1和t=T-1时分别为前向算法和后向算法的终止公式。</p>
+<h3 id="一些概率值与期望的计算"><a href="#一些概率值与期望的计算" class="headerlink" title="一些概率值与期望的计算"></a>一些概率值与期望的计算</h3><p><strong>利用前向概率和后向慨率，可以得到关于单个状态和两个状态概率的计算公式。</strong></p>
+<ol>
+<li>给定模型λ和观测O，在时刻t处于状态qi的概率，记为<br>$$<br>\gamma_{t}(i)=P\left(i_{t}=q_{i} | O, \lambda\right)<br>$$<br>可以通过前向后向概率计算。即:<br>$$<br>\gamma_{t}(i)=P\left(i_{t}=q_{i} | O, \lambda\right)=\frac{P\left(i_{t}=q_{i}, O | \lambda\right)}{P(O | \lambda)}<br>$$<br>由前向概率αt（i）和后向概率βt（i）定义可知:<br>$$<br>\alpha_{t}(i) \beta_{t}(i)=P\left(i_{t}=q_{i}, O | \lambda\right)<br>$$<br>故有:<br>$$<br>\gamma_{t}(i)=\frac{\alpha_{t}(i) \beta_{t}(i)}{P(O | \lambda)}=\frac{\alpha_{t}(i) \beta_{t}(i)}{\sum_{j=1}^{N} \alpha_{t}(j) \beta_{t}(j)}<br>$$</li>
+<li>给定模型A和观测序列O，在时刻t处于状态qi且在时刻t+1处于状态qj的概率，记为<br>$$<br>\xi_{t}(i, j)=P\left(i_{t}=q_{i}, i_{t+1}=q_{j} | O, \lambda\right)<br>$$<br>可以通过前向后向概率计算:<br>$$<br>\xi_{i}(i, j)=\frac{P\left(i_{t}=q_{i}, i_{t+1}=q_{j}, O | \lambda\right)}{P(O | \lambda)}=\frac{P\left(i_{t}=q_{i}, i_{t+1}=q_{j}, O | \lambda\right)}{\sum_{i=1}^{N} \sum_{j=1}^{N} P\left(i_{t}=q_{i}, i_{t+1}=q_{j}, O | \lambda\right)}<br>$$<br>又<br>$$<br>P\left(i_{t}=q_{i}, i_{t+1}=q_{j}, O | \lambda\right)=\alpha_{t}(i) a_{i j} b_{j}\left(o_{t+1}\right) \beta_{t+1}(j)<br>$$<br>于是化简得<br>$$<br>\xi_{t}(i, j)=\frac{\alpha_{t}(i) a_{i j} b_{j}\left(o_{t+1}\right) \beta_{t+1}(j)}{\sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_{t}(i) a_{i j} b_{j}\left(o_{t+1}\right) \beta_{t+1}(j)}<br>$$</li>
+<li>将γt（i）和ξt（i,j）对各个时刻t求和，可以得到一些有用的期望值:<br>在观测O下状态i出现的期望值:<br>$$<br>\sum_{t=1}^{T} \gamma_{t}(i)<br>$$<br>在观刻O下由状态i转移的期望值:<br>$$<br>\sum_{t=1}^{T-1} \gamma_{t}(i)<br>$$<br>在观测O下由状态i转移到状态j的期望值:<br>$$<br>\sum_{i=1}^{T-1} \xi_{t}(i, j)<br>$$</li>
+</ol>
+<h2 id="学习问题-监督学习方法和非监督学习方法（Baum-Welch算法）"><a href="#学习问题-监督学习方法和非监督学习方法（Baum-Welch算法）" class="headerlink" title="学习问题:监督学习方法和非监督学习方法（Baum-Welch算法）"></a>学习问题:监督学习方法和非监督学习方法（Baum-Welch算法）</h2><p>已知观测序列O，估计模型λ的参数，使得在该模型下观测序列概率P（O|λ）最大。即用极大似然估计的方法估计参数。</p>
+<h3 id="监督学习方法"><a href="#监督学习方法" class="headerlink" title="监督学习方法"></a>监督学习方法</h3><p>假设已给训练数据集包含S个长度相同的观测序列和对应的状态序列<br>$$<br>(\left(O_{1}, I_{1}\right),\left(O_{2}, I_{2}\right), \cdots,\left(O_{S}, I_{S}\right))<br>$$<br>下面利用极大似然估计法来估计隐马尔可夫模型的参数。</p>
+<ol>
+<li>转移概率aij的估计:<br>设样本中时刻t处于状态i时刻t+1转移到状态j的频数为Aij，那么状态转移概率aij的估计是<br>$$<br>\hat a_{i j}=\frac{A_{j j}}{\sum_{j=1}^{N} A_{i j}}, \quad i=1,2, \cdots, N ; j=1,2, \cdots, N<br>$$</li>
+<li>观测概率bj（k）的估计:<br>设样本中状态为j并观测为k的频数是Bjk，那么状态为j观测为k的概率bj（k）的估计是:<br>$$<br>\hat b_{j}(k)=\frac{B_{j k}}{\sum_{k=1}^{M} B_{j k}}, \quad j=1,2, \cdots, N_{i} \quad k=1,2, \cdots, M<br>$$</li>
+<li>初始状态概率π的估计πi为S个样本中初始状态为qi的频率。</li>
+</ol>
+<p>由于监督学习需要使用训练数据， 而人工标注训练数据往往代价很高，有时就会利用非监督学习的方法。</p>
+<h3 id="非监督学习方法——Baum-Welch算法"><a href="#非监督学习方法——Baum-Welch算法" class="headerlink" title="非监督学习方法——Baum-Welch算法"></a>非监督学习方法——Baum-Welch算法</h3><p>由于监督学习需要大量的标注数据，需要耗费很多的人力物力，因此，有时会采用非监督学习方法来进行参数估计。假设给定训练数据集只包含S个长度为T的观测序列而没有对应的状态序列<br>$$<br>(O_{1}, O_{2}, \cdots, O_{s})<br>$$<br>我们的目标是学习隐马尔可夫模型λ=（A,B,π）的参数。我们将观测序列数据看作观测数据O，状态序列数据看作不可观测的隐数据I，那么隐马尔可夫模型实际上是一个含有隐变量的概率模型:<br>$$<br>P(O | \lambda)=\sum_{I} P(O | I, \lambda) P(I | \lambda)<br>$$<br>它的参数学习可以由EM算法实现。</p>
+<ol>
+<li>确定完全数据的对数似然函数:<br>所有观测数据写成:<br>$$<br>O=\left(o_{1}, o_{2}, \cdots, o_{T}\right)<br>$$<br>所有隐数据写成:<br>$$<br>I=\left(i_{1}, i_{2}, \cdots, i_{T}\right)<br>$$<br>完全数据是:<br>$$<br>(O, I)=\left(o_{1}, o_{2}, \cdots, o_{T}, i_{1}, i_{2}, \cdots, i_{T}\right)<br>$$<br>完全数据的对数似然函数是:<br>$$<br>\log P(O, I | \lambda)<br>$$</li>
+<li>EM算法的E步:求Q函数<br>$$<br>Q(\lambda, \overline{\lambda})=\sum_{I} \log P(O, I | \lambda) P(O, I | \overline{\lambda})<br>$$<br>左边等式中第一个λ是要极大化的隐马尔可夫模型参数，第二个λ是隐马尔可夫模型参数的当前估计值。<br>$$<br>P(O, I | \lambda)=\pi_{i_{1}} b_{i_{1}}\left(o_{1}\right) a_{i_{1} i_{2}} b_{i_{2}}\left(o_{2}\right) \cdots a_{i_{1-1} i_{T}} b_{i_{T}}\left(o_{T}\right)<br>$$<br>于是函数Q可以写成:<br>$$<br>Q(\lambda, \overline{\lambda})=\sum_{I} \log \pi_{i1} P(O, I | \overline{\lambda}) \\</li>
+</ol>
+<p>+\sum_{I}\left(\sum_{t=1}^{T-1} \log a_{i, t+1}\right) P(O, I | \overline{\lambda})+\sum_{I}\left(\sum_{t=1}^{T} \log b_{i_{i}}\left(o_{t}\right)\right) P(O, I | \overline{\lambda})<br>$$<br>式中求和都是对所有训练数据的序列总长度T进行的。</p>
+<ol start="3">
+<li>EM 算法的M步:极大化Q函数，求模型参数A、B、π。<br>由于要极大化的参数在上式中单独地出现在3个项中，所以只需对各项分别极大化。<br>第一项可写为:<br>$$<br>\sum_{I} \log \pi_{i_{0}} P(O, I | \overline{\lambda})=\sum_{i=1}^{N} \log \pi_{i} P\left(O, i_{1}=i | \overline{\lambda}\right)<br>$$<br>πi满足约束条件:<br>$$<br>\sum_{i=1}^{N} \pi_{i}=1<br>$$<br>利用拉格朗日乘子法，写出拉格朗日函数:<br>$$<br>\sum_{i=1}^{N} \log \pi_{i} P\left(O, i_{1}=i | \overline{\lambda}\right)+\gamma\left(\sum_{i=1}^{N} \pi_{i}-1\right)<br>$$<br>对其求偏导数并令结果为0:<br>$$<br>\frac{\partial}{\partial \pi_{i}}\left[\sum_{i=1}^{N} \log \pi_{i} P\left(O, i_{1}=i | \overline{\lambda}\right)+\gamma\left(\sum_{i=1}^{N} \pi_{i}-1\right)\right]=0<br>$$<br>得:<br>$$<br>P\left(O, i_{1}=i | \overline{\lambda}\right)+\gamma \pi_{i}=0<br>$$<br>对i求和得到γ:<br>$$<br>\gamma=-P(O | \overline{\lambda})<br>$$<br>代回偏导数为0的式子中，得<br>$$<br>\pi_{i}=\frac{P\left(O, i_{1}=i | \overline{\lambda}\right)}{P(O | \overline{\lambda})}<br>$$<br>第二项可写为:<br>$$<br>\sum_{I}\left(\sum_{t=1}^{T-1} \log a_{i_{t}i_{t+1}}\right) P(O, I | \overline{\lambda})=\sum_{i=1}^{N} \sum_{j=1}^{N} \sum_{t=1}^{T-1} \log a_{i j} P\left(O, i_{t}=i, i_{t+1}=j | \overline{\lambda}\right)<br>$$<br>类似第一项，应用具有约束条件<br>$$<br>\sum_{j=1}^{N} a_{i j}=1<br>$$<br>的拉格朗日乘了法可以求出<br>$$<br>a_{i j}=\frac{\sum_{i=1}^{T-1} P\left(O, i_{t}=i, i_{t+1}=j | \overline{\lambda}\right)}{\sum_{t=1}^{T-1} P\left(O, i_{t}=i | \overline{\lambda}\right)}<br>$$<br>第三项可写为:<br>$$<br>\sum_{I}\left(\sum_{t=1}^{T} \log b_{i_{t}}\left(o_{t}\right)\right) P(O, I | \overline{\lambda})=\sum_{j=1}^{N} \sum_{t=1}^{T} \log b_{j}\left(o_{t}\right) P\left(O, i_{t}=j | \overline{\lambda}\right)<br>$$<br>同样用拉格朗日乘子法，约束条件是<br>$$<br>\sum_{k=1}^{M} b_{j}(k)=1<br>$$<br>注意只有在ot=vk时bj（ot）对bj（k）的偏导数才不为0，以I（ot=vk）表示。求得:<br>$$<br>b_{j}(k)=\frac{\sum_{t=1}^{T} P\left(O, i_{t}=j | \overline{\lambda}\right) I\left(o_{t}=v_{k}\right)}{\sum_{t=1}^{T} P\left(O, i_{t}=j | \overline{\lambda}\right)}<br>$$<br>将上面第三步中三项最终推出的公式中的各概率分别用γt（i），ξt（i,j）表示，则可将相应的公式写成:<br>$$<br>a_{i j}=\frac{\sum_{t=1}^{T-1} \xi_{t}(i, j)}{\sum_{t=1}^{T-1} \gamma_{t}(i)}<br>$$<br>$$<br>b_{j}(k)=\frac{\sum_{t=1,o_{t}=v_{k}}^{T} \gamma_{t}(j)}{\sum_{t=1}^{T} \gamma_{t}(j)}<br>$$<br>$$<br>\pi_{i}=\gamma_{1}(i)<br>$$<br>上面三式就是Baum-Welch算法。</li>
+</ol>
+<p><strong>Baum-Welch算法的流程如下:</strong></p>
+<ul>
+<li>初始化，对n=0，选取aij（0），bj（k）（0），πi（0），得到模型<br>$$<br>\lambda^{(0)}=\left(A^{(0)}, B^{(0)}, \pi^{(0)}\right)<br>$$</li>
+<li>递推。对n=1,2,…，<br>$$<br>a_{i j}^{(n+1)}=\frac{\sum_{t=1}^{T-1} \xi_{t}(i, j)}{\sum_{t=1}^{T-1} \gamma_{t}(i)}<br>$$<br>$$<br>b_{j}(k)^{(n+1)}=\frac{\sum_{t=1, o_{t}=v_{k}}^{T} \gamma_{t}(j)}{\sum_{t=1}^{T} \gamma_{t}(j)}<br>$$<br>$$<br>\pi_{i}^{(n+1)}=\gamma_{1}(i)<br>$$<br>右端各值按<br>$$<br>O=\left(o_{1}, o_{2}, \cdots, o_{T}\right)<br>$$<br>$$<br>\lambda^{(n)}=\left(A^{(n)}, B^{(n)}, \pi^{(n)}\right)<br>$$<br>计算。</li>
+<li>终止。得到模型参数:<br>$$<br>\lambda^{(n+1)}=\left(A^{(n+1)}, B^{(n+1)}, \pi^{(n+1)}\right)<br>$$</li>
+</ul>
+<h2 id="预测问题（解码问题）-近似算法和维特比（Viterbi）算法"><a href="#预测问题（解码问题）-近似算法和维特比（Viterbi）算法" class="headerlink" title="预测问题（解码问题）:近似算法和维特比（Viterbi）算法"></a>预测问题（解码问题）:近似算法和维特比（Viterbi）算法</h2><p>已知模型λ和观测序列O，求对给定观测序列条件概率P（I|O）最大的状态序列。即给定观测序列，求最有可能的对应的状态序列。</p>
+<h3 id="近似算法"><a href="#近似算法" class="headerlink" title="近似算法"></a>近似算法</h3><p>近似算法的思想是，在每个时刻t选择在该时刻最有可能出现的状态it，从而得到一个状态序列<br>$$<br>I^{\ast}=\left(i_{1}^{\ast}, i_{2}^{\ast}, \cdots, i_{T}^{\ast}\right)<br>$$<br>将它作为预测的结果。<br>给定隐马尔可夫模型λ和观测序列O，在时刻t处于状态qi的概率为：<br>$$<br>\gamma_{t}(i)=\frac{\alpha_{t}(i) \beta_{t}(i)}{P(O | \lambda)}=\frac{\alpha_{t}(i) \beta_{t}(i)}{\sum_{j=1}^{N} \alpha_{t}(j) \beta_{t}(j)}<br>$$<br>在每一时刻t最有可能的状态it*是<br>$$<br>i_{t}^{\ast}=\arg \max_{1 \leqslant i \leqslant N}\left[\gamma_{t}(i)\right], \quad t=1,2, \cdots, T<br>$$<br>从而得到状态序列I。<br>虽然近似计算思想简单，但是预测的序列可能有实际不发生的部分，即有可能出现转移概率为0的相邻状态，没法保证整体上的状态序列是最有可能的。</p>
+<h3 id="维特比（Viterbi）算法"><a href="#维特比（Viterbi）算法" class="headerlink" title="维特比（Viterbi）算法"></a>维特比（Viterbi）算法</h3><p>维特比算法则通过动态规划求概率最大的路径（最优路径），这时每一条路径即对应着一个状态序列。维特比算法从时刻t=1开始，递推地计算在时刻t状态为i的各条部分路径的最大概率，直到得到时刻t=T状态为i的各条路径的最大概率，时刻t=T的最大概率记为最优路径的概率P，最优路径的终结点iT也同时得到，之后，从终结点开始，由后向前逐步求得结点<br>$$<br>i_{T-1}^{\ast}, \cdots, i_{1}^{\ast}<br>$$<br>最终得到最优状态序列（最优路径）:<br>$$<br>I^{\ast}=\left(i_{1}^{\ast}, i_{2}^{\ast}, \cdots, i_{T}^{<em>}\right)<br>$$<br>首先定义两个变量δ和ψ，定义在时刻t状态为i的所有单个路径<br>$$<br>\left(i_{1}, i_{2}, \cdots, i_{t}\right)<br>$$<br>中概率最大值为<br>$$<br>\delta_{t}(i)=\max <em>{i</em>{1}, i_{2}, \cdots, t-1} P\left(i_{t}=i, i_{t-1}, \cdots, i_{1}, o_{t}, \cdots, o_{1} | \lambda\right), \quad i=1,2, \cdots, N<br>$$<br>由定义可得δ的递推公式：<br>$$<br>\delta_{t+1}(i)=\max_{i_{1}, i_{2}, \cdots, i_{t}} P\left(i_{t+1}=i, i_{t}, \cdots, i_{1}, o_{t+1}, \cdots, o_{1} | \lambda\right) \\<br>=\max_{1 \leqslant j \leqslant N}\left[\delta_{t}(j) a_{j i}\right] b_{i}\left(o_{t+1}\right), \quad i=1,2, \cdots, N ; t=1,2, \cdots, T-1<br>$$<br>定义在时刻t状态为i的所有单个路径<br>$$<br>\left(i_{1}, i_{2}, \cdots, i_{t-1}, i\right)<br>$$<br>中概率最大的路径的第t−1个结点为:<br>$$<br>\psi_{t}(i)=\arg \max_{1 \leqslant j \leqslant N}\left[\delta_{t-1}(j) a_{j i}\right], \quad i=1,2, \cdots, N<br>$$<br>*</em>维特比算法流程如下:**</p>
+<ul>
+<li>输入模型λ和观测O；</li>
+<li>初始化<br>$$<br>\delta_{1}(i)=\pi_{i} b_{i}\left(o_{1}\right), \qquad i=1,2, \cdots, N \\<br>\psi_{1}(i)=0, \qquad i=1,2, \cdots, N<br>$$</li>
+<li>递推，对t=2,3,···,T<br>$$<br>\delta_{t}(i)=\max_{1 \leq j \leq N}\left[\delta_{t-1}(j) a_{j i}\right] b_{i}\left(o_{t}\right), \quad i=1,2, \cdots, N \\<br>\psi_{t}(i)=\arg \max_{1 \leqslant j \leqslant N}\left[\delta_{t-1}(j) a_{j i}\right], \quad i=1,2, \cdots, N<br>$$</li>
+<li>终止<br>$$<br>P^{\ast}=\max_{1 \leq i \leqslant N} \delta_{T}(i) \\<br>i_{T}^{\ast}=\arg \max_{1 \leq i \leqslant N}\left[\delta_{T}(i)\right]<br>$$</li>
+<li>最终路径回溯，对t=T-l，T-2，…，1<br>$$<br>i_{t}^{\ast}=\psi_{t+1}\left(i_{t+1}^{\ast}\right)<br>$$<br>得到最优路径<br>$$<br>I^{\ast}=\left(i_{1}^{\ast}, i_{2}^{\ast}, \cdots, i_{T}^{\ast}\right)<br>$$</li>
+</ul>
+<p><strong>用比较通俗的语言来解释以下维特比算法的流程:</strong></p>
+<ul>
+<li><p>首先我们根据上面的监督学习方法从原始训练集数据中计算得到隐马尔可夫模型的三个参数：转移矩阵A，发射矩阵B，初始概率π。然后我们输入一个观测序列（观测1，观测2…观测s）。</p>
+</li>
+<li><p>对观测1:<br>设状态用字母a表示，a从1取到N。根据下面的计算公式，我们分别计算N个P（观测1，状态a）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(观测1，状态a)=P(观测1-&gt;状态a)*P(状态a初始概率)=发射矩阵中状态a观测为观测1的概率*初始概率矩阵中初始状态为a的概率</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对观测2:<br>设状态用字母b表示，b从1取到N。根据下面的计算公式，我们分别计算N个P（观测2，状态b）。注意max中有N项，最终取最大值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(观测2，状态b)=max&#123; P(观测1，状态a)*P(状态a-&gt;状态b)，a从1取到N，所以中括号里共N项&#125;*P(观测2-&gt;状态b)=max&#123;上一步计算出的N个P(观测1，状态a)*每一个状态a对应的状态a转移到状态b的概率&#125;* 发射矩阵中状态b观测为观测2的概率</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对观测3…观测s:<br>设观测序号为s，状态用字母t表示，t从1取到N。m表示观测s的前一个观测可能的状态取值，从1取到N。根据下面的计算公式，对每个观测，我们分别计算N个P（观测s，状态t）。注意max中有N项，最终取最大值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(观测s，状态t)=max&#123; P(观测s-1，状态m)*P(状态m-&gt;状态t)，m从1取到N，所以中括号里共N项&#125;*P(观测s-&gt;状态t)=max&#123;上一步的N个P(观测s-1，状态m)*每一个状态m对应的状态m转移到状态t的概率&#125;*发射矩阵中状态t观测为观测s的概率</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>假设s已经是最后一个观测值，从所有概率值中选出最大的那个P（观测s，状态t），则状态t就是我们的观测s的最优状态。由于前面的步骤我们使用了回溯法，在每一步时记录了取得的max值时的P（观测s-1，状态m）的状态m，这样我们就可以通过回溯一步一步从最后一个观测值开始得到每一个观测值的最优状态。最后得到一个和观测序列对应的完整的状态序列。这就是维特比算法。</p>
+</li>
+</ul>
+<p><strong>维特比算法计算举例:</strong><br>假设已知:<br>状态集合:健康，发烧；<br>观测集合:正常、冷、头晕；<br>初始状态概率矩阵:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">健康	发烧</span><br><span class="line">0.6	0.4</span><br></pre></td></tr></table></figure>
+
+<p>转移矩阵:注意转移矩阵的行是上一个状态，列是下一个状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">状态	健康	发烧</span><br><span class="line">健康	0.7	0.3</span><br><span class="line">发烧	0.4	0.6</span><br></pre></td></tr></table></figure>
+
+<p>发射矩阵:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">	正常	冷	头晕</span><br><span class="line">健康	0.5	0.4	0.1</span><br><span class="line">发烧	0.1	0.3	0.6</span><br></pre></td></tr></table></figure>
+
+<p>现在知道某个人三天的观测序列为:正常，冷，头晕，求这个人这三天最有可能的状态序列？<br>对第一个状态：正常</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">P(第一天正常，第一天健康)=P(正常-&gt;健康)*P(健康的初始概率)=0.5*0.6=0.3</span><br><span class="line">P(第一天正常，第一天发烧)=P(正常-&gt;发烧)*P(发烧的初始概率)=0.1*0.4=0.04</span><br><span class="line"></span><br><span class="line">记录每个概率P取的状态，P(第一天正常，第一天健康)取的是健康；P(第一天正常，第一天发烧)取的是发烧。</span><br></pre></td></tr></table></figure>
+
+<p>对第二个状态:冷</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">P(第二天冷，第二天健康)=max&#123; P(第一天正常，第一天健康)*P(健康-&gt;健康)，P(第一天正常，第一天发烧)*P(发烧-&gt;健康)&#125;* P(观测冷为健康)=max&#123;0.3*0.7,0.04*0.4&#125;*0.4=0.084</span><br><span class="line">P(第二天冷,第二天发烧)= max&#123; P(第一天正常，第一天健康)*P(健康-&gt;发烧)，P(第一天正常，第一天发烧)*P(发烧-&gt;发烧)&#125;* P(观测冷为发烧)=max&#123;0.3*0.3,0.04*0.6&#125;*0.3=0.027</span><br><span class="line"></span><br><span class="line">记录每个P中max取的上一次的概率，P(第二天冷，第二天健康)取的是P(第一天正常，第一天健康)；P(第二天冷,第二天发烧)取的是P(第一天正常，第一天健康)。</span><br></pre></td></tr></table></figure>
+
+<p>对第三个状态:头晕</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">P(第三天头晕，第三天健康)= max&#123; P(第二天冷，第二天健康)*P(健康-&gt;健康)，P(第二天冷,第二天发烧)*P(发烧-&gt;健康)&#125;* P(观测头晕为健康)=max&#123;0.084*0.7,0.027*0.4&#125;*0.1=0.00588</span><br><span class="line">P(第三天头晕，第三天发烧)= max&#123; P(第二天冷，第二天健康)*P(健康-&gt;发烧)，P(第二天冷,第二天发烧)*P(发烧-&gt;发烧)&#125;* P(观测头晕为发烧)=max&#123;0.084*0.3,0.027*0.6&#125;*0.6=0.01512</span><br><span class="line"></span><br><span class="line">记录每个P中max取的上一次的概率，P(第三天头晕，第三天健康)取的是P(第二天冷，第二天健康)；P(第三天头晕，第三天发烧)取的是P(第二天冷，第二天健康)。</span><br></pre></td></tr></table></figure>
+
+<p>回溯:<br>最后一个状态最大概率是P（第三天头晕，第三天发烧）= 0.01512，记录对应状态是发烧。max中取的是P（第二天冷，第二天健康）。即倒数第二个观测取的状态是健康。然后继续回溯，P（第二天冷，第二天健康）max中取的是P（第一天正常，第一天健康），所以第一个观测取的状态也是健康。<br>所以最终的最优状态序列为:健康、健康、发烧。</p>
+
+            </div>
+            <hr/>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff;
+        background-color: #22AB38;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff;
+        background-color: #019FE8;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a class="reward-link btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs">
+                        <li class="tab wechat-tab waves-effect waves-light"><a class="active" href="#wechat">微信</a></li>
+                        <li class="tab alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                    </ul>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#reward .reward-link').on('click', function () {
+            $('#rewardModal').openModal();
+        });
+
+        $('#rewardModal .close').on('click', function () {
+            $('#rewardModal').closeModal();
+        });
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            <div class="reprint">
+                <p>
+                    <span class="reprint-tip">
+                        <i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;Reprint please specify:
+                    </span>
+                    <a href="https://wyg1996.cn" class="b-link-green">鱼缸屋</a>
+                    <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
+                    <a href="/2019/06/21/隐马尔可夫模型（HMM）原理/" class="b-link-green">隐马尔可夫模型（HMM）原理</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-06-21T12-41-56',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Fri Jun 21 2019 12:41:56 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
+    
+
+    
+        <div class="disqus-card card" data-aos="fade-up">
+    <div id="disqus_thread" class="card-content">
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+    </div>
+</div>
+
+<script type="text/javascript">
+    disqus_config = function () {
+        this.page.url = 'https://wyg1996.cn/2019/06/21/隐马尔可夫模型（HMM）原理/';
+        this.page.identifier = '/2019/06/21/隐马尔可夫模型（HMM）原理/';
+        this.page.title = '隐马尔可夫模型（HMM）原理';
+    };
+    let disqus_shortname = '';
+
+    (function () { // DON'T EDIT BELOW THIS LINE
+        let d = document, s = d.createElement('script');
+        // 如：s.src = 'https://blinkfox.disqus.com/embed.js';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+    
+
+    
+    <div class="livere-card card" data-aos="fade-up">
+    <!-- 来必力City版安装代码 -->
+    <div id="lv-container" class="card-content" data-id="city" data-uid="">
+        <script type="text/javascript">
+            (function (d, s) {
+                let j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') {
+                    return;
+                }
+
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript。</noscript>
+    </div>
+    <!-- City版安装代码已完成 -->
+</div>
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2019/06/21/Kaggle Lending Club Loan Data数据可视化分析与不良贷款预测/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Kaggle Lending Club Loan Data数据可视化分析与不良贷款预测">
+                        
+                        <span class="card-title">Kaggle Lending Club Loan Data数据可视化分析与不良贷款预测</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">数据集介绍该数据集地址: https://www.kaggle.com/wendykan/lending-club-loan-data 。该数据集是一个单一的CSV文件（loan.csv），解压后总大小1.22G，共有2260668笔Len</div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-21
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/机器学习算法实践/" class="post-category" target="_blank">
+                                    机器学习算法实践
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/机器学习算法实践/" target="_blank">
+                        <span class="chip bg-color">机器学习算法实践</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/06/03/八度卷积Octave-Convolution原理/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="八度卷积Octave Convolution原理">
+                        
+                        <span class="card-title">八度卷积Octave Convolution原理</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">Octave Convolution介绍论文:Drop an Octave: Reducing Spatial Redundancy in Convolutional Neural Networks with Octave Convolut</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-03
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/深度学习原理推导/" class="post-category" target="_blank">
+                                    深度学习原理推导
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/深度学习原理推导/" target="_blank">
+                        <span class="chip bg-color">深度学习原理推导</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + 'From: 鱼缸屋<br />'
+            + 'Author: ygwu<br />'
+            + 'Link: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+    </div>
+    <div class="col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+    });
+</script>
+    
+
+</main>
+
+
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy;<a href="mailto:ygwu@mail.ustc.edu.cn" target="_blank">鱼缸屋</a>
+            
+
+            
+                &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+                <span class="white-color">393.6k</span>
+            
+
+            
+			
+                <br>
+                
+                <span id="busuanzi_container_site_pv">
+                    <i class="fa fa-heart-o"></i>
+                    本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+                </span>
+                
+                
+                <span id="busuanzi_container_site_uv">
+                    <i class="fa fa-users"></i>
+                    次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+                </span>
+                
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/wygny" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ygwu@mail.ustc.edu.cn" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=321699849" class="tooltipped" data-tooltip="QQ联系我: 321699849" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://www.baidu.com" class="tooltipped" target="_blank" data-tooltip="访问百度" data-position="top" data-delay="50">
+        <i class="fa fa-paw"></i>
+</a>
+
+
+
+    <a href="https://www.google.com" class="tooltipped" target="_blank" data-tooltip="访问谷歌" data-position="top" data-delay="50">
+        <i class="fa fa-google"></i>
+</a>
+
+
+
+    <a href="https://www.bilibili.com" class="tooltipped" target="_blank" data-tooltip="访问哔哩哔哩" data-position="top" data-delay="50">
+        <i class="fa fa-bullseye"></i>
+</a>
+
+
+
+    <a href="https://blog.csdn.net/zgcr654321" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN博客" data-position="top" data-delay="50">
+        <i class="fa fa-copyright"></i>
+</a>
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input" autofocus="">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="/libs/materialize/js/materialize.min.js"></script>
+<script src="/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="/libs/aos/aos.js"></script>
+<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    <script src="/libs/others/clicklove.js"></script>
+
+
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,1038 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="机器学习实战:交易数据异常检测, 鱼缸屋">
+    <meta name="description" content="数据集介绍项目来源:python数据分析与机器学习实战-唐宇迪 https://study.163.com/course/introduction.htm?courseId=1003590004&amp;amp;share=1&amp;amp;shareI">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>机器学习实战:交易数据异常检测 | 鱼缸屋</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+</head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="container">
+            <div class="nav-wrapper">
+                <div class="brand-logo">
+                    <a href="/" class="waves-effect waves-light">
+                        
+                        <img src="/medias/logo.png" class="logo-img hide-on-small-only">
+                        
+                        <span class="logo-span">鱼缸屋</span>
+                    </a>
+                </div>
+                
+
+<a href="#" data-activates="mobile-nav" class="button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a id="toggleSearch" class="waves-effect waves-light">
+            <i id="searchIcon" class="mdi-action-search" title="Search"></i>
+        </a>
+    </li>
+
+</ul>
+
+<div class="side-nav" id="mobile-nav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">鱼缸屋</div>
+        <div class="logo-desc">
+            
+            海纳百川，有容乃大，壁立千仞，无欲则刚
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/WYGNG" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>来github一起玩吧！
+            </a>
+        </li>
+        
+    </ul>
+
+    <div class="social-link">
+    <a href="https://github.com/wygny" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ygwu@mail.ustc.edu.cn" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=321699849" class="tooltipped" data-tooltip="QQ联系我: 321699849" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://www.baidu.com" class="tooltipped" target="_blank" data-tooltip="访问百度" data-position="top" data-delay="50">
+        <i class="fa fa-paw"></i>
+</a>
+
+
+
+    <a href="https://www.google.com" class="tooltipped" target="_blank" data-tooltip="访问谷歌" data-position="top" data-delay="50">
+        <i class="fa fa-google"></i>
+</a>
+
+
+
+    <a href="https://www.bilibili.com" class="tooltipped" target="_blank" data-tooltip="访问哔哩哔哩" data-position="top" data-delay="50">
+        <i class="fa fa-bullseye"></i>
+</a>
+
+
+
+    <a href="https://blog.csdn.net/zgcr654321" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN博客" data-position="top" data-delay="50">
+        <i class="fa fa-copyright"></i>
+</a>
+
+
+
+
+
+
+</div>
+</div>
+
+            </div>
+        </div>
+
+        
+        <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/WYGNG" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="来github一起玩吧！" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+</header>
+
+
+
+
+
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        机器学习实战:交易数据异常检测
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+</style>
+<div class="row">
+    <div class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/机器学习算法实践/" target="_blank">
+                                <span class="chip bg-color">机器学习算法实践</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/机器学习算法实践/" class="post-category" target="_blank">
+                                机器学习算法实践
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2019-03-25
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>Word Count:&nbsp;&nbsp;
+                        3k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>Read Times:&nbsp;&nbsp;
+                        12 Min
+                    </div>
+                    
+                
+				
+				
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="fa fa-eye fa-fw"></i>Read Count:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="数据集介绍"><a href="#数据集介绍" class="headerlink" title="数据集介绍"></a>数据集介绍</h1><p>项目来源:python数据分析与机器学习实战-唐宇迪 <a href="https://study.163.com/course/introduction.htm?courseId=1003590004&amp;share=1&amp;shareId=1030301518#/courseDetail?tab=1" target="_blank" rel="noopener">https://study.163.com/course/introduction.htm?courseId=1003590004&amp;share=1&amp;shareId=1030301518#/courseDetail?tab=1</a> 。<br>数据集下载地址:<br>链接：<a href="https://pan.baidu.com/s/1Rmcutb1gYHCKaBoPCtYZ-A" target="_blank" rel="noopener">https://pan.baidu.com/s/1Rmcutb1gYHCKaBoPCtYZ-A</a> 。<br>提取码：lbef </p>
+<p>数据集是一批经过处理后的信用卡用户交易数据，我们需要通过这些数据学习一个模型，可以用来预测新的一条交易数据是否涉嫌信用卡欺诈。</p>
+<h1 id="项目实战过程"><a href="#项目实战过程" class="headerlink" title="项目实战过程"></a>项目实战过程</h1><p>Time表示交易时间，Amount表示交易金额总量，Class为数据类别，表示此条交易数据是否存在信用卡欺诈，0为正常，1为异常。<br>Amount这个特征尺度明显和其他特征不在同一数量级，将其归一化，并删除无用的Time特征项。<br>接下来我们发现正常样本有284315个，而异常样本只有492个，存在严重的类不平衡问题。<br>我们尝试用下采样来重新组建一个数据集，学习一个逻辑回归模型。逻辑回归模型采用l1正则化项。使用k折交叉验证来找到最合适的l1正则化项前的参数C。<br>然后我们用刚学习的模型分别预测我们的下采样数据集中的测试集和初始数据集中的测试集，我们发现这样学习到的模型对初始数据集中的测试集的召回率和准确率都不错，但是精确率太低。这是因为我们只使用了284315个正常样本中的492个样本来学习模型，导致模型泛化能力太差。<br>我们改用SMOTE算法来处理数据集。SMOTE算法过程如下:</p>
+<ul>
+<li>设训练集的一个少数类的样本数为T，SMOTE算法将为这个少数类合成NT个新样本；</li>
+<li>N必须是正整数,如果给定的N&lt;1,那么算法将”认为”少数类的样本数T=NT,并将强制N=1；</li>
+<li>考虑该少数类的一个样本i,首先从少数类样本中找到i的k个近邻(用欧式距离计算),然后从这k个近邻中随机选择一个样本xi(nn)</li>
+<li>再生成一个0-1之间的随机数ζ1,合成一个新样本xi1:xi1=xi+ζ1(xi(nn)-xi)；</li>
+<li>上面步骤重复N次,合成N个新样本,对全部的T个少数类样本进行上述操作,便可为该少数类合成NT个新样本。</li>
+</ul>
+<p>使用SMOTE算法后我们再查看初始数据集中的异常/正常样本个数分别为:199019，199019。这时异常/正常样本个数均衡了，我们再用这个数据集学习一个模型，再观察模型对测试集的泛化能力。这时可以发现模型的性能变得好多了。</p>
+<h1 id="项目代码"><a href="#项目代码" class="headerlink" title="项目代码"></a>项目代码</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> KFold</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> confusion_matrix, recall_score</span><br><span class="line"><span class="comment"># pip install imblearn</span></span><br><span class="line"><span class="keyword">from</span> imblearn.over_sampling <span class="keyword">import</span> SMOTE</span><br><span class="line"></span><br><span class="line"><span class="comment"># 现在有一个信用卡用户交易数据集</span></span><br><span class="line"><span class="comment"># 我们通过这个数据集学习一个模型,用来预测新的一条交易数据是否涉嫌信用卡欺诈</span></span><br><span class="line">data = pd.read_csv(<span class="string">"creditcard.csv"</span>)</span><br><span class="line"><span class="comment"># print(data.head())</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Time表示交易时间,Amount表示交易金额总量,Class表示本条数据的类别,即表示此条交易行为是否存在信用卡欺诈,0为正常,1为异常</span></span><br><span class="line"><span class="comment"># Amount这个特征范围与其他特征差距较大,需要进行特征缩放</span></span><br><span class="line"><span class="comment"># fit_transform先对数据拟合fit,得到均值和方差等,然后对数据进行转换transform,从而实现数据的归一化</span></span><br><span class="line">data[<span class="string">"normAmount"</span>] = StandardScaler().fit_transform(data[<span class="string">"Amount"</span>].values.reshape(<span class="number">-1</span>, <span class="number">1</span>))</span><br><span class="line"><span class="comment"># 删除Time列和Amount列</span></span><br><span class="line">data = data.drop([<span class="string">"Time"</span>, <span class="string">"Amount"</span>], axis=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># print(data.head())</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将样本按类别排列,观察正常样本(类别为0)和异常样本(类别为1)的个数,value_counts计算相同特征值出现的次数</span></span><br><span class="line">count_class = pd.value_counts(data[<span class="string">"Class"</span>], sort=<span class="literal">True</span>).sort_index()</span><br><span class="line"><span class="comment"># print(count_class)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 分离出特征X和类别y</span></span><br><span class="line">X = data.iloc[:, data.columns != <span class="string">"Class"</span>]</span><br><span class="line">Y = data.iloc[:, data.columns == <span class="string">"Class"</span>]</span><br><span class="line"><span class="comment"># print(X.head())</span></span><br><span class="line"><span class="comment"># print(Y.head())</span></span><br><span class="line"><span class="comment"># print(X.shape, Y.shape)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 代表异常的样本个数</span></span><br><span class="line">abnormal_sample_count = len(data[data[<span class="string">"Class"</span>] == <span class="number">1</span>])</span><br><span class="line">print(<span class="string">"异常样本个数为:&#123;&#125;"</span>.format(abnormal_sample_count))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 异常样本所对应的索引为</span></span><br><span class="line">abnormal_sample_index = np.array(data[data[<span class="string">"Class"</span>] == <span class="number">1</span>].index)</span><br><span class="line">print(<span class="string">"异常样本在数据集中的索引(打印前5个):&#123;&#125;"</span>.format(abnormal_sample_index[:<span class="number">5</span>]))</span><br><span class="line"><span class="comment"># 正常样本所对应的索引</span></span><br><span class="line">normal_sample_index = data[data[<span class="string">"Class"</span>] == <span class="number">0</span>].index</span><br><span class="line"><span class="comment"># np.random.choice表示从normal_sample_index中随机取出abnormal_sample_count个样本</span></span><br><span class="line"><span class="comment"># replace为True表示每次都随机生成,false表示只随机生成一次</span></span><br><span class="line">random_normal_sample_index = np.array(np.random.choice(normal_sample_index, abnormal_sample_count, replace=<span class="literal">False</span>))</span><br><span class="line">print(<span class="string">"正常样本在数据集中的索引(打印前5个):&#123;&#125;"</span>.format(random_normal_sample_index[:<span class="number">5</span>]))</span><br><span class="line"><span class="comment"># 正常样本数量较多,对正常样本进行下采样</span></span><br><span class="line"><span class="comment"># 只有492个异常样本,我们就从正常样本(284315个)中,随机取出492个,然后和之前的492个异常样本重新组成一个新的训练数据集</span></span><br><span class="line"><span class="comment"># np.concatenate是拼接函数,把选出的492个异常样本的index和492个正常样本的index拼接在一起</span></span><br><span class="line">under_sample_index = np.concatenate([abnormal_sample_index, random_normal_sample_index])</span><br><span class="line">under_sample_data = data.iloc[under_sample_index, :]</span><br><span class="line"><span class="comment"># 得到下采样后的样本特征和样本类别</span></span><br><span class="line">x_under_sample = under_sample_data.iloc[:, under_sample_data.columns != <span class="string">"Class"</span>]</span><br><span class="line">y_under_sample = under_sample_data.iloc[:, under_sample_data.columns == <span class="string">"Class"</span>]</span><br><span class="line"></span><br><span class="line">print(<span class="string">"下采样后新数据集中异常样本所占比例:&#123;&#125;"</span>.format(len(under_sample_data[under_sample_data.Class == <span class="number">1</span>]) / len(under_sample_data)))</span><br><span class="line">print(<span class="string">"下采样后新数据集中正常样本所占比例:&#123;&#125;"</span>.format(len(under_sample_data[under_sample_data.Class == <span class="number">0</span>]) / len(under_sample_data)))</span><br><span class="line">print(<span class="string">"下采样后新数据集样本个数为:&#123;&#125;"</span>.format(len(under_sample_data)))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对初始数据集进行训练集和测试集划分</span></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=<span class="number">0.3</span>, random_state=<span class="number">0</span>)</span><br><span class="line"><span class="comment"># 下采样后新数据集进行训练集和测试集的划分</span></span><br><span class="line">x_train_under_sample, x_test_under_sample, y_train_under_sample, y_test_under_sample = train_test_split(x_under_sample,</span><br><span class="line">                                                                                                        y_under_sample,</span><br><span class="line">                                                                                                        test_size=<span class="number">0.3</span>,</span><br><span class="line">                                                                                                        random_state=<span class="number">0</span>)</span><br><span class="line"><span class="comment"># 下采样后新数据集的训练集和测试集样本数</span></span><br><span class="line">print(<span class="string">"训练集样本数:&#123;&#125;,测试集样本数:&#123;&#125;\n"</span>.format(len(x_train_under_sample), len(x_test_under_sample)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 对训练集进行k折交叉验证</span></span><br><span class="line"><span class="comment"># 将训练集随机分为K份,依次选择其中的k-1份来进行训练,剩下的1份用来进行测试,循环k次,最后取平均精度,作为当前训练出的模型的精度</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Kfold_for_TrainModel</span><span class="params">(x_train_data, y_train_data)</span>:</span></span><br><span class="line">   <span class="comment"># 将训练集划分n_splits个互斥子集,每次用其中一个子集当作验证集,剩下的n_splits-1个作为训练集</span></span><br><span class="line">   <span class="comment"># 进行n_splits次训练和测试，得到n_splits个结果</span></span><br><span class="line">   fold = KFold(n_splits=<span class="number">5</span>, shuffle=<span class="literal">False</span>)</span><br><span class="line">   <span class="comment"># 正则化项前的C参数</span></span><br><span class="line">   c_params = [<span class="number">0.01</span>, <span class="number">0.1</span>, <span class="number">1</span>, <span class="number">10</span>, <span class="number">100</span>]</span><br><span class="line">   <span class="comment"># 查准率=TP/(TP+FP),TP为预测为真,实际为也真;FP为预测为真,实际为假。</span></span><br><span class="line">   <span class="comment"># 召回率=TP/(TP+FN),TP为预测为真,实际为也真;FN为预测为假,实际为真。</span></span><br><span class="line">   <span class="comment"># 简单来说就是查准率是预测为真的里面有多少实际为真,召回率为实际为真的里面有多少预测为真。</span></span><br><span class="line">   <span class="comment"># 生成一个DataFrame用来保存不同的C参数下对应的召回率</span></span><br><span class="line">   result_tables = pd.DataFrame(columns=[<span class="string">"C_parameter"</span>, <span class="string">"Mean recall score"</span>])</span><br><span class="line">   result_tables[<span class="string">"C_parameter"</span>] = c_params</span><br><span class="line">   j = <span class="number">0</span></span><br><span class="line">   <span class="keyword">for</span> c_param <span class="keyword">in</span> c_params:</span><br><span class="line">      print(<span class="string">"C参数为:&#123;&#125;\n"</span>.format(c_param))</span><br><span class="line">      <span class="comment"># 记录每个c_param参数下k折交叉验证时每次的召回率</span></span><br><span class="line">      recall_accs = []</span><br><span class="line">      <span class="keyword">for</span> iteration, indices <span class="keyword">in</span> enumerate(fold.split(x_train_data)):</span><br><span class="line">         <span class="comment"># 逻辑回归,采用l1正则化,solver="liblinear"防止出现future warning</span></span><br><span class="line">         lr = LogisticRegression(C=c_param, solver=<span class="string">"liblinear"</span>, penalty=<span class="string">"l1"</span>)</span><br><span class="line">         <span class="comment"># indices[0] 保存的是这个k=5次训练中的某一次的用来训练的数据的索引</span></span><br><span class="line">         <span class="comment"># indices[1] 保存的是这个k=5次训练中的某一次的用来验证的数据的索引</span></span><br><span class="line">         <span class="comment"># .fit学习一个模型,.ravel将输出降到一维</span></span><br><span class="line">         lr.fit(x_train_data.iloc[indices[<span class="number">0</span>], :], y_train_data.iloc[indices[<span class="number">0</span>], :].values.ravel())</span><br><span class="line">         <span class="comment"># 用剩下的indices[1]验证数据进行验证测试模型</span></span><br><span class="line">         y_undersample_pred = lr.predict(x_train_data.iloc[indices[<span class="number">1</span>], :].values)</span><br><span class="line">         recall_acc = recall_score(y_train_data.iloc[indices[<span class="number">1</span>], :].values, y_undersample_pred)</span><br><span class="line">         <span class="comment"># 记录k折中每一次的召回率</span></span><br><span class="line">         recall_accs.append(recall_acc)</span><br><span class="line">         print(<span class="string">"k:&#123;&#125;,召回率:&#123;&#125;"</span>.format(iteration, recall_acc))</span><br><span class="line">      print(<span class="string">"平均召回率为:&#123;&#125;\n"</span>.format(np.mean(recall_accs)))</span><br><span class="line">      <span class="comment"># 记录每个c_param参数的平均召回率</span></span><br><span class="line">      result_tables.loc[j, <span class="string">"Mean recall score"</span>] = np.mean(recall_accs)</span><br><span class="line">      j = j + <span class="number">1</span></span><br><span class="line"></span><br><span class="line">   result_tables[<span class="string">"Mean recall score"</span>] = result_tables[<span class="string">"Mean recall score"</span>].astype(<span class="string">"float64"</span>)</span><br><span class="line">   best_c_param = result_tables.loc[result_tables[<span class="string">"Mean recall score"</span>].idxmax(), <span class="string">"C_parameter"</span>]</span><br><span class="line">   <span class="comment"># 得到最佳的C参数</span></span><br><span class="line">   print(<span class="string">"最佳模型对应的C参数为:&#123;&#125;\n"</span>.format(best_c_param))</span><br><span class="line">   <span class="keyword">return</span> best_c_param</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">the_best_c_param = Kfold_for_TrainModel(x_train_under_sample, y_train_under_sample)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制混淆矩阵</span></span><br><span class="line"><span class="comment"># 混淆矩阵(confusion matrix)是一种评价分类模型好坏的图像,其中行代表的是实际类别,列代表的是预测类别</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_confusion_matrix</span><span class="params">(confusion_matrix, classes)</span>:</span></span><br><span class="line">   plt.figure()</span><br><span class="line">   plt.imshow(confusion_matrix, interpolation=<span class="string">"nearest"</span>, cmap=plt.cm.Blues)</span><br><span class="line">   plt.title(<span class="string">"confusion matrix"</span>)</span><br><span class="line">   plt.colorbar()</span><br><span class="line">   tick_marks = np.arange(len(classes))</span><br><span class="line">   plt.xticks(tick_marks, classes, rotation=<span class="number">0</span>)</span><br><span class="line">   plt.yticks(tick_marks, classes)</span><br><span class="line">   thresh = confusion_matrix.max() / <span class="number">2.</span></span><br><span class="line">   <span class="keyword">for</span> i, j <span class="keyword">in</span> itertools.product(range(confusion_matrix.shape[<span class="number">0</span>]), range(confusion_matrix.shape[<span class="number">1</span>])):</span><br><span class="line">      plt.text(j, i, confusion_matrix[i, j], horizontalalignment=<span class="string">"center"</span>,</span><br><span class="line">               color=<span class="string">"white"</span> <span class="keyword">if</span> confusion_matrix[i, j] &gt; thresh <span class="keyword">else</span> <span class="string">"black"</span>)</span><br><span class="line"></span><br><span class="line">   plt.tight_layout()</span><br><span class="line">   plt.ylabel(<span class="string">"True label"</span>)</span><br><span class="line">   plt.xlabel(<span class="string">"Predicted label"</span>)</span><br><span class="line">   plt.show()</span><br><span class="line">   print(<span class="string">"使用最佳C参数:&#123;&#125;"</span>.format(the_best_c_param))</span><br><span class="line">   <span class="comment"># 这里标签为1认为是为真</span></span><br><span class="line">   <span class="comment"># 查准率即预测为真的样本中，实际为真所占的比例</span></span><br><span class="line">   <span class="comment"># 召回率即预测为真的样本占所有实际为真样本的比例</span></span><br><span class="line">   <span class="comment"># 混淆矩阵中第一个标签是真实标签,第二个标签是预测标签</span></span><br><span class="line">   print(<span class="string">"查准率为："</span>, confusion_matrix[<span class="number">1</span>, <span class="number">1</span>] / (confusion_matrix[<span class="number">1</span>, <span class="number">1</span>] + confusion_matrix[<span class="number">0</span>, <span class="number">1</span>]))</span><br><span class="line">   print(<span class="string">"召回率为："</span>, confusion_matrix[<span class="number">1</span>, <span class="number">1</span>] / (confusion_matrix[<span class="number">1</span>, <span class="number">1</span>] + confusion_matrix[<span class="number">1</span>, <span class="number">0</span>]))</span><br><span class="line">   print(<span class="string">"准确率为："</span>, (confusion_matrix[<span class="number">0</span>, <span class="number">0</span>] + confusion_matrix[<span class="number">1</span>, <span class="number">1</span>]) / (</span><br><span class="line">         confusion_matrix[<span class="number">0</span>, <span class="number">0</span>] + confusion_matrix[<span class="number">0</span>, <span class="number">1</span>] + confusion_matrix[<span class="number">1</span>, <span class="number">1</span>] + confusion_matrix[<span class="number">1</span>, <span class="number">0</span>]))</span><br><span class="line">   print(<span class="string">""</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用下采样后得到的数据集学习一个模型</span></span><br><span class="line">lr = LogisticRegression(C=the_best_c_param, solver=<span class="string">"liblinear"</span>, penalty=<span class="string">"l1"</span>)</span><br><span class="line">lr.fit(x_train_under_sample, y_train_under_sample.values.ravel())</span><br><span class="line"><span class="comment"># 得到模型对下采样数据集中的测试集的预测结果</span></span><br><span class="line">y_undersample_pred = lr.predict(x_test_under_sample.values)</span><br><span class="line"><span class="comment"># 创建混淆矩阵,第一个标签是真实标签,第二个标签是预测标签</span></span><br><span class="line">conf_matrix = confusion_matrix(y_test_under_sample, y_undersample_pred)</span><br><span class="line">class_names = [<span class="number">0</span>, <span class="number">1</span>]</span><br><span class="line"><span class="comment"># 绘制混淆矩阵</span></span><br><span class="line">plot_confusion_matrix(conf_matrix, classes=class_names)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 得到模型对初始数据集划分的测试集的预测结果</span></span><br><span class="line">y_pred = lr.predict(X_test.values)</span><br><span class="line"><span class="comment"># 创建混淆矩阵</span></span><br><span class="line">conf_matrix = confusion_matrix(y_test, y_pred)</span><br><span class="line">class_names = [<span class="number">0</span>, <span class="number">1</span>]</span><br><span class="line"><span class="comment"># 绘制混淆矩阵</span></span><br><span class="line"><span class="comment"># 对于整个数据集划分出的测试集,虽然召回率和准确率都不错，但是精确率太低</span></span><br><span class="line"><span class="comment"># 虽然把147个异常样本中的134个都已正确预测出,但同时把10894个正常样本预测为异常样本</span></span><br><span class="line"><span class="comment"># 出现这个问题的原因是我们只选取了284315个正常样本中的492个来训练模型,导致模型泛化能力差,这也是下采样的缺点</span></span><br><span class="line">plot_confusion_matrix(conf_matrix, classes=class_names)</span><br><span class="line"></span><br><span class="line"><span class="comment"># SMOTE即Synthetic Minority Oversampling Technique,合成少数类过采样技术</span></span><br><span class="line">oversampler = SMOTE(random_state=<span class="number">0</span>)</span><br><span class="line"><span class="comment"># 设训练集的一个少数类的样本数为T,SMOTE算法将为这个少数类合成NT个新样本</span></span><br><span class="line"><span class="comment"># N必须是正整数,如果给定的N&lt;1,那么算法将"认为"少数类的样本数T=NT,并将强制N=1。</span></span><br><span class="line"><span class="comment"># 考虑该少数类的一个样本i,首先从少数类样本中找到i的k个近邻(用欧式距离计算),然后从这k个近邻中随机选择一个样本xi(nn)</span></span><br><span class="line"><span class="comment"># 再生成一个0-1之间的随机数ζ1,合成一个新样本xi1:xi1=xi+ζ1(xi(nn)-xi)</span></span><br><span class="line"><span class="comment"># 上面步骤重复N次,合成N个新样本,对全部的T个少数类样本进行上述操作,便可为该少数类合成NT个新样本</span></span><br><span class="line">X_over_samples, y_over_samples = oversampler.fit_sample(X_train, y_train.values.ravel())</span><br><span class="line"><span class="comment"># 使用SMOTE算法后异常样本和正常样本的个数</span></span><br><span class="line">print(len(y_over_samples[y_over_samples == <span class="number">1</span>]), len(y_over_samples[y_over_samples == <span class="number">0</span>]))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用SMOTE算法处理后的数据集进行k折交叉验证,找到最佳C参数</span></span><br><span class="line">the_best_c_param = Kfold_for_TrainModel(pd.DataFrame(X_over_samples), pd.DataFrame(y_over_samples))</span><br><span class="line"><span class="comment"># 使用最佳C参数,用SMOTE算法处理后的数据集学习一个模型</span></span><br><span class="line">lr = LogisticRegression(C=the_best_c_param, solver=<span class="string">"liblinear"</span>, penalty=<span class="string">"l1"</span>)</span><br><span class="line">lr.fit(X_over_samples, y_over_samples)</span><br><span class="line"><span class="comment"># 获得初始数据集划分的测试集的预测结果</span></span><br><span class="line">y_pred = lr.predict(X_test.values)</span><br><span class="line"><span class="comment"># 构建稀疏矩阵</span></span><br><span class="line">conf_matrix = confusion_matrix(y_test, y_pred)</span><br><span class="line">class_names = [<span class="number">0</span>, <span class="number">1</span>]</span><br><span class="line"><span class="comment"># 绘制混淆矩阵</span></span><br><span class="line">plot_confusion_matrix(conf_matrix, classes=class_names)</span><br><span class="line"><span class="comment"># 显然使用SMOTE算法处理后的数据集所学习的模型泛化能力要强得多</span></span><br></pre></td></tr></table></figure>
+            </div>
+            <hr/>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff;
+        background-color: #22AB38;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff;
+        background-color: #019FE8;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a class="reward-link btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs">
+                        <li class="tab wechat-tab waves-effect waves-light"><a class="active" href="#wechat">微信</a></li>
+                        <li class="tab alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                    </ul>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#reward .reward-link').on('click', function () {
+            $('#rewardModal').openModal();
+        });
+
+        $('#rewardModal .close').on('click', function () {
+            $('#rewardModal').closeModal();
+        });
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            <div class="reprint">
+                <p>
+                    <span class="reprint-tip">
+                        <i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;Reprint please specify:
+                    </span>
+                    <a href="https://wyg1996.cn" class="b-link-green">鱼缸屋</a>
+                    <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
+                    <a href="/2019/03/25/机器学习实战：交易数据异常检测/" class="b-link-green">机器学习实战:交易数据异常检测</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-03-25T17-46-13',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Mon Mar 25 2019 17:46:13 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
+    
+
+    
+        <div class="disqus-card card" data-aos="fade-up">
+    <div id="disqus_thread" class="card-content">
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+    </div>
+</div>
+
+<script type="text/javascript">
+    disqus_config = function () {
+        this.page.url = 'https://wyg1996.cn/2019/03/25/机器学习实战：交易数据异常检测/';
+        this.page.identifier = '/2019/03/25/机器学习实战：交易数据异常检测/';
+        this.page.title = '机器学习实战:交易数据异常检测';
+    };
+    let disqus_shortname = '';
+
+    (function () { // DON'T EDIT BELOW THIS LINE
+        let d = document, s = d.createElement('script');
+        // 如：s.src = 'https://blinkfox.disqus.com/embed.js';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+    
+
+    
+    <div class="livere-card card" data-aos="fade-up">
+    <!-- 来必力City版安装代码 -->
+    <div id="lv-container" class="card-content" data-id="city" data-uid="">
+        <script type="text/javascript">
+            (function (d, s) {
+                let j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') {
+                    return;
+                }
+
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript。</noscript>
+    </div>
+    <!-- City版安装代码已完成 -->
+</div>
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2019/03/27/机器学习实战：kaggle房价回归预测实战/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="机器学习实战：kaggle房价回归预测实战">
+                        
+                        <span class="card-title">机器学习实战：kaggle房价回归预测实战</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">项目介绍项目地址:https://www.kaggle.com/c/house-prices-advanced-regression-techniques 。该项目数据集中包含79个特征，最后预测出房价特征。我们进入上面的项目地址，点击Jo</div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-27
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/机器学习算法实践/" class="post-category" target="_blank">
+                                    机器学习算法实践
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/机器学习算法实践/" target="_blank">
+                        <span class="chip bg-color">机器学习算法实践</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/03/24/斐波那契数列：从分治法到动态规划/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="斐波那契数列:从分治法到动态规划">
+                        
+                        <span class="card-title">斐波那契数列:从分治法到动态规划</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">分治法思想分治法的适用条件:
+
+问题的规模缩小到一定程度就可以容易地解决；
+问题可以分解为若干个规模较小的相同问题，即问题具有最优子结构性质；
+利用该问题分解出的子问题的解可以合并为该问题的解；
+问题所分解出的各个子问题是相互独立的，即子问</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-24
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/经典算法实现系列/" class="post-category" target="_blank">
+                                    经典算法实现系列
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/经典算法实现系列/" target="_blank">
+                        <span class="chip bg-color">经典算法实现系列</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + 'From: 鱼缸屋<br />'
+            + 'Author: ygwu<br />'
+            + 'Link: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+    </div>
+    <div class="col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+    });
+</script>
+    
+
+</main>
+
+
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy;<a href="mailto:ygwu@mail.ustc.edu.cn" target="_blank">鱼缸屋</a>
+            
+
+            
+                &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+                <span class="white-color">393.6k</span>
+            
+
+            
+			
+                <br>
+                
+                <span id="busuanzi_container_site_pv">
+                    <i class="fa fa-heart-o"></i>
+                    本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+                </span>
+                
+                
+                <span id="busuanzi_container_site_uv">
+                    <i class="fa fa-users"></i>
+                    次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+                </span>
+                
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/wygny" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ygwu@mail.ustc.edu.cn" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=321699849" class="tooltipped" data-tooltip="QQ联系我: 321699849" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://www.baidu.com" class="tooltipped" target="_blank" data-tooltip="访问百度" data-position="top" data-delay="50">
+        <i class="fa fa-paw"></i>
+</a>
+
+
+
+    <a href="https://www.google.com" class="tooltipped" target="_blank" data-tooltip="访问谷歌" data-position="top" data-delay="50">
+        <i class="fa fa-google"></i>
+</a>
+
+
+
+    <a href="https://www.bilibili.com" class="tooltipped" target="_blank" data-tooltip="访问哔哩哔哩" data-position="top" data-delay="50">
+        <i class="fa fa-bullseye"></i>
+</a>
+
+
+
+    <a href="https://blog.csdn.net/zgcr654321" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN博客" data-position="top" data-delay="50">
+        <i class="fa fa-copyright"></i>
+</a>
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input" autofocus="">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="/libs/materialize/js/materialize.min.js"></script>
+<script src="/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="/libs/aos/aos.js"></script>
+<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    <script src="/libs/others/clicklove.js"></script>
+
+
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,1041 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="支持向量机（SVM）算法原理, 鱼缸屋">
+    <meta name="description" content="支持向量机（SVM）算法介绍支持向量机（support vector machines, SVM）是一种二分类模型，它的基本模型是定义在特征空间上的间隔最大的线性分类器。它与感知机的最大区别是学习策略为间隔最大化。SVM可分类为三类：线性可">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>支持向量机（SVM）算法原理 | 鱼缸屋</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+</head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="container">
+            <div class="nav-wrapper">
+                <div class="brand-logo">
+                    <a href="/" class="waves-effect waves-light">
+                        
+                        <img src="/medias/logo.png" class="logo-img hide-on-small-only">
+                        
+                        <span class="logo-span">鱼缸屋</span>
+                    </a>
+                </div>
+                
+
+<a href="#" data-activates="mobile-nav" class="button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a id="toggleSearch" class="waves-effect waves-light">
+            <i id="searchIcon" class="mdi-action-search" title="Search"></i>
+        </a>
+    </li>
+
+</ul>
+
+<div class="side-nav" id="mobile-nav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">鱼缸屋</div>
+        <div class="logo-desc">
+            
+            海纳百川，有容乃大，壁立千仞，无欲则刚
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/WYGNG" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>来github一起玩吧！
+            </a>
+        </li>
+        
+    </ul>
+
+    <div class="social-link">
+    <a href="https://github.com/wygny" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ygwu@mail.ustc.edu.cn" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=321699849" class="tooltipped" data-tooltip="QQ联系我: 321699849" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://www.baidu.com" class="tooltipped" target="_blank" data-tooltip="访问百度" data-position="top" data-delay="50">
+        <i class="fa fa-paw"></i>
+</a>
+
+
+
+    <a href="https://www.google.com" class="tooltipped" target="_blank" data-tooltip="访问谷歌" data-position="top" data-delay="50">
+        <i class="fa fa-google"></i>
+</a>
+
+
+
+    <a href="https://www.bilibili.com" class="tooltipped" target="_blank" data-tooltip="访问哔哩哔哩" data-position="top" data-delay="50">
+        <i class="fa fa-bullseye"></i>
+</a>
+
+
+
+    <a href="https://blog.csdn.net/zgcr654321" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN博客" data-position="top" data-delay="50">
+        <i class="fa fa-copyright"></i>
+</a>
+
+
+
+
+
+
+</div>
+</div>
+
+            </div>
+        </div>
+
+        
+        <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/WYGNG" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="来github一起玩吧！" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+</header>
+
+
+
+
+
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        支持向量机（SVM）算法原理
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+</style>
+<div class="row">
+    <div class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/机器学习原理推导/" target="_blank">
+                                <span class="chip bg-color">机器学习原理推导</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/机器学习原理推导/" class="post-category" target="_blank">
+                                机器学习原理推导
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2019-03-08
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>Word Count:&nbsp;&nbsp;
+                        3.8k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>Read Times:&nbsp;&nbsp;
+                        16 Min
+                    </div>
+                    
+                
+				
+				
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="fa fa-eye fa-fw"></i>Read Count:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="支持向量机（SVM）算法介绍"><a href="#支持向量机（SVM）算法介绍" class="headerlink" title="支持向量机（SVM）算法介绍"></a>支持向量机（SVM）算法介绍</h1><p>支持向量机（support vector machines, SVM）是一种二分类模型，它的基本模型是定义在特征空间上的间隔最大的线性分类器。它与感知机的最大区别是学习策略为间隔最大化。<br>SVM可分类为三类：线性可分支持向量机（数据线性可分）、线性支持向量机（数据近似线性可分）及非线性支持向量机（数据线性不可分）。</p>
+<h1 id="线性可分支持向量机"><a href="#线性可分支持向量机" class="headerlink" title="线性可分支持向量机"></a>线性可分支持向量机</h1><h2 id="线性可分支持向量机定义"><a href="#线性可分支持向量机定义" class="headerlink" title="线性可分支持向量机定义"></a>线性可分支持向量机定义</h2><p>给定一个线性可分的训练数据集，通过间隔最大化或等价地求解相应的凸二次规划问题学习得到的分离超平面为<br>$$<br>wx+b=0<br>$$<br>以及相应的分类决策函数<br>$$<br>f(x)=sign(wx+b)<br>$$<br>就称为线性可分支持向量机。距离超平面最近的样本点就称为支持向量，显然正类和负类各有一个支持向量。</p>
+<p><strong>如何求解得到间隔最大化的超平面呢？</strong></p>
+<h2 id="函数间隔、几何间隔与硬间隔最大化"><a href="#函数间隔、几何间隔与硬间隔最大化" class="headerlink" title="函数间隔、几何间隔与硬间隔最大化"></a>函数间隔、几何间隔与硬间隔最大化</h2><h3 id="函数间隔"><a href="#函数间隔" class="headerlink" title="函数间隔"></a>函数间隔</h3><p><strong>超平面关于样本点（xi，yi）的函数间隔为：</strong><br>$$<br>\hat\gamma_{i}=y_{i}(wx_{i}+b)<br>$$<br>通过观察wx+b的符号与类标记y的符号是否一致可判断分类是否正确，为了统一，我们把y乘以wx+b，这样无论是正样本点还是负样本点结果都是正的。<br><strong>对于数据集T，定义超平面对T的函数间隔为超平面关于数据集T中所有样本点的函数间隔值之中的最小值：</strong><br>$$<br>\hat\gamma=\min_{i=1, \cdots, N} \hat\gamma_{i}<br>$$<br>当我们选择超平面时，只有函数间隔还不够，因为只要成比例地改变w和b, 例如将它们改为2w和2b, 超平面并没有改变， 但函数间隔却成为原来的2倍。<br><strong>我们可以对分离超平面的法向量w加某些约束， 比如对函数间隔除以W的L2范数，此时函数间隔就变为几何间隔。几何间隔才是点到超平面的距离。</strong></p>
+<h3 id="几何间隔"><a href="#几何间隔" class="headerlink" title="几何间隔"></a>几何间隔</h3><p><strong>定义超平面关于样本点（xi,yi）的几何间隔为：</strong><br>$$<br>\gamma_{i}=y_{i}\left(\frac{w}{|w|} \cdot x_{i}+\frac{b}{|w|}\right)<br>$$<br><strong>超平面对数据集T的几何间隔为超平面关于数据集T中所有样本点的几何间隔值之中的最小值：</strong><br>$$<br>\gamma=\min_{i=1, \cdots, N} \gamma_{i}<br>$$<br> 我们可以发现函数间隔和几何间隔有如下关系：<br>$$<br>\gamma=\frac{\hat\gamma}{||w||}<br>$$<br><strong>当我们取分母即W的L2范数为1时，函数间隔和几何间隔相等</strong>。<br>如果超平面参数w和b成比例地改变（超平面没有改变），函数间隔也按此比例改变，而几何间隔不变。</p>
+<h3 id="硬间隔最大化"><a href="#硬间隔最大化" class="headerlink" title="硬间隔最大化"></a>硬间隔最大化</h3><p>我们寻找的超平面应当满足：这个超平面不仅可以将数据集中的所有正负实例点分开，而且对最难区分的实例点（离超平面最近的点，也就是支持向量）也有足够大的间隔将它们分开。<br><strong>寻找几何间隔最大的分离超平面问题可表示为下面的约束最优化问题:</strong><br>$$<br>\max_{w, b} \gamma<br>$$<br>$$<br>s.t. \quad y_{i}(\frac{w}{||w||} x_{i}+\frac{b}{||w||}) \geqslant \gamma, \quad i=1,2, \cdots, N<br>$$<br>即我们要最大化超平面关于数据集T的几何间隔γ，约束条件则表示训练集中每个点与超平面的几何间隔都大于等于γ。<br>事实上我们就是要找到一对支持向量（一正例一负例两个样本点，超平面在这两个点的正中间，使得超平面对两个点的距离最远），同时这个超平面对于更远处的其他所有正负实例点都能正确区分。<br><strong>我们可将上式的几何间隔用函数间隔表示，这个问题可改写为:</strong><br>$$<br>\max_{w, b} \frac{\hat\gamma}{||w||}<br>$$<br>$$<br>s.t. \quad y_{i}(wx_{i}+b) \geqslant \hat\gamma, \quad i=1,2, \cdots, N<br>$$<br> 此时如果我们将w和b放大λ倍，那么右边的函数间隔也会放大λ倍。也就是说约束条件左右两边都整体放大了λ倍，对不等式约束没有影响。因此，我们不妨取:<br>$$<br>\hat\gamma=1<br>$$<br>取1是为了方便推导和优化，且这样做对目标函数的优化没有影响。<br><strong>那么上面的最优化问题变为:</strong><br>$$<br>\max_{w, b} \frac{1}{||w||}<br>$$<br>$$<br>s.t. \quad y_{i}(wx_{i}+b) \geqslant 1, \quad i=1,2, \cdots, N<br>$$<br>最大化1/||w||与最小化（1/2）||w||2是等价的，乘以1/2是为了后面求导时计算方便。<br><strong>则我们可以得到下面的线性可分支持向量机学习的最优化问题:</strong><br>$$<br>\min_{w, b} \frac{1}{2}||w||^{2}<br>$$<br>$$<br>s.t. \quad y_{i}(wx_{i}+b)-1 \geqslant 0, \quad i=1,2, \cdots, N<br>$$</p>
+<h2 id="线性可分支持向量机的原始问题转化为对偶问题"><a href="#线性可分支持向量机的原始问题转化为对偶问题" class="headerlink" title="线性可分支持向量机的原始问题转化为对偶问题"></a>线性可分支持向量机的原始问题转化为对偶问题</h2><h3 id="原始问题"><a href="#原始问题" class="headerlink" title="原始问题"></a>原始问题</h3><p><strong>上面的最优化问题我们称之为原始问题。</strong><br>我们可以列出一个拉格朗日函数来求解原始问题。我们定义拉格朗日函数为:<br>$$<br>L(w, b, \alpha)=\frac{1}{2}|w|^{2}-\sum_{i=1}^{N} \alpha_{i} y_{i}(w x_{i}+b)+\sum_{i=1}^{N} \alpha_{i}<br>$$<br>$$<br>\alpha_{i} \geqslant 0, i=1,2, \cdots, N<br>$$<br><strong>原始问题是一个极小极大问题。</strong><br>$$<br>\min_{w, b} \max_{\alpha_{i} \geq 0} L(w, b, \alpha)<br>$$<br>直接求原始问题并不好解，我们可以应用拉格朗日对偶性，通过求解对偶问题来得到原始问题的最优解。</p>
+<h3 id="对偶问题及求解过程"><a href="#对偶问题及求解过程" class="headerlink" title="对偶问题及求解过程"></a>对偶问题及求解过程</h3><p><strong>根据拉格朗日对偶性，对偶问题是极大极小问题，即求:</strong><br>$$<br>\max_{\alpha_{i} \geq 0} \min_{w, b} L(w, b, \alpha)<br>$$<br><strong>对偶问题的求解过程:</strong><br>先对L（w,b,α）求对w、b的极小。我们需要求L对w、b的偏导数并令其为0。<br>$$<br>\nabla_{w} L(w, b, \alpha)=w-\sum_{i=1}^{N} \alpha_{i} y_{i} x_{i}=0<br>$$<br>$$<br>\nabla_{b} L(w, b, \alpha)=\sum_{i=1}^{N} \alpha_{i} y_{i}=0<br>$$<br>得到两个等式:<br>$$<br>w=\sum_{i=1}^{N} \alpha_{i} y_{i} x_{i}<br>$$<br>$$<br>\sum_{i=1}^{N} \alpha_{i} y_{i}=0<br>$$<br>将上面两式代入拉格朗日函数，得:<br>$$<br>\min_{w, b}L(w, b, \alpha)=\frac{1}{2} \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_{i} \alpha_{j} y_{i} y_{j}\left(x_{i} \cdot x_{j}\right)-\sum_{i=1}^{N} \alpha_{i} y_{i}\left(\left(\sum_{j=1}^{N} \alpha_{j} y_{j} x_{j}\right) \cdot x_{i}+b\right)+\sum_{i=1}^{N} \alpha_{i}<br>$$<br>$$<br>=-\frac{1}{2} \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_{i} \alpha_{j} y_{i} y_{j}\left(x_{i} \cdot x_{j}\right)+\sum_{i=1}^{N} \alpha_{i}<br>$$<br>再求min L（w,b,α）对α的极大，即:<br>$$<br>\max_{\alpha}-\frac{1}{2} \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_{i} \alpha_{j} y_{i} y_{j}\left(x_{i} \cdot x_{j}\right)+\sum_{i=1}^{N} \alpha_{i}<br>$$<br>$$<br>\quad \sum_{i=1}^{N} \alpha_{i} y_{i}=0<br>$$<br>$$<br>\alpha_{i} \geqslant 0, \quad i=1,2, \cdots, N<br>$$<br><strong>我们将上面第一个式子乘以-1，即可得到等价的对偶最优化问题:</strong><br>$$<br>\min_{\alpha} \frac{1}{2} \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_{i} \alpha_{j} y_{i} y_{j}\left(x_{i} \cdot x_{j}\right)-\sum_{i=1}^{N} \alpha_{i}<br>$$<br>$$<br>\quad \sum_{i=1}^{N} \alpha_{i} y_{i}=0<br>$$<br>$$<br>\alpha_{i} \geqslant 0, \quad i=1,2, \cdots, N<br>$$<br><strong>我们可以求出上面问题对α的解向量（α即为所有拉格朗日乘子）为:</strong><br>$$<br>(\alpha_{1},\alpha_{2}, \cdots,\alpha_{N})^{T}<br>$$<br><strong>则按上面求L对w、b的偏导数并令其为0得到的等式，我们可得:</strong><br>$$<br>w=\sum_{i=1}^{N} \alpha_{i}y_{i}x_{i}<br>$$<br>$$<br>b=y_{j}-\sum_{i=1}^{N} \alpha_{i}y_{i}(x_{i} \cdot x_{j})<br>$$<br><strong>那么超平面就为</strong><br>$$<br>\sum_{i=1}^{N} \alpha_{i}y_{i}(x \cdot x_{i})+b=0<br>$$<br><strong>决策函数为</strong><br>$$<br>f(x)=sign(\sum_{i=1}^{N} \alpha_{i}y_{i}x \cdot x_{i}+b)<br>$$<br>我们注意到对原始的最优化问题:<br>$$<br>\min_{w, b} \frac{1}{2}||w||^{2}<br>$$<br>$$<br>s.t. \quad y_{i}(wx_{i}+b)-1 \geqslant 0, \quad i=1,2, \cdots, N<br>$$<br><strong>有不等式约束，因此上述过程必须满足KKT条件:</strong><br>$$<br>\alpha_{i} \geqslant 0<br>$$<br>$$<br>y_{i} f\left(x_{i}\right)-1 \geqslant 0<br>$$<br>$$<br>\alpha_{i}\left(y_{i} f\left(x_{i}\right)-1\right)=0<br>$$<br>计算实例在《统计学习方法》P107-P108。</p>
+<h1 id="线性支持向量机"><a href="#线性支持向量机" class="headerlink" title="线性支持向量机"></a>线性支持向量机</h1><p>我们经常遇到这样的情况：数据集T中大部分数据线性可分，但有少部分数据线性不可分，这时使用上面的线性可分支持向量机并不可行。这时我们就要使用学习策略为软间隔最大化的线性支持向量机。</p>
+<h2 id="软间隔最大化"><a href="#软间隔最大化" class="headerlink" title="软间隔最大化"></a>软间隔最大化</h2><p>所谓软间隔最大化，就是在硬间隔最大化的基础上，对每个样本点（xi,yi）引进一个松弛变量ξi，于是我们的约束不等式变为:<br>$$<br>y_{i}(wx_{i}+b) \geqslant 1-\xi_{i}<br>$$<br>同时，我们的目标函数中对每个松弛变量ξi需要支付一个代价ξi。<br><strong>即目标函数变为:</strong><br>$$<br>\frac{1}{2}||w||^{2}+C \sum_{j=1}^{N} \xi_{i}<br>$$<br>这里C&gt;0称为惩罚参数。C较大时对误分类的惩罚增大，C较小时对误分类的惩罚减小。<br>上面的目标函数包含两层含义:一是使间隔尽量大，二是使误分类点的个数尽量小。<br>松弛变量ξi表示xi在超平面下不符合真实分类，但是与超平面距离&lt;ξi，因此我们将其归到另一类（也就是真实分类）。松弛变量用来解决异常点，它可以”容忍”异常点在错误的区域，使得支持向量机计算出的超平面不至于产生过拟合的问题，但同时，我们又不希望松弛变量太大导致超平面分类性能太差。</p>
+<h2 id="线性支持向量机的原始问题转化为对偶问题"><a href="#线性支持向量机的原始问题转化为对偶问题" class="headerlink" title="线性支持向量机的原始问题转化为对偶问题"></a>线性支持向量机的原始问题转化为对偶问题</h2><h3 id="原始问题-1"><a href="#原始问题-1" class="headerlink" title="原始问题"></a>原始问题</h3><p>$$<br>\min_{w, b, \xi} \frac{1}{2}|w|^{2}+C \sum_{i=1}^{N} \xi_{i}<br>$$<br>$$<br>\quad y_{i}\left(w \cdot x_{i}+b\right) \geqslant 1-\xi_{i}, \quad i=1,2, \cdots, N<br>$$<br>$$<br>\xi_{i} \geqslant 0, \quad i=1,2, \cdots, N<br>$$</p>
+<h3 id="对偶问题及解题过程"><a href="#对偶问题及解题过程" class="headerlink" title="对偶问题及解题过程"></a>对偶问题及解题过程</h3><p><strong>原始问题的对偶问题为:</strong><br>$$<br>\min_{\alpha} \frac{1}{2} \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_{i} \alpha_{j} y_{i} y_{j}\left(x_{i} \cdot x_{j}\right)-\sum_{i=1}^{N} \alpha_{i}<br>$$<br>$$<br>\quad \sum_{i=1}^{N} \alpha_{i} y_{i}=0<br>$$<br>$$<br>0 \leqslant \alpha_{i} \leqslant C, \quad i=1,2, \cdots, N<br>$$<br><strong>拉格朗日函数为:</strong><br>$$<br>L(w, b, \xi, \alpha, \mu) \equiv \frac{1}{2}|w|^{2}+C \sum_{i=1}^{N} \xi_{i}-\sum_{i=1}^{N} \alpha_{i}\left(y_{i}\left(w \cdot x_{i}+b\right)-1+\xi_{i}\right)-\sum_{i=1}^{N} \mu_{i} \xi_{i}<br>$$<br>$$<br>\alpha_{i} \geqslant 0, \mu_{i} \geqslant 0<br>$$<br>类似的，先求L对w、b、ξ的极小，求L对w、b、ξ的偏导数并令偏导数为0，最后得:<br>$$<br>w=\sum_{i=1}^{N} \alpha_{i} y_{i} x_{i}<br>$$<br>$$<br>\sum_{i=1}^{N} \alpha_{i} y_{i}=0<br>$$<br>$$<br>C-\alpha_{i}-\mu_{i}=0<br>$$<br>上面三式代回L，得:<br>$$<br>\min_{w, b, \xi} L(w, b, \xi, \alpha, \mu)=-\frac{1}{2} \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_{i} \alpha_{j} y_{i} y_{j}\left(x_{i} \cdot x_{j}\right)+\sum_{i=1}^{N} \alpha_{i}<br>$$<br>再对上式求α的极大，得到对偶问题:<br>$$<br>\max_{\alpha}-\frac{1}{2} \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_{i} \alpha_{j} y_{i} y_{j}\left(x_{i} \cdot x_{j}\right)+\sum_{i=1}^{N} \alpha_{i}<br>$$<br>$$<br>\quad \sum_{i=1}^{N} \alpha_{i} y_{i}=0<br>$$<br>$$<br>C-\alpha_{i}-\mu_{i}=0<br>$$<br>$$<br>\begin{array}{l}{\alpha_{i} \geqslant 0} \ {\mu_{i} \geqslant 0, \quad i=1,2, \cdots, N}\end{array}<br>$$<br>设<br>$$<br>\alpha=(\alpha_{1}, \alpha_{2}, \cdots, \alpha_{N})^{T}<br>$$<br>是上面对偶问题的拉格朗日乘子的解，那么有:<br>$$<br>w=\sum_{i=1}^{N} \alpha_{i} y_{i} x_{i}<br>$$<br>$$<br>b=y_{j}-\sum_{i=1}^{N} y_{i} \alpha_{i}(x_{i} \cdot x_{j})<br>$$<br><strong>那么超平面为:</strong><br>$$<br>\sum_{i=1}^{N} \alpha_{i} y_{i}(x \cdot x_{i})+b=0<br>$$<br><strong>决策函数为:</strong><br>$$<br>f(x)=sign(\sum_{i=1}^{N} \alpha_{i} y_{i}(x \cdot x_{i})+b)<br>$$</p>
+<h1 id="非线性支持向量机、核函数与核技巧"><a href="#非线性支持向量机、核函数与核技巧" class="headerlink" title="非线性支持向量机、核函数与核技巧"></a>非线性支持向量机、核函数与核技巧</h1><p>如果我们的数据集样本是非线性可分的，我们可以使用一个映射将样本从原始空间映射到一个合适的高维空间，在这个高维空间中数据集线性可分。</p>
+<h2 id="核函数"><a href="#核函数" class="headerlink" title="核函数"></a>核函数</h2><p>设X是输入空间，H是特征空间（即高维空间）,如果存在一个映射:<br>$$<br>\phi(x) : X \rightarrow H<br>$$<br>使得<br>$$<br>K(x, z)=\phi(x) \cdot \phi(z)<br>$$<br>$$<br>x, z \in \mathcal{X}<br>$$<br>那么称K（x,z）为核函数。Φ（x）为映射函数，等式右边是内积。</p>
+<h2 id="核技巧"><a href="#核技巧" class="headerlink" title="核技巧"></a>核技巧</h2><p>现在假设我们用映射:<br>$$<br>x \rightarrow \phi(x)<br>$$<br>将超平面从原本低维空间的形式变成高维空间的形式:<br>$$<br>f(x)=\omega^{T} x+b<br>$$<br>$$<br>f(x)=\omega^{T} \phi(x)+b<br>$$<br> 这时我们原本在低维的非线性边界在高维就变成了一个超平面，在高维中数据集变得线性可分了。<br> 但是如果我们先将数据集从低维映射到高维，再去求超平面，由于高维空间中维数要多的多，计算量会变得很大。<br><strong>核技巧是一种方法，我们用它可以简化计算。它就是用低维空间的内积来求高维空间的内积，省去了先做映射变换再在高维空间中求内积的麻烦。</strong> </p>
+<p><strong>举例:</strong><br>以多项式核为例，若样本x有d个分量:<br>$$<br>x=\left(x_{1}, x_{2}, \ldots . . x_{d}\right)<br>$$<br>我们做一个二维的多项式变换，将d维扩展:<br>$$<br>\phi(x)=(1 ; x_{1}, x_{2}, \ldots x_{d} ; x_{1}^{2}, x_{1} x_{2} \ldots x_{1} x_{d} ; \ldots ; x_{d} x_{1},x_{d} x_{2} \ldots x_{d}^{2})<br>$$<br>注意上面的式子中有很多重复项可以合并。<br>我们对变换后的样本作内积:<br>$$<br>\phi(x)^{T} \phi(y)=1+\sum_{i=1}^{d} x_{i} y_{i}+\sum_{i=1}^{d} \sum_{j=1}^{d} x_{i} x_{j} y_{i} y_{j}<br>$$<br> 其中，最后一项可以拆成:<br>$$<br>\sum_{i=1}^{d} \sum_{j=1}^{d} x_{i} x_{j} y_{i} y_{j}=\sum_{i=1}^{d} x_{i} y_{i} \sum_{j=1}^{d} x_{j} y_{j}<br>$$<br>又低维空间的内积可表示为:<br>$$<br>x^{T} y=\sum_{i=1}^{d} x_{i} y_{i}<br>$$<br>所以上面变换后的多项式内积可以写成:<br>$$<br>\phi(x)^{T} \phi(y)=1+x^{T} y+\left(x^{T} y\right)^{2}<br>$$<br>我们就可以不先进行高维变换，再在高维空间做内积，而是直接利用低维空间的内积计算即可。</p>
+<p><strong>SVM中的核技巧:</strong><br>不使用核函数时支持向量机的最优化问题为:<br>$$<br>\max \frac{2}{|| \omega||}<br>$$<br>$$<br>y_{i}(\omega^{T} x_{i}+b) \geq 1<br>$$<br>使用核函数将数据集样本从低维映射到高维空间后最优化问题变为:<br>$$<br>\max \frac{2}{||\omega||}<br>$$<br>$$<br>y_{i}\left(\omega^{T} \phi\left(x_{i}\right)+b\right) \geq 1<br>$$<br>于是我们可以得到类似的对偶问题:<br>$$<br>\max_{\alpha} \sum_{i=1} \alpha_{i}-\sum_{i} \sum_{j} \alpha_{i} \alpha_{j} y_{i} y_{j} \phi\left(x_{i}\right)^{T} \phi\left(x_{j}\right)<br>$$<br>$$<br>\sum_{i} \alpha_{i} y_{i}=0, \alpha_{i} \geq 0<br>$$<br>我们在计算其中的<br>$$<br>\phi\left(x_{i}\right) \phi\left(x_{j}\right)<br>$$<br>内积时就可以使用核技巧。使用核函数表示对偶问题为:<br>$$<br>W(\alpha)=\frac{1}{2} \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_{i} \alpha_{j} y_{i} y_{j} K\left(x_{i}, x_{j}\right)-\sum_{i=1}^{N} \alpha_{i}<br>$$<br>分类决策函数表示为:<br>$$<br>f(x)=sign(\sum_{i=1}^{N_{s}} a_{i}y_{i} \phi(x_{i}) \cdot \phi(x)+b)=sign(\sum_{i=1}^{N_{s}} a_{i}y_{i}K(x_{i}, x)+b)<br>$$</p>
+
+            </div>
+            <hr/>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff;
+        background-color: #22AB38;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff;
+        background-color: #019FE8;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a class="reward-link btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs">
+                        <li class="tab wechat-tab waves-effect waves-light"><a class="active" href="#wechat">微信</a></li>
+                        <li class="tab alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                    </ul>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#reward .reward-link').on('click', function () {
+            $('#rewardModal').openModal();
+        });
+
+        $('#rewardModal .close').on('click', function () {
+            $('#rewardModal').closeModal();
+        });
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            <div class="reprint">
+                <p>
+                    <span class="reprint-tip">
+                        <i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;Reprint please specify:
+                    </span>
+                    <a href="https://wyg1996.cn" class="b-link-green">鱼缸屋</a>
+                    <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
+                    <a href="/2019/03/08/支持向量机（SVM）算法原理/" class="b-link-green">支持向量机（SVM）算法原理</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-03-08T19-31-28',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Fri Mar 08 2019 19:31:28 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
+    
+
+    
+        <div class="disqus-card card" data-aos="fade-up">
+    <div id="disqus_thread" class="card-content">
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+    </div>
+</div>
+
+<script type="text/javascript">
+    disqus_config = function () {
+        this.page.url = 'https://wyg1996.cn/2019/03/08/支持向量机（SVM）算法原理/';
+        this.page.identifier = '/2019/03/08/支持向量机（SVM）算法原理/';
+        this.page.title = '支持向量机（SVM）算法原理';
+    };
+    let disqus_shortname = '';
+
+    (function () { // DON'T EDIT BELOW THIS LINE
+        let d = document, s = d.createElement('script');
+        // 如：s.src = 'https://blinkfox.disqus.com/embed.js';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+    
+
+    
+    <div class="livere-card card" data-aos="fade-up">
+    <!-- 来必力City版安装代码 -->
+    <div id="lv-container" class="card-content" data-id="city" data-uid="">
+        <script type="text/javascript">
+            (function (d, s) {
+                let j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') {
+                    return;
+                }
+
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript。</noscript>
+    </div>
+    <!-- City版安装代码已完成 -->
+</div>
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2019/03/09/深度学习基本知识介绍、CNN RNN LSTM GRU神经网络原理/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="深度学习基本知识介绍、CNN/RNN/LSTM/GRU神经网络原理">
+                        
+                        <span class="card-title">深度学习基本知识介绍、CNN/RNN/LSTM/GRU神经网络原理</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">@[TOC]
+机器学习定义对于某类任务T和性能度量P，一个计算机程序被认为可以从经验E中学习是指，通过经验E改进后，它在任务T上由性能度量P衡量的性能有所提升。
+训练误差/泛化误差/假设空间训练误差：模型在训练集上的误差。泛化误差：模型在测</div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-09
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/深度学习原理推导/" class="post-category" target="_blank">
+                                    深度学习原理推导
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/深度学习原理推导/" target="_blank">
+                        <span class="chip bg-color">深度学习原理推导</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/03/08/决策树算法原理/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="决策树算法原理">
+                        
+                        <span class="card-title">决策树算法原理</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">决策树介绍决策树中每个根结点（非叶子结点）代表数据的特征标签，根据该特征不同的特征值将数据划分成几个子集，每个子集都是这个根结点的子树，然后对每个子树递归划分下去，而决策树的每个叶子结点则是数据的最终类别标签。对于一个样本特征向量，则从决策</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-08
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/机器学习原理推导/" class="post-category" target="_blank">
+                                    机器学习原理推导
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/机器学习原理推导/" target="_blank">
+                        <span class="chip bg-color">机器学习原理推导</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + 'From: 鱼缸屋<br />'
+            + 'Author: ygwu<br />'
+            + 'Link: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+    </div>
+    <div class="col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+    });
+</script>
+    
+
+</main>
+
+
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy;<a href="mailto:ygwu@mail.ustc.edu.cn" target="_blank">鱼缸屋</a>
+            
+
+            
+                &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+                <span class="white-color">393.6k</span>
+            
+
+            
+			
+                <br>
+                
+                <span id="busuanzi_container_site_pv">
+                    <i class="fa fa-heart-o"></i>
+                    本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+                </span>
+                
+                
+                <span id="busuanzi_container_site_uv">
+                    <i class="fa fa-users"></i>
+                    次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+                </span>
+                
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/wygny" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ygwu@mail.ustc.edu.cn" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=321699849" class="tooltipped" data-tooltip="QQ联系我: 321699849" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://www.baidu.com" class="tooltipped" target="_blank" data-tooltip="访问百度" data-position="top" data-delay="50">
+        <i class="fa fa-paw"></i>
+</a>
+
+
+
+    <a href="https://www.google.com" class="tooltipped" target="_blank" data-tooltip="访问谷歌" data-position="top" data-delay="50">
+        <i class="fa fa-google"></i>
+</a>
+
+
+
+    <a href="https://www.bilibili.com" class="tooltipped" target="_blank" data-tooltip="访问哔哩哔哩" data-position="top" data-delay="50">
+        <i class="fa fa-bullseye"></i>
+</a>
+
+
+
+    <a href="https://blog.csdn.net/zgcr654321" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN博客" data-position="top" data-delay="50">
+        <i class="fa fa-copyright"></i>
+</a>
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input" autofocus="">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="/libs/materialize/js/materialize.min.js"></script>
+<script src="/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="/libs/aos/aos.js"></script>
+<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    <script src="/libs/others/clicklove.js"></script>
+
+
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+
+
+</body>
+</html>

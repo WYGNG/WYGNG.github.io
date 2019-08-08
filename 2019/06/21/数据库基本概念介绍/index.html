@@ -1,0 +1,1108 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="数据库基本概念介绍, 鱼缸屋">
+    <meta name="description" content="database和schema的区别模式（schema）是表、视图等数据库中对象的集合，而数据库（database）是模式的集合。一个关系数据库管理系统的实例（Instance）中可以建立多个数据库（database）；一个数据库中可以建立">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>数据库基本概念介绍 | 鱼缸屋</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+</head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="container">
+            <div class="nav-wrapper">
+                <div class="brand-logo">
+                    <a href="/" class="waves-effect waves-light">
+                        
+                        <img src="/medias/logo.png" class="logo-img hide-on-small-only">
+                        
+                        <span class="logo-span">鱼缸屋</span>
+                    </a>
+                </div>
+                
+
+<a href="#" data-activates="mobile-nav" class="button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a id="toggleSearch" class="waves-effect waves-light">
+            <i id="searchIcon" class="mdi-action-search" title="Search"></i>
+        </a>
+    </li>
+
+</ul>
+
+<div class="side-nav" id="mobile-nav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">鱼缸屋</div>
+        <div class="logo-desc">
+            
+            海纳百川，有容乃大，壁立千仞，无欲则刚
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/WYGNG" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>来github一起玩吧！
+            </a>
+        </li>
+        
+    </ul>
+
+    <div class="social-link">
+    <a href="https://github.com/wygny" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ygwu@mail.ustc.edu.cn" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=321699849" class="tooltipped" data-tooltip="QQ联系我: 321699849" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://www.baidu.com" class="tooltipped" target="_blank" data-tooltip="访问百度" data-position="top" data-delay="50">
+        <i class="fa fa-paw"></i>
+</a>
+
+
+
+    <a href="https://www.google.com" class="tooltipped" target="_blank" data-tooltip="访问谷歌" data-position="top" data-delay="50">
+        <i class="fa fa-google"></i>
+</a>
+
+
+
+    <a href="https://www.bilibili.com" class="tooltipped" target="_blank" data-tooltip="访问哔哩哔哩" data-position="top" data-delay="50">
+        <i class="fa fa-bullseye"></i>
+</a>
+
+
+
+    <a href="https://blog.csdn.net/zgcr654321" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN博客" data-position="top" data-delay="50">
+        <i class="fa fa-copyright"></i>
+</a>
+
+
+
+
+
+
+</div>
+</div>
+
+            </div>
+        </div>
+
+        
+        <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/WYGNG" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="来github一起玩吧！" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+</header>
+
+
+
+
+
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        数据库基本概念介绍
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+</style>
+<div class="row">
+    <div class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/数据库/" target="_blank">
+                                <span class="chip bg-color">数据库</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/数据库/" class="post-category" target="_blank">
+                                数据库
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2019-06-21
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>Word Count:&nbsp;&nbsp;
+                        5.2k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>Read Times:&nbsp;&nbsp;
+                        19 Min
+                    </div>
+                    
+                
+				
+				
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="fa fa-eye fa-fw"></i>Read Count:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="database和schema的区别"><a href="#database和schema的区别" class="headerlink" title="database和schema的区别"></a>database和schema的区别</h1><p><strong>模式（schema）是表、视图等数据库中对象的集合，而数据库（database）是模式的集合。</strong><br>一个关系数据库管理系统的实例（Instance）中可以建立多个数据库（database）；一个数据库中可以建立多个模式（schema）；一个模式下通常包括多个表（table）、视图（view）和索引（index）等数据库对象。<br>在一个数据库中可以有多个应用的数据表，这些不同应用的表可以放在不同的schema之中。每一个schema对应一个用户，不同的应用可以以不同的用户连接数据库，这样，一个大数据库就可以根据应用把其表分开来管理。不同的schema之间它们没有直接的关系，不同的shcema之间的表可以同名，也可以互相引用（但必须有权限），在没有操作别的schema的操作根权 下，每个用户只能操作它自己的schema下的所有的表。不同的schema下的同名的表，可以存入不同的数据（即schema用户自己的数据）。<br><strong>对schema我们还要注意以下几点:</strong><br>可以在不同模式下创建相同表名；<br>DB2系统访问表对象时使用模式名.表对象的格式；<br>对于不指明模式的表对象 以当前登录用户模式作为隐含模式访问；<br><strong>注意:</strong><br>Oracle数据库中不能新创建一个SCHEMA，要想创建一个SCHEMA，只能通过创建一个用户的方法解决。<br>而在MySQL 5.0.2及更高版本中，CREATE SCHEMA就是CREATE DATABASE的同义词。<br>在SQL Server中模式（schema）这个概念是在2005的版本里才提出来的，因此SQL Server2000不支持模式这个概念。在sql server2000中，用户和模式是不分离的。换个角度来说SQL2000中的用户和模式的概念就是为用户分配固定的模式。在SQL Server2000中，假如我们在某一个数据库中创建了用户Bosco，按么此时后台也为我们默认地创建了默认Schema （Bosco）。Schema的名字和User的名字相同。<br>而在SQL Server2005中，当我们用Create User创建数据库用户时，我们可以为该用户指定一个已经存在的Schema作为默认Schema，如果我们不指定，则该用户所默认的Schema即为dbo Schema，dbo 房间（Schema）好比一个大的公共房间，在当前登录用户没有默认Schema的前提下，如果你在大仓库中进行一些操作，比如Create Tabe，如果没有指定特定的房间（Schema），那么你的物品就只好放进公共的dbo房间（Schema）了。但是如果当前登录用户有默认的Schema，那么所做的一切操作都是在默认Schema上进行（比如当前登录用户为login1，该用户的默认Schema为login1，那么所做的所有操作都是在这个login1默认Schema上进行的）。注意dbo是一个Schema，但是dbo同时也是一个user。<br>在SQL Server2005中创建一个数据库的时候，会包括必须的4个Schema：dbo，INFORMATION_SCHEMA, guest，sys。</p>
+<h1 id="数据库的三级模式与两级映像"><a href="#数据库的三级模式与两级映像" class="headerlink" title="数据库的三级模式与两级映像"></a>数据库的三级模式与两级映像</h1><p>三级模式与两级映像之间的关系如下所示:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">数据库管理系统</span><br><span class="line">     |</span><br><span class="line">    os</span><br><span class="line">     |</span><br><span class="line">     |-----------------&gt;  数据库</span><br><span class="line">     |                      |</span><br><span class="line">     |-----------------&gt;  内模式</span><br><span class="line">     |                      |</span><br><span class="line">     |-----------------&gt;内模式映像</span><br><span class="line">     |                      |</span><br><span class="line">     |-----------------&gt; 概念模式</span><br><span class="line">     |                  /       \</span><br><span class="line">     |-----------&gt; 外模式映像A 外模式映像B</span><br><span class="line">     |            /                    \</span><br><span class="line">     |-------&gt; 外模式A                外模式B</span><br><span class="line">     |        /      \              /      \</span><br><span class="line">     |----&gt;用户A1   用户A2         用户B1   用户B2</span><br></pre></td></tr></table></figure>
+
+<h2 id="三级模式-外模式、概念模式、内模式"><a href="#三级模式-外模式、概念模式、内模式" class="headerlink" title="三级模式:外模式、概念模式、内模式"></a>三级模式:外模式、概念模式、内模式</h2><p><strong>外模式:</strong><br>外模式又称子模式或用户模式，对应于用户级。它是某个或某几个用户所看到的数据库的数据视图，是与某一应用有关的数据的逻辑表示。外模式是从模式导出的一个子集，包含模式中允许特定用户使用的那部分数据。用户可以通过外模式描述语言来描述、定义对应于用户的数据记录(外模式)，也可以利用数据操纵语言(Data Manipulation Language，DML)对这些数据记录进行。外模式反映了数据库的用户观。<br><strong>概念模式（也叫模式）:</strong><br>模式又称概念模式或逻辑模式，对应于概念级。它是由数据库设计者综合所有用户的数据，按照统一的观点构造的全局逻辑结构，是对数据库中全部数据的逻辑结构和特征的总体描述，是所有用户的公共数据视图(全局视图)。它是由数据库管理系统提供的数据模式描述语言(Data Description Language，DDL)来描述、定义的，体现、反映了数据库系统的整体观。<br><strong>内模式:</strong><br>内模式又称存储模式，对应于物理级。它是数据库中全体数据的内部表示或底层描述，是数据库最低一级的逻辑描述，它描述了数据在存储介质上的存储方式和物理结构，对应着实际存储在外存储介质上的数据库。内模式由内模式描述语言来描述、定义。它是数据库的存储观。</p>
+<p><strong>注意:</strong><br>在一个数据库系统中只有唯一的数据库，因而作为定义、描述数据库存储结构的内模式和定义、描述数据库逻辑结构的概念模式，也是唯一的。但是建立在数据库之上的应用则是广泛的、多样的，所以对应的外模式不是唯一的，也不可能是唯一的。</p>
+<h2 id="两级映像-外模式映像、内模式映像"><a href="#两级映像-外模式映像、内模式映像" class="headerlink" title="两级映像:外模式映像、内模式映像"></a>两级映像:外模式映像、内模式映像</h2><p><strong>外模式映像:</strong><br>一个DB只有一个概念模式，但可以有多个外模式。 对于每一个外模式，数据库系统都有一个外模式/模式映像，它定义了这个外模式与模式的对应关系。外模式的描述中通常包含了这些映像的定义。<br>当模式改变时（增加新的关系、新的属性、改变属性的数据类型等），由数据库管理员对各个外模式/模式映像作相应的改变，可以使得外模式保持不变。而又由于应用程序应该是依据外模式编写的，从而应用程序不必修改，这就保证了数据与程序的逻辑独立性。<br>外模式/模式映像保证了当模式改变时，外模式不用变，这就是逻辑独立性。<br><strong>内模式映像:</strong><br>一个DB只有一个模式，也只有一个内模式。所有模式/内模式映像是唯一的，它定义了数据全局逻辑结构与存储结构之间的对应关系。<br>当数据库的存储结构改变时（例如选用了另一个存储结构），由数据库管理员对模式/内模式映像作出相应的改变，可以使得模式保持不变，从而应用程序也不必改变。这就保证了数据和程序的物理独立性。<br>模式/内模式映像保证了当内模式改变时，模式不用变，这就是物理独立性。</p>
+<h1 id="数据库事务的四大特性（ACID）"><a href="#数据库事务的四大特性（ACID）" class="headerlink" title="数据库事务的四大特性（ACID）"></a>数据库事务的四大特性（ACID）</h1><h2 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h2><p>事务是一个原子操作单元，其对数据的修改，要么全都执行，要么全都不执行，在操作失败后不能对数据库中的数据有任何影响。</p>
+<h2 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h2><p>在事务开始和完成时，数据必须保持一致状态，这意味着所有相关的数据规则都必须应用于事务的修改，以保持数据的完整性；事务结束时，所有的内部数据结构也必须是正确的。</p>
+<h2 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h2><p>数据库系统提供一定的隔离级别，保证事务在不受外部并发操作影响的“独立”环境执行。这意味着事务处理过程中的中间状态对外部是不可见的，反之亦然（注意：事务的隔离性是相对于两个事务而说的，两个事务独立执行互补干扰）。</p>
+<h2 id="持久性"><a href="#持久性" class="headerlink" title="持久性"></a>持久性</h2><p>事务完成后，它对数据的修改是永久的，即使出现系统故障也能保持的正确性。</p>
+<h1 id="内连接、外连接、交叉连接"><a href="#内连接、外连接、交叉连接" class="headerlink" title="内连接、外连接、交叉连接"></a>内连接、外连接、交叉连接</h1><h2 id="内连接"><a href="#内连接" class="headerlink" title="内连接"></a>内连接</h2><p>使用比较运算符根据每个表共有的列的值匹配两个表中的行。利用内连接可获取两表的公共部分的记录。有点类似数学中集合的交集。<br><strong>可细分为三种:</strong></p>
+<ul>
+<li>等值连接。在连接条件中使用等于号(=)运算符比较被连接列的列值，其查询结果中列出被连接表中的所有列，包括其中的重复列。</li>
+<li>不等值连接。在连接条件使用除等于运算符以外的其它比较运算符比较被连接的列的列值。这些运算符包括&gt;、&gt;=、&lt;=、&lt;、!&gt;、!&lt;和&lt;&gt;。</li>
+<li>自然连接。在连接条件中使用等于(=)运算符比较被连接列的列值，但它使用选择列表指出查询结果集合中所包括的列，并删除连接表中的重复列。<h2 id="外连接"><a href="#外连接" class="headerlink" title="外连接"></a>外连接</h2>外链接（outer join）与内连接是相反的，就是说，如果某张表中的数据在另一张中找不到对应的条目并不影响它依然出现在查询的结果中，这对于两张表都是满足的，两边都有出现null的可能，有点像数学中的并集。</li>
+<li><em>可细分为三种:*</em></li>
+<li>左（外）连接。左连接（left join）即为两张表进行连接时,是以处于left join语句左侧的表为基准去匹配left join语句右边的表，如果左表中的一条数据在右表中能找到与之对应的一条数据，那么就会出现在以虚表形式存在的结果表中，如果没有找到，那么会以null来代替右表中的数据去匹配左表。左连接时左边的表是全部数据，右边的只有符合条件的才有数据。</li>
+<li>右（外）连接。右连接（right join）本质上是相当于将上述的左连接的这个过程反过来，以连接语句right join右侧的表为基准去匹配左边的表，右连接是处于right join右边的表是全部数据，左边的符合条件的有数据。</li>
+<li>全（外）连接。全连接（full join）完整外部联接返回左表和右表中的所有行。当某行在另一个表中没有匹配行时，则另一个表的选择列表列包含空值。如果表之间有匹配行，则整个结果集行包含基表的数据值。   </li>
+</ul>
+<p><strong>注意:</strong><br>MySQL中没有全（外）连接。</p>
+<h2 id="交叉连接"><a href="#交叉连接" class="headerlink" title="交叉连接"></a>交叉连接</h2><p>左表中的每一行与右表中的所有行组合。交叉联接也称作笛卡尔积。</p>
+<h1 id="DDL、DML、DQL、DCL、TCL语句的概念"><a href="#DDL、DML、DQL、DCL、TCL语句的概念" class="headerlink" title="DDL、DML、DQL、DCL、TCL语句的概念"></a>DDL、DML、DQL、DCL、TCL语句的概念</h1><h2 id="DDL（Data-Definition-Language，数据定义语言）"><a href="#DDL（Data-Definition-Language，数据定义语言）" class="headerlink" title="DDL（Data Definition Language，数据定义语言）"></a>DDL（Data Definition Language，数据定义语言）</h2><p>数据定义语言DDL用来创建数据库中的各种对象—–表、视图、索引、同义词、聚簇等。<br><strong>常见DDL操作:</strong>       </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">show  databases;                           # 显示所有数据库</span><br><span class="line">use  数据库名;                              # 使用该数据库</span><br><span class="line">show  create  database  数据库名;           # 显示创建该数据库的SQL语句</span><br><span class="line">create  database  数据库名;                 # 创建数据库</span><br><span class="line">create  database  数据库名   character  set  utf8;        # 创建指定字符编码的数据库</span><br><span class="line">drop  databse  数据库名;                                  # 删除数据库</span><br><span class="line">create  table  表名(id int ,name char(10),age int );     # 创建表</span><br><span class="line">show  tables;                                           # 显示所有表</span><br><span class="line">show  create  table  表名;                              # 显示创建该表的SQL语句</span><br><span class="line">alter  table  表名  add  id  int ;                      # 表中新增列</span><br><span class="line">alter table 表名  modify  id  double;                   # 修改表中列的属性</span><br><span class="line">alter table 表名  change  id  id2  int;                 # 修改表中列的名字和属性</span><br><span class="line">alter table 表名  drop  id;                             # 删除表中的列</span><br><span class="line">rename  table  表名  to  新表名;                         # 修改表格的名字</span><br><span class="line">alter  table  表名  character  set  utf8;               # 修改表的字符编码格式</span><br></pre></td></tr></table></figure>
+
+<h2 id="DML（-Data-Manipulation-Language，数据操纵语言）"><a href="#DML（-Data-Manipulation-Language，数据操纵语言）" class="headerlink" title="DML（ Data Manipulation Language，数据操纵语言）"></a>DML（ Data Manipulation Language，数据操纵语言）</h2><p>使用户能够查询数据库以及操作已有数据库中的数据的计算机语言。主要有三种形式：插入（insert）；更新（update）；删除（delete）。<br><strong>常见DML操作:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">insert  into  表名  (字段1,字段2,字段3)   values  (值1,值2,值3)       # 新增值到表中</span><br><span class="line">update  表名  set  name = &apos;xx&apos;  where  id  =3;                     # 更新表中数据</span><br><span class="line">delete  from  表名  where  id  =  2;                               # 删除表中的数据</span><br></pre></td></tr></table></figure>
+
+<h2 id="DQL（Data-Query-Language-SELECT，数据查询语言）"><a href="#DQL（Data-Query-Language-SELECT，数据查询语言）" class="headerlink" title="DQL（Data Query Language SELECT，数据查询语言）"></a>DQL（Data Query Language SELECT，数据查询语言）</h2><p>主要用来查看表中的数据，也是平时使用最多的操作。<br>数据查询语言DQL基本结构是由SELECT子句，FROM子句，WHERE子句组成的查询块：<br>select &lt;字段名表&gt; from &lt;表或视图名&gt; where &lt;查询条件&gt;<br><strong>常见DQL操作:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">select  *  from  表名  where  id  =3;                                 # 查询表中数据</span><br><span class="line">select  *  from  表名  order  by  id  desc | asc;                     # 排序查询</span><br><span class="line">select  *  from  表名  group  by  字段;                               # 分组查询</span><br><span class="line">select  *  from  表名  where  name  like  &apos;%aa%&apos;;                     # 模糊查询</span><br><span class="line">select  *  from  表名  limit  (2,5);                                  # 分页查询</span><br><span class="line">select  *  from  表名  where  age  between  20  and  30;              # 范围查询</span><br><span class="line">select  *  from  表名  where  id  in (1,3,5);                         # 部分查询</span><br></pre></td></tr></table></figure>
+
+<h2 id="DCL（Data-Control-Language，数据控制语言）"><a href="#DCL（Data-Control-Language，数据控制语言）" class="headerlink" title="DCL（Data Control Language，数据控制语言）"></a>DCL（Data Control Language，数据控制语言）</h2><p>用来授予或回收访问数据库的某种特权，并控制数据库操纵事务发生的时间及效果。主要有：授权（grant）；取消权限（revoke）。<br><strong>常见DCL操作:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 给用户jerry授予对test_db数据库的增删改查权限，允许该用户从IP为&apos;192.168.0.10&apos;的网络登录</span><br><span class="line">GRANT INSERT,SELECT,UPDATE,DELETE ON test_db.* TO &apos;jerry&apos;@&apos;192.168.0.10&apos; IDENTIFIED BY &apos;password&apos; WITH GRANT OPTION;</span><br><span class="line">或</span><br><span class="line">CREATE USER &apos;jerry&apos;@&apos;192.168.0.10&apos; IDENTIFIED BY &apos;password&apos;;</span><br><span class="line">GRANT INSERT,SELECT,UPDATE,DELETE ON test_db.* TO &apos;jerry&apos;@&apos;192.168.0.10&apos;;</span><br><span class="line"># 收回用户对test_db库的删除权限</span><br><span class="line">REVOKE DELETE ON test_db.* FROM &apos;jerry&apos;@&apos;192.168.0.10&apos;;</span><br><span class="line"># 查询给&apos;jerry&apos;@&apos;192.168.0.10&apos;所授予的所有权限：</span><br><span class="line">SHOW GRANTS FOR &apos;jerry&apos;@&apos;192.168.0.10&apos;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="TCL（Transaction-Control-Language，事物控制语言）"><a href="#TCL（Transaction-Control-Language，事物控制语言）" class="headerlink" title="TCL（Transaction Control Language，事物控制语言）"></a>TCL（Transaction Control Language，事物控制语言）</h2><p>用来对事务进行管理。 主要有：保存已完成事务动作结果 （COMMIT）；保存事务相关数据和状态用以可能的回滚操作（SAVEPOINT）；恢复事务相关数据至上一次COMMIT操作之后（ROLLBACK）；设置事务选项（SET TRANSACTION）。<br>DML语句对表数据进行操作的时候都会加上行级锁，确认完成后，必须加上事物处理结束的命令COMMIT才能正式生效，否则改变不一定写入数据库里。如果想撤回这些操作, 可以用命令 ROLLBACK 复原。</p>
+<p><strong>注意:</strong><br>在运行INSERT，DELETE和UPDATE语句前最好估算一下可能操作的记录范围，应该把它限定在较小范围内，例如一万条记录，否则ORACLE处理这个事物用到很大的回退段。程序响应慢甚至失去响应。如果记录数上十万以上这些操作。可以把这些SQL语句分段分次完成。其间加上COMMIT确认事物处理。</p>
+<p><strong>数据的提交:</strong></p>
+<ul>
+<li>显式提交:用COMMIT命令直接完成的提交为显式提交。其格式为：<br>SQL&gt;COMMIT；</li>
+<li>隐式提交:用SQL命令间接完成的提交为隐式提交。这些命令是：<br>ALTER，AUDIT，COMMENT，CONNECT，CREATE，DISCONNECT，DROP，EXIT，GRANT，NOAUDIT，QUIT，REVOKE，RENAME。</li>
+<li>自动提交:若把AUTOCOMMIT设置为ON，则在插入、修改、删除语句执行后，系统将自动进行提交，这就是自动提交。其格式为：<br>SQL&gt;SET AUTOCOMMIT ON；</li>
+</ul>
+<h1 id="数据库的传统集合运算（并、差、交、笛卡尔积）和专门的关系运算（选择、投影、连接、除）"><a href="#数据库的传统集合运算（并、差、交、笛卡尔积）和专门的关系运算（选择、投影、连接、除）" class="headerlink" title="数据库的传统集合运算（并、差、交、笛卡尔积）和专门的关系运算（选择、投影、连接、除）"></a>数据库的传统集合运算（并、差、交、笛卡尔积）和专门的关系运算（选择、投影、连接、除）</h1><p><strong>集合运算符:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">∪ 并</span><br><span class="line">∩ 交</span><br><span class="line">-  差</span><br></pre></td></tr></table></figure>
+
+<p><strong>专门的关系运算符:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">σ 选择</span><br><span class="line">∏ 投影</span><br><span class="line">+ 连接</span><br><span class="line">÷ 除</span><br></pre></td></tr></table></figure>
+
+<p><strong>在数据库中每行就是一个元组，每列就是一个属性。</strong></p>
+<h2 id="传统集合运算（并、差、交、笛卡尔积）"><a href="#传统集合运算（并、差、交、笛卡尔积）" class="headerlink" title="传统集合运算（并、差、交、笛卡尔积）"></a>传统集合运算（并、差、交、笛卡尔积）</h2><p><strong>并:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">     R                  S                                                   </span><br><span class="line">A    B    C        A    B    C       </span><br><span class="line">a1   b1   c1       a1   b2   c2       </span><br><span class="line">a1   b2   c2       a1   b3   c2      </span><br><span class="line">a2   b2   c1       a2   b2   c1       </span><br><span class="line">    R∪S                                         </span><br><span class="line">A    B    C</span><br><span class="line">a1   b1   c1</span><br><span class="line">a1   b2   c2</span><br><span class="line">a1   b3   c2</span><br><span class="line">a2   b2   c1</span><br></pre></td></tr></table></figure>
+
+<p><strong>差:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">     R                  S                                                   </span><br><span class="line">A    B    C        A    B    C       </span><br><span class="line">a1   b1   c1       a1   b2   c2       </span><br><span class="line">a1   b2   c2       a1   b3   c2      </span><br><span class="line">a2   b2   c1       a2   b2   c1       </span><br><span class="line">    R-S                                         </span><br><span class="line">A    B    C</span><br><span class="line">a1   b1   c1</span><br></pre></td></tr></table></figure>
+
+<p><strong>交:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">     R                  S                                                   </span><br><span class="line">A    B    C        A    B    C       </span><br><span class="line">a1   b1   c1       a1   b2   c2       </span><br><span class="line">a1   b2   c2       a1   b3   c2      </span><br><span class="line">a2   b2   c1       a2   b2   c1       </span><br><span class="line">    R∩S                                         </span><br><span class="line">A    B    C</span><br><span class="line">a1   b2   c2</span><br><span class="line">a2   b2   c1</span><br></pre></td></tr></table></figure>
+
+<p><strong>笛卡尔积:</strong><br>简单来说，就是把R表的第一行与S表第一行组合写在一起，作为一行。然后把R表的第一行与S表第二行依此写在一起，作为新一行。以此类推。当S表的每一行都与R表的第一行组合过一次以后，换R表的第二行与S表第一行组合，以此类推，直到R表与S表的每一行都组合过一次，则运算完毕。如果R表有N行，S表有M行，那么笛卡尔积R×S有N×M行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">     R                  S                                                   </span><br><span class="line">A    B    C        A    B    C       </span><br><span class="line">a1   b1   c1       a1   b2   c2       </span><br><span class="line">a1   b2   c2       a1   b3   c2      </span><br><span class="line">a2   b2   c1       a2   b2   c1       </span><br><span class="line">    RxS                                         </span><br><span class="line">A    B    C    A    B    C</span><br><span class="line">a1   b1   c1   a1   b2   c2</span><br><span class="line">a1   b1   c1   a1   b3   c2</span><br><span class="line">a1   b1   c1   a2   b2   c1</span><br><span class="line">a1   b2   c2   a1   b2   c2</span><br><span class="line">a1   b2   c2   a1   b3   c2 </span><br><span class="line">a1   b2   c2   a2   b2   c1</span><br><span class="line">a2   b2   c1   a1   b2   c2</span><br><span class="line">a2   b2   c1   a1   b3   c2</span><br><span class="line">a2   b2   c1   a2   b2   c1</span><br></pre></td></tr></table></figure>
+
+<h2 id="专门的关系运算（选择、投影、连接、除）"><a href="#专门的关系运算（选择、投影、连接、除）" class="headerlink" title="专门的关系运算（选择、投影、连接、除）"></a>专门的关系运算（选择、投影、连接、除）</h2><p>数据库的专门关系运算有：选择（对关系进行水平分割）、投影（对关系进行垂直分割）、连接、自然连接（关系的结合）、除运算等。<br><strong>选择（selection）:</strong><br>选择就是”筛选行”。选择一般要对一张表选择符合条件的行（但包含所有列）。<br><strong>举例:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">     R</span><br><span class="line">A    B    C</span><br><span class="line">a    b    c</span><br><span class="line">d    a    f</span><br><span class="line">c    b    d</span><br><span class="line">  σ(B=b)(R)</span><br><span class="line">A    B    C</span><br><span class="line">a    b    c</span><br><span class="line">c    b    d</span><br></pre></td></tr></table></figure>
+
+<p><strong>投影（projection）:</strong><br>投影就是”筛选列”。一个数据库表，如仅希望得到其一部分的列的内容（但全部行），就是投影。<br><strong>举例:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">     R</span><br><span class="line">A    B    C</span><br><span class="line">a    b    c</span><br><span class="line">d    a    f</span><br><span class="line">c    b    d</span><br><span class="line">  ∏A,C(R)</span><br><span class="line">A    C</span><br><span class="line">a    c</span><br><span class="line">d    f</span><br><span class="line">c    d</span><br></pre></td></tr></table></figure>
+
+<p><strong>除（division）:</strong><br>除是笛卡尔积的逆运算。设关系R和S分别有r列和s列（r&gt;s，且s≠0），那么R÷S的结果有（r-s）个列，并且是满足下列条件的最大的表：其中每行与S中的每行组合成的新行都在R中。注意有时关系之间的除法也有”余数”，可能S×T的结果为R的一部分（最大的一部分），R中的多余部分为”余数”。<br><strong>举例:</strong><br>C、D是关系S中的两个属性，故在R集合中对除了C, D之外的属性即A、B两属性进行投影, 得到a  b; b  c; e  d;这三组，然后用这个结果与关系S进行笛卡尔积运算，发现b  c  c  d这组在关系R中没有, 其余a  b; e  d;做的运算在R中存在。因此最后结果为a  b; e  d。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">       R</span><br><span class="line">A    B    C    D</span><br><span class="line">a    b    c    d</span><br><span class="line">a    b    e    f</span><br><span class="line">b    c    e    f</span><br><span class="line">e    d    c    d</span><br><span class="line">e    d    e    f</span><br><span class="line">a    b    d    e</span><br><span class="line">  S</span><br><span class="line">C    D</span><br><span class="line">c    d</span><br><span class="line">e    f</span><br><span class="line"> R÷S</span><br><span class="line">A    B</span><br><span class="line">a    b</span><br><span class="line">e    d</span><br></pre></td></tr></table></figure>
+
+<p><strong>连接（join）:</strong><br>两表笛卡尔积的结果比较庞大，实际应用中一般仅选取其中一部分的行，选取两表列之间满足一定条件的行，这就是关系之间的连接。<br><strong>根据连接条件的种类不同，关系之间的连接分为等值连接、大于连接、小于连接、自然连接:</strong></p>
+<ul>
+<li>条件是类似于”B列=D列”的”某列=某列”的条件，就是等值连接；</li>
+<li>条件是”某列&gt;某列”的，就是大于连接；</li>
+<li>条件是”某列&lt;某列”的，就是小于连接。</li>
+<li>自然连接是不提出明确的连接条件，但”暗含”着一个条件，就是”列名相同的值也相同”。在自然连接的结果表中，往往还要合并相同列名的列。当对关系R和S进行自然连接时，要求R和S含有一个或者多个共有的属性。</li>
+</ul>
+<p><strong>举例:</strong><br>等值连接:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">     R</span><br><span class="line">A    B    C</span><br><span class="line">a1   b1   5</span><br><span class="line">a1   b2   6</span><br><span class="line">a2   b3   8</span><br><span class="line">a2   b4   12</span><br><span class="line">   S</span><br><span class="line">B    E</span><br><span class="line">b1   3</span><br><span class="line">b2   7</span><br><span class="line">b3   10</span><br><span class="line">b3   2</span><br><span class="line">b5   2</span><br><span class="line">R.B=S.B的等值连接:</span><br><span class="line">A    R.B    C    S.B    E</span><br><span class="line">a1   b1     5     b1    3</span><br><span class="line">a1   b2     6     b2    7</span><br><span class="line">a2   b3     8     b3    10</span><br><span class="line">a2   b3     8     b3    2</span><br></pre></td></tr></table></figure>
+
+<p>小于连接:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">     R</span><br><span class="line">A    B    C</span><br><span class="line">1    2    3</span><br><span class="line">4    5    6</span><br><span class="line">7    8    9</span><br><span class="line">  S</span><br><span class="line">D    E</span><br><span class="line">3    1</span><br><span class="line">6    2</span><br><span class="line">B&lt;D的小于连接</span><br><span class="line">A    B    C    D    E</span><br><span class="line">1    2    3    3    1</span><br><span class="line">1    2    3    6    2</span><br><span class="line">4    5    6    6    2</span><br></pre></td></tr></table></figure>
+
+<p>自然连接:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">     R</span><br><span class="line">A    B    C</span><br><span class="line">a    b    c</span><br><span class="line">d    b    c</span><br><span class="line">b    b    f</span><br><span class="line">c    a    d</span><br><span class="line">     S</span><br><span class="line">B    C    D</span><br><span class="line">b    c    d</span><br><span class="line">b    c    e</span><br><span class="line">a    d    b</span><br><span class="line">R与S的自然连接暗含的条件是R.B=S.B且R.C=S.C，因为R、S中有同名的2列B、C</span><br><span class="line">A    B    C    D</span><br><span class="line">a    b    c    d</span><br><span class="line">a    b    c    e</span><br><span class="line">d    b    c    d</span><br><span class="line">d    b    c    e</span><br><span class="line">c    a    d    b</span><br></pre></td></tr></table></figure>
+            </div>
+            <hr/>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff;
+        background-color: #22AB38;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff;
+        background-color: #019FE8;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a class="reward-link btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs">
+                        <li class="tab wechat-tab waves-effect waves-light"><a class="active" href="#wechat">微信</a></li>
+                        <li class="tab alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                    </ul>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#reward .reward-link').on('click', function () {
+            $('#rewardModal').openModal();
+        });
+
+        $('#rewardModal .close').on('click', function () {
+            $('#rewardModal').closeModal();
+        });
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            <div class="reprint">
+                <p>
+                    <span class="reprint-tip">
+                        <i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;Reprint please specify:
+                    </span>
+                    <a href="https://wyg1996.cn" class="b-link-green">鱼缸屋</a>
+                    <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
+                    <a href="/2019/06/21/数据库基本概念介绍/" class="b-link-green">数据库基本概念介绍</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-06-21T16-54-43',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Fri Jun 21 2019 16:54:43 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
+    
+
+    
+        <div class="disqus-card card" data-aos="fade-up">
+    <div id="disqus_thread" class="card-content">
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+    </div>
+</div>
+
+<script type="text/javascript">
+    disqus_config = function () {
+        this.page.url = 'https://wyg1996.cn/2019/06/21/数据库基本概念介绍/';
+        this.page.identifier = '/2019/06/21/数据库基本概念介绍/';
+        this.page.title = '数据库基本概念介绍';
+    };
+    let disqus_shortname = '';
+
+    (function () { // DON'T EDIT BELOW THIS LINE
+        let d = document, s = d.createElement('script');
+        // 如：s.src = 'https://blinkfox.disqus.com/embed.js';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+    
+
+    
+    <div class="livere-card card" data-aos="fade-up">
+    <!-- 来必力City版安装代码 -->
+    <div id="lv-container" class="card-content" data-id="city" data-uid="">
+        <script type="text/javascript">
+            (function (d, s) {
+                let j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') {
+                    return;
+                }
+
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript。</noscript>
+    </div>
+    <!-- City版安装代码已完成 -->
+</div>
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2019/06/21/MySQL基础知识介绍/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="MySQL基础知识介绍">
+                        
+                        <span class="card-title">MySQL基础知识介绍</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">MySQL5.7使用命令行登陆首先将MySQL的安装文件夹\bin路径添加到环境变量中，否则在cmd.exe中我们无法打开mysql。
+本地登录MySQL数据库123mysql -u root -p   //root是用户名，输入这条命令按</div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-21
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/数据库/" class="post-category" target="_blank">
+                                    数据库
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/数据库/" target="_blank">
+                        <span class="chip bg-color">数据库</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/06/21/Kaggle Lending Club Loan Data数据可视化分析与不良贷款预测/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Kaggle Lending Club Loan Data数据可视化分析与不良贷款预测">
+                        
+                        <span class="card-title">Kaggle Lending Club Loan Data数据可视化分析与不良贷款预测</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">数据集介绍该数据集地址: https://www.kaggle.com/wendykan/lending-club-loan-data 。该数据集是一个单一的CSV文件（loan.csv），解压后总大小1.22G，共有2260668笔Len</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-21
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/机器学习算法实践/" class="post-category" target="_blank">
+                                    机器学习算法实践
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/机器学习算法实践/" target="_blank">
+                        <span class="chip bg-color">机器学习算法实践</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + 'From: 鱼缸屋<br />'
+            + 'Author: ygwu<br />'
+            + 'Link: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+    </div>
+    <div class="col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+    });
+</script>
+    
+
+</main>
+
+
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy;<a href="mailto:ygwu@mail.ustc.edu.cn" target="_blank">鱼缸屋</a>
+            
+
+            
+                &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+                <span class="white-color">393.6k</span>
+            
+
+            
+			
+                <br>
+                
+                <span id="busuanzi_container_site_pv">
+                    <i class="fa fa-heart-o"></i>
+                    本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+                </span>
+                
+                
+                <span id="busuanzi_container_site_uv">
+                    <i class="fa fa-users"></i>
+                    次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+                </span>
+                
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/wygny" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ygwu@mail.ustc.edu.cn" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=321699849" class="tooltipped" data-tooltip="QQ联系我: 321699849" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://www.baidu.com" class="tooltipped" target="_blank" data-tooltip="访问百度" data-position="top" data-delay="50">
+        <i class="fa fa-paw"></i>
+</a>
+
+
+
+    <a href="https://www.google.com" class="tooltipped" target="_blank" data-tooltip="访问谷歌" data-position="top" data-delay="50">
+        <i class="fa fa-google"></i>
+</a>
+
+
+
+    <a href="https://www.bilibili.com" class="tooltipped" target="_blank" data-tooltip="访问哔哩哔哩" data-position="top" data-delay="50">
+        <i class="fa fa-bullseye"></i>
+</a>
+
+
+
+    <a href="https://blog.csdn.net/zgcr654321" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN博客" data-position="top" data-delay="50">
+        <i class="fa fa-copyright"></i>
+</a>
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input" autofocus="">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="/libs/materialize/js/materialize.min.js"></script>
+<script src="/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="/libs/aos/aos.js"></script>
+<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    <script src="/libs/others/clicklove.js"></script>
+
+
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+
+
+</body>
+</html>

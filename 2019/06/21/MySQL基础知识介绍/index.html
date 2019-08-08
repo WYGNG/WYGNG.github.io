@@ -1,0 +1,1061 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="MySQL基础知识介绍, 鱼缸屋">
+    <meta name="description" content="MySQL5.7使用命令行登陆首先将MySQL的安装文件夹\bin路径添加到环境变量中，否则在cmd.exe中我们无法打开mysql。
+本地登录MySQL数据库123mysql -u root -p   //root是用户名，输入这条命令按">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>MySQL基础知识介绍 | 鱼缸屋</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+</head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="container">
+            <div class="nav-wrapper">
+                <div class="brand-logo">
+                    <a href="/" class="waves-effect waves-light">
+                        
+                        <img src="/medias/logo.png" class="logo-img hide-on-small-only">
+                        
+                        <span class="logo-span">鱼缸屋</span>
+                    </a>
+                </div>
+                
+
+<a href="#" data-activates="mobile-nav" class="button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a id="toggleSearch" class="waves-effect waves-light">
+            <i id="searchIcon" class="mdi-action-search" title="Search"></i>
+        </a>
+    </li>
+
+</ul>
+
+<div class="side-nav" id="mobile-nav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">鱼缸屋</div>
+        <div class="logo-desc">
+            
+            海纳百川，有容乃大，壁立千仞，无欲则刚
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/WYGNG" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>来github一起玩吧！
+            </a>
+        </li>
+        
+    </ul>
+
+    <div class="social-link">
+    <a href="https://github.com/wygny" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ygwu@mail.ustc.edu.cn" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=321699849" class="tooltipped" data-tooltip="QQ联系我: 321699849" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://www.baidu.com" class="tooltipped" target="_blank" data-tooltip="访问百度" data-position="top" data-delay="50">
+        <i class="fa fa-paw"></i>
+</a>
+
+
+
+    <a href="https://www.google.com" class="tooltipped" target="_blank" data-tooltip="访问谷歌" data-position="top" data-delay="50">
+        <i class="fa fa-google"></i>
+</a>
+
+
+
+    <a href="https://www.bilibili.com" class="tooltipped" target="_blank" data-tooltip="访问哔哩哔哩" data-position="top" data-delay="50">
+        <i class="fa fa-bullseye"></i>
+</a>
+
+
+
+    <a href="https://blog.csdn.net/zgcr654321" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN博客" data-position="top" data-delay="50">
+        <i class="fa fa-copyright"></i>
+</a>
+
+
+
+
+
+
+</div>
+</div>
+
+            </div>
+        </div>
+
+        
+        <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/WYGNG" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="来github一起玩吧！" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+</header>
+
+
+
+
+
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        MySQL基础知识介绍
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+</style>
+<div class="row">
+    <div class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/数据库/" target="_blank">
+                                <span class="chip bg-color">数据库</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/数据库/" class="post-category" target="_blank">
+                                数据库
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2019-06-21
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>Word Count:&nbsp;&nbsp;
+                        4.7k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>Read Times:&nbsp;&nbsp;
+                        17 Min
+                    </div>
+                    
+                
+				
+				
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="fa fa-eye fa-fw"></i>Read Count:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="MySQL5-7使用命令行登陆"><a href="#MySQL5-7使用命令行登陆" class="headerlink" title="MySQL5.7使用命令行登陆"></a>MySQL5.7使用命令行登陆</h1><p>首先将MySQL的安装文件夹\bin路径添加到环境变量中，否则在cmd.exe中我们无法打开mysql。</p>
+<h2 id="本地登录MySQL数据库"><a href="#本地登录MySQL数据库" class="headerlink" title="本地登录MySQL数据库"></a>本地登录MySQL数据库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p   </span><br><span class="line">//root是用户名，输入这条命令按回车键后系统会提示你输入密码</span><br><span class="line">//然后你输入正确的密码，再按一下回车键就可以登录MySQL数据库了</span><br></pre></td></tr></table></figure>
+
+<h2 id="指定端口号登录MySQL数据库"><a href="#指定端口号登录MySQL数据库" class="headerlink" title="指定端口号登录MySQL数据库"></a>指定端口号登录MySQL数据库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p  -P 3306  </span><br><span class="line">//注意指定端口的字母P为大写，而标识密码的p为小写。MySQL默认端口号为3306</span><br></pre></td></tr></table></figure>
+
+<h2 id="指定IP地址和端口号登录MySQL数据库"><a href="#指定IP地址和端口号登录MySQL数据库" class="headerlink" title="指定IP地址和端口号登录MySQL数据库"></a>指定IP地址和端口号登录MySQL数据库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql -h ip -u root -p -P 3306 </span><br><span class="line">//ip即这个root账号指定的ip地址，只有从该ip地址登陆root账号才能登陆，3306为端口号</span><br><span class="line">//如：mysql -h 127.0.0.1 -u root -p -P 3306</span><br></pre></td></tr></table></figure>
+
+<h1 id="MySQL5-7基本SQL语句"><a href="#MySQL5-7基本SQL语句" class="headerlink" title="MySQL5.7基本SQL语句"></a>MySQL5.7基本SQL语句</h1><h2 id="基本名词和知识"><a href="#基本名词和知识" class="headerlink" title="基本名词和知识"></a>基本名词和知识</h2><p>实例：instance；数据库：database；模式：schema；表：table；视图：view；索引：index。<br>一个关系数据库管理系统的实例（Instance）中可以建立多个数据库（database）；一个数据库中可以建立多个模式（schema）；一个模式下通常包括多个表（table）、视图（view）和索引（index）等数据库对象。<br>但是在MySQL中，schema和database是同义词。CREATE SCHEMA和CREATE DATABASE是等效的。在其他的数据库中有所不同。在oracle数据库产品中,schema是database的一部分。</p>
+<h2 id="启动和停止Mysql服务"><a href="#启动和停止Mysql服务" class="headerlink" title="启动和停止Mysql服务"></a>启动和停止Mysql服务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//cmd.exe中输入</span><br><span class="line">net start 你的mysql服务名 //回车即可启动Mysql服务</span><br><span class="line">net stop 你的mysql服务名 //回车即可关闭Mysql服务</span><br></pre></td></tr></table></figure>
+
+<h2 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a>用户管理</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">create user &apos;用户名&apos;@&apos;localhost&apos;identified by&apos;密码&apos;; //新建用户</span><br><span class="line">//&apos;用户名&apos;@&apos;localhost&apos;意思即为用户名@主机地址，表示该用户名的账号可以在哪些主机地址上登录</span><br><span class="line">//mysql的用户都必须先进行授权，localhost即代表127.0.0.1默认本地地址，如果用%则意味着“任何主机”，说明这个账号可以在所有主机上登录。在对用户账号进行操作时如果只用用户名，那么默认都是用户名@%。</span><br><span class="line"></span><br><span class="line">set password for &apos;用户名&apos;@&apos;localhost&apos; =&apos;密码&apos;; //更改密码</span><br><span class="line"></span><br><span class="line">show grants for &apos;用户名&apos;@&apos;主机地址&apos;; //查看该用户名的权限</span><br><span class="line">grant all privileges on *.* to &apos;name&apos;@&apos;localhost&apos;; //给位于localhost地址上的name用户所有数据库的所有权限</span><br><span class="line">grant all privileges on test.* to &apos;name&apos;@&apos;localhost&apos;; //给位于localhost地址上的name用户名为test的数据库的所有权限</span><br><span class="line">//privileges可以省略，all也可以改为select，update等具体权限</span><br><span class="line"></span><br><span class="line">flush privileges; //每当调整权限后，需要执行该语句刷新权限</span><br><span class="line"></span><br><span class="line">revoke all privileges on test.* from &apos;zgcr&apos;@&apos;localhost&apos;; //revoke是grant的反操作，去除权限</span><br></pre></td></tr></table></figure>
+
+<h2 id="数据库查看、创建、删除"><a href="#数据库查看、创建、删除" class="headerlink" title="数据库查看、创建、删除"></a>数据库查看、创建、删除</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">show databases; //查看数据库</span><br><span class="line">create database if not exists test2; //创建数据库,test2为数据库名</span><br><span class="line">use test1; //使用名为test1的数据库</span><br><span class="line">drop database test1; //删除名为test1的数据库</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建-删除表、列、索引、视图"><a href="#创建-删除表、列、索引、视图" class="headerlink" title="创建/删除表、列、索引、视图"></a>创建/删除表、列、索引、视图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">create table tabname(col1 type1 [not null] [primary key],col2 type2 [not null],..) //直接创建新表</span><br><span class="line">//如在cos数据库中创建Patron表：</span><br><span class="line">use cos;</span><br><span class="line">create table Patron(</span><br><span class="line">   Patron_id INT NOT NULL AUTO_INCREMENT,</span><br><span class="line">   password VARCHAR(100) NOT NULL,</span><br><span class="line">   address VARCHAR(50) NOT NULL,</span><br><span class="line">   phone_number VARCHAR(50),</span><br><span class="line">   PRIMARY KEY ( Patron_id) </span><br><span class="line">)ENGINE=InnoDB DEFAULT CHARSET=utf8;</span><br><span class="line">//如果你不想字段为NULL可以设置字段的属性为NOT NULL，在操作数据库时如果输入该字段的数据为NULL ，就会报错。</span><br><span class="line">//AUTO_INCREMENT定义列为自增的属性，一般用于主键，数值会自动加1。</span><br><span class="line">//PRIMARY KEY关键字用于定义列为主键。您可以使用多列来定义主键，列间以逗号分隔。</span><br><span class="line">//ENGINE 设置存储引擎，CHARSET 设置编码。</span><br><span class="line"></span><br><span class="line">use cos;//使用名为cos的数据库</span><br><span class="line">create table Patron2 like Patron;//根据旧表创建新表。第一种方法。Patron2为新表名，Patron为旧表名</span><br><span class="line">use cos; //使用名为cos的数据库</span><br><span class="line">create table Patron3 select * from Patron;//根据旧表创建新表。第二种方法。Patron3为新表名，Patron为旧表名</span><br><span class="line">drop table Patron3; //删除表。Patron3为表名</span><br><span class="line"></span><br><span class="line">alter table test_table add phone_number varchar(15) NOT NULL; //增加一个列。test_table为表名，phone_number为要增加的列名，后面是属性</span><br><span class="line"></span><br><span class="line">use test; //使用名为cos的数据库</span><br><span class="line">create unique index index1 on test_table(test_id); //创建索引。unique表示唯一索引，index1为索引名，test_table为表名，test_id为要创建索引的列名</span><br><span class="line">use test; //使用名为cos的数据库</span><br><span class="line">drop index index1 on test_table; //删除索引。index1索引名，test_table为索引所在的表名。索引是不可更改的，想更改必须删除重新建。</span><br><span class="line"></span><br><span class="line">create view view1 as select test_id from test_table; //创建视图，view1为创建的视图名，test_id为列明，test_table为列所在的表名</span><br><span class="line">drop view view1; //删除view1，view1为列名</span><br></pre></td></tr></table></figure>
+
+<h2 id="其他基本SQL语句"><a href="#其他基本SQL语句" class="headerlink" title="其他基本SQL语句"></a>其他基本SQL语句</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">选择：select * from table1 where 范围</span><br><span class="line">插入：insert into table1(field1,field2) values(value1,value2)</span><br><span class="line">删除：delete from table1 where 范围</span><br><span class="line">更新：update table1 set field1=value1 where 范围</span><br><span class="line">查找：select * from table1 where field1 like ’%value1%’ （所有包含‘value1’这个模式的字符串）</span><br><span class="line">排序：select * from table1 order by field1,field2 [desc]</span><br><span class="line">总数：select count(*) as totalcount from table1</span><br><span class="line">求和：select sum(field1) as sumvalue from table1</span><br><span class="line">平均：select avg(field1) as avgvalue from table1</span><br><span class="line">最大：select max(field1) as maxvalue from table1</span><br><span class="line">最小：select min(field1) as minvalue from table1[separator]</span><br></pre></td></tr></table></figure>
+
+<h1 id="MySQL主键、外键、索引、唯一索引的区别"><a href="#MySQL主键、外键、索引、唯一索引的区别" class="headerlink" title="MySQL主键、外键、索引、唯一索引的区别"></a>MySQL主键、外键、索引、唯一索引的区别</h1><h2 id="主键-primary-key"><a href="#主键-primary-key" class="headerlink" title="主键(primary key)"></a>主键(primary key)</h2><p>是能够唯一标识表中某一行的属性或属性组。如，一条记录包括身份正号，姓名，年龄。身份证号是唯一能确定你这个人的，其他都可能有重复，所以，身份证号是主键。<br>一个表只能有一个主键，但可以有多个候选索引。主键常与外键构成参照完整性约束，防止出现数据不一致。主键可以保证记录的唯一和主键域非空,数据库管理系统对于主键自动生成唯一索引。<br><strong>主键一定是唯一性索引，唯一性索引并不一定就是主键。 一个表中可以有多个唯一性索引，但只能有一个主键。 主键列不允许空值，而唯一性索引列允许空值。</strong><br>事实上，主键和索引都是键，不过主键是逻辑键，索引是物理键，也就是说主键不实际存在，而索引实际存在在数据库中，主键一般都要建，主要是用来避免一张表中有相同的记录，索引一般可以不建，但如果需要对该表进行查询操作，则最好建，这样可以加快检索的速度。 </p>
+<h2 id="外键（foreign-key）"><a href="#外键（foreign-key）" class="headerlink" title="外键（foreign key）"></a>外键（foreign key）</h2><p>是用于建立和加强两个表数据之间的链接的一列或多列。用于与另一张表的关联。是能确定另一张表记录的字段，用来维护两个表之间数据的一致性。如，A表中的一个字段，是B表的主键，那他就可以是A表的外键。<br>如，某个电脑生产商，它的数据库中保存着整机和配件的产品信息。用来保存整机产品信息的表叫做PC；用来保存配件供货信息的表叫做Parts。在PC表中有一个字段，用来描述这款电脑所使用的CPU型号；在Parts 表中相应有一个字段，描述的正是CPU的型号，我们可以把它想成是全部CPU的型号列表。显然，这个厂家生产的电脑，其使用的CPU一定是供货信息表(parts)中存在的型号。这时，两个表中就存在一种约束关系(constraint)——PC表中的CPU型号受到Parts表中型号的约束。若要设置外键，在参照表(referencing table，即PC表) 和被参照表 (referencedtable，即parts表) 中，相对应的两个字段必须都设置索引(index)。<br>简言之，表的外键就是另一表的主键，外键将两表联系起来。一般情况下，要删除一张表中的主键必须首先要确保其它表中的没有相同外键（即该表中的主键没有一个外键和它相关联）。</p>
+<h2 id="索引-index"><a href="#索引-index" class="headerlink" title="索引(index)"></a>索引(index)</h2><p>索引是对表中一个或多个列的值进行排序的结构，用来快速地寻找那些具有特定值的记录。所有MySQL索引都以B-树的形式保存。如果没有索引，执行查询时MySQL必须从第一个记录开始扫描整个表的所有记录，直至找到符合要求的记录。表里面的记录数量越多，这个操作的代价就越高。如果作为搜索条件的列上已经创建了索引，MySQL无需扫描任何记录即可迅速得到目标记录所在的位置。</p>
+<h2 id="唯一索引"><a href="#唯一索引" class="headerlink" title="唯一索引"></a>唯一索引</h2><p><strong>所谓唯一性索引，这种索引和前面的“普通索引”基本相同，但有一个区别：索引列的所有值都只能出现一次，即必须唯一。</strong></p>
+<h2 id="主键和索引的区别"><a href="#主键和索引的区别" class="headerlink" title="主键和索引的区别"></a>主键和索引的区别</h2><p>主键一定是唯一性索引，唯一性索引并不一定就是主键；<br> 一个表中可以有多个唯一性索引，但只能有一个主键；<br>主键列不允许空值，而唯一性索引列允许空值；<br>主键可以被其他字段作外键引用，而索引不能作为外键引用。</p>
+<h1 id="MySQL表级锁、行级锁、页级锁、死锁、乐观锁、悲观锁、共享锁、排他锁的概念"><a href="#MySQL表级锁、行级锁、页级锁、死锁、乐观锁、悲观锁、共享锁、排他锁的概念" class="headerlink" title="MySQL表级锁、行级锁、页级锁、死锁、乐观锁、悲观锁、共享锁、排他锁的概念"></a>MySQL表级锁、行级锁、页级锁、死锁、乐观锁、悲观锁、共享锁、排他锁的概念</h1><p><strong>锁:</strong><br>锁是在执行多线程时用于强行限制资源访问的同步机制，即用于在并发控制中保证对互斥要求的满足。在DBMS中，可以按照锁的粒度把数据库锁分为行级锁（INNODB引擎）、表级锁（MYISAM引擎）和页级锁（BDB引擎）。<br><strong>在MySQL中常用存储引擎的锁机制:</strong><br>MySQL在5.5之前默认使用MyISAM存储引擎，之后使用InnoDB存储引擎。<br>MyISAM和MEMORY采用表级锁（table-level locking）；<br>InnoDB支持行级锁（row-level locking）和表级锁,默认为行级锁；<br>BDB采用页面锁（page-level locking）或表级锁，默认为页面锁；<br><strong>MySQL中各种锁之间的关系:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">                            MySQL</span><br><span class="line">                         /         \</span><br><span class="line">                  存储引擎MyISAM 存储引擎InnoDB</span><br><span class="line">                        |       /           \ </span><br><span class="line">				    采用表级锁 支持事务     采用行级锁</span><br><span class="line">				   /        \           /         \</span><br><span class="line">				表共享锁   表独占锁     共享锁      排他锁</span><br><span class="line">				                        \         /</span><br><span class="line">				                      悲观锁(mysql自带)</span><br><span class="line">乐观锁需要自己实现</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看当前存储引擎:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like &apos;%storage_engine%&apos;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>MyISAM引擎与InnoDB引擎的不同点:</strong><br>MyISAM操作数据都是使用表级锁，MyISAM总是一次性获得所需的全部锁，要么全部满足，要么全部等待。所以不会产生死锁，但是由于每操作一条记录就要锁定整个表，导致性能较低，并发不高。<br>InnoDB与MyISAM的最大不同有两点：一是 InnoDB 支持事务；二是 InnoDB 采用了行级锁。也就是你需要修改哪行，就可以只锁定哪行。在Mysql中，行级锁并不是直接锁记录，而是锁索引。InnoDB 行锁是通过给索引项加锁实现的，索引分为主键索引和非主键索引两种，如果一条sql语句操作了主键索引，Mysql就会锁定这条主键索引；如果一条语句操作了非主键索引，MySQL会先锁定该非主键索引，再锁定相关的主键索引。如果没有索引，InnoDB会通过隐藏的聚簇索引来对记录加锁。也就是说：如果不通过索引条件检索数据，那么InnoDB将对表中所有数据加锁，实际效果跟表级锁一样。</p>
+<h2 id="表级锁"><a href="#表级锁" class="headerlink" title="表级锁"></a>表级锁</h2><p>表级锁是MySQL中锁定粒度最大的一种锁，表示对当前操作的整张表加锁，它实现简单，资源消耗较少，被大部分MySQL引擎支持。最常使用的MYISAM与INNODB都支持表级锁定。表级锁定分为表共享读锁（共享锁）与表独占写锁（排他锁）。特点是开销小，加锁快；不会出现死锁；锁定粒度大，发出锁冲突的概率最高，并发度最低。</p>
+<h2 id="行级锁"><a href="#行级锁" class="headerlink" title="行级锁"></a>行级锁</h2><p>行级锁是Mysql中锁定粒度最细的一种锁，表示只针对当前操作的行进行加锁。行级锁能大大减少数据库操作的冲突。其加锁粒度最小，但加锁的开销也最大。行级锁分为共享锁和排他锁。特点是开销大，加锁慢；会出现死锁；锁定粒度最小，发生锁冲突的概率最低，并发度也最高。</p>
+<h2 id="页级锁"><a href="#页级锁" class="headerlink" title="页级锁"></a>页级锁</h2><p>表级锁是MySQL中锁定粒度介于行级锁和表级锁中间的一种锁。表级锁速度快，但冲突多，行级冲突少，但速度慢。所以取了折衷的页级，一次锁定相邻的一组记录。BDB支持页级锁。特点是开销和加锁时间界于表锁和行锁之间；会出现死锁；锁定粒度界于表锁和行锁之间，并发度一般。</p>
+<h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><p>指两个事务或者多个事务在同一资源上相互占用，并请求对方所占用的资源，从而造成恶性循环的现象。<br><strong>出现死锁的原因:</strong><br>系统资源不足；<br>进程运行推进的顺序不当；<br>资源分配不当。<br><strong>产生死锁的四个必要条件:</strong><br>互斥条件： 一个资源只能被一个进程使用；<br>请求和保持条件：进行获得一定资源，又对其他资源发起了请求，但是其他资源被其他线程占用，请求阻塞，但是也不会释放自己占用的资源；<br>不可剥夺条件： 指进程所获得的资源，不可能被其他进程剥夺，只能自己释放；<br>环路等待条件： 进程发生死锁，必然存在着进程-资源之间的环形链。<br><strong>常见的三种避免死锁的方法:</strong><br>如果不同程序会并发存取多个表，尽量约定以相同的顺序访问表，可以大大降低死锁机会；<br>在同一个事务中，尽可能做到一次锁定所需要的所有资源，减少死锁产生概率；<br>对于非常容易产生死锁的业务部分，可以尝试使用升级锁定颗粒度，通过表级锁定来减少死锁产生的概率。</p>
+<p><strong>数据库也会发生死锁的现象，数据库系统实现了各种死锁检测和死锁超时机制来解除死锁，锁监视器进行死锁检测，MySQL的InnoDB处理死锁的方式是将持有最少行级排它锁的事务进行回滚。</strong></p>
+<h2 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h2><p>乐观锁和悲观锁都是为了解决并发控制问题， 乐观锁可以认为是一种在最后提交的时候检测冲突的手段，而悲观锁则是一种避免冲突的手段。<br>乐观锁应用系统层面和数据的业务逻辑层次上的（实际上并没有加锁，只不过大家一直这样叫而已），利用程序处理并发， 它假定当某一个用户去读取某一个数据的时候，其他的用户不会来访问修改这个数据，但是在最后进行事务的提交的时候会进行版本的检查，以判断在该用户的操作过程中，没有其他用户修改了这个数据。<br>乐观锁不是数据库自带的，需要我们自己去实现。乐观锁的实现大部分都是基于版本控制实现的，级别高低是：脏读 &lt; 不可重复读 &lt; 幻读（级别介绍详细见数据库的事务隔离级别）。 除此之外，还可以通过时间戳的方式，通过提前读取，事后对比的方式实现。</p>
+<h2 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h2><p>乐观锁和悲观锁都是为了解决并发控制问题， 乐观锁可以认为是一种在最后提交的时候检测冲突的手段，而悲观锁则是一种避免冲突的手段。<br>每次拿数据的时候都认为别的线程会修改数据，所以在每次拿的时候都会给数据上锁。上锁之后，当别的线程想要拿数据时，就会阻塞，直到给数据上锁的线程将事务提交或者回滚。传统的关系型数据库里就用到了很多这种锁机制，比如行锁，表锁，共享锁，排他锁等，都是在做操作之前先上锁。与乐观锁相对应的，悲观锁是由数据库自己实现，要用的时候，我们直接调用数据库的相关语句就可以。<br><strong>共享锁和排它锁是悲观锁的不同的实现，它俩都属于悲观锁的范畴。</strong><br><strong>共享锁:</strong><br>共享锁又称为读锁，简称S锁，共享锁就是多个事务对于同一数据可以共享一把锁，都能访问到数据，但是只能读不能修改。<br>比如事务T对数据对象A加上S锁，则事务T只能读A；其他事务只能再对A加S锁，而不能加X锁，直到T释放A上的S锁。这就保证了其他事务可以读A，但在T释放A上的S锁之前不能对A做任何修改。<br><strong>排他锁:</strong><br>排他锁又称为写锁，简称X锁，排他锁就是不能与其他所并存，如一个事务获取了一个数据行的排他锁，其他事务就不能再获取该行的其他锁，包括共享锁和排他锁，但是获取排他锁的事务是可以对数据就行读取和修改。<br>比如事物T对数据对象A加上X锁，则只允许T读取和修改A，其它任何事务都不能再对A加任何类型的锁，直到T释放A上的锁。它防止任何其它事务获取资源上的锁，直到在事务的末尾将资源上的原始锁释放为止。</p>
+<p><strong>注意:</strong><br>mysql InnoDB引擎默认的修改数据语句，update,delete,insert都会自动给涉及到的数据加上排他锁，select语句默认不会加任何锁类型，如果加排他锁可以使用select …for update语句，加共享锁可以使用select … lock in share mode语句。所以加过排他锁的数据行在其他事务种是不能修改数据的，也不能通过for update和lock in share mode锁的方式查询数据，但可以直接通过select …from…查询数据，因为普通查询没有任何锁机制。</p>
+
+            </div>
+            <hr/>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff;
+        background-color: #22AB38;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff;
+        background-color: #019FE8;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a class="reward-link btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs">
+                        <li class="tab wechat-tab waves-effect waves-light"><a class="active" href="#wechat">微信</a></li>
+                        <li class="tab alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                    </ul>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#reward .reward-link').on('click', function () {
+            $('#rewardModal').openModal();
+        });
+
+        $('#rewardModal .close').on('click', function () {
+            $('#rewardModal').closeModal();
+        });
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            <div class="reprint">
+                <p>
+                    <span class="reprint-tip">
+                        <i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;Reprint please specify:
+                    </span>
+                    <a href="https://wyg1996.cn" class="b-link-green">鱼缸屋</a>
+                    <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
+                    <a href="/2019/06/21/MySQL基础知识介绍/" class="b-link-green">MySQL基础知识介绍</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-06-21T20-32-11',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Fri Jun 21 2019 20:32:11 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
+    
+
+    
+        <div class="disqus-card card" data-aos="fade-up">
+    <div id="disqus_thread" class="card-content">
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+    </div>
+</div>
+
+<script type="text/javascript">
+    disqus_config = function () {
+        this.page.url = 'https://wyg1996.cn/2019/06/21/MySQL基础知识介绍/';
+        this.page.identifier = '/2019/06/21/MySQL基础知识介绍/';
+        this.page.title = 'MySQL基础知识介绍';
+    };
+    let disqus_shortname = '';
+
+    (function () { // DON'T EDIT BELOW THIS LINE
+        let d = document, s = d.createElement('script');
+        // 如：s.src = 'https://blinkfox.disqus.com/embed.js';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+    
+
+    
+    <div class="livere-card card" data-aos="fade-up">
+    <!-- 来必力City版安装代码 -->
+    <div id="lv-container" class="card-content" data-id="city" data-uid="">
+        <script type="text/javascript">
+            (function (d, s) {
+                let j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') {
+                    return;
+                }
+
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript。</noscript>
+    </div>
+    <!-- City版安装代码已完成 -->
+</div>
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2019/06/23/数据库六种范式详解（1NF-2NF-3NF-BCNF-4NF-5NF）/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="数据库六种范式详解（1NF/2NF/3NF/BCNF/4NF/5NF）">
+                        
+                        <span class="card-title">数据库六种范式详解（1NF/2NF/3NF/BCNF/4NF/5NF）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">数据库的基本概念范式:设计关系数据库时，遵从不同的规范要求，设计出合理的关系型数据库，这些不同的规范要求被称为不同的范式。各种范式呈递次规范，越高的范式数据库冗余越小。有冗余的数据库未必是最好的数据库， 有时为了提高运行效率，就必须降低范式</div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-23
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/数据库/" class="post-category" target="_blank">
+                                    数据库
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/数据库/" target="_blank">
+                        <span class="chip bg-color">数据库</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/06/21/数据库基本概念介绍/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="数据库基本概念介绍">
+                        
+                        <span class="card-title">数据库基本概念介绍</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">database和schema的区别模式（schema）是表、视图等数据库中对象的集合，而数据库（database）是模式的集合。一个关系数据库管理系统的实例（Instance）中可以建立多个数据库（database）；一个数据库中可以建立</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-21
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/数据库/" class="post-category" target="_blank">
+                                    数据库
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/数据库/" target="_blank">
+                        <span class="chip bg-color">数据库</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + 'From: 鱼缸屋<br />'
+            + 'Author: ygwu<br />'
+            + 'Link: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+    </div>
+    <div class="col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+    });
+</script>
+    
+
+</main>
+
+
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy;<a href="mailto:ygwu@mail.ustc.edu.cn" target="_blank">鱼缸屋</a>
+            
+
+            
+                &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+                <span class="white-color">393.6k</span>
+            
+
+            
+			
+                <br>
+                
+                <span id="busuanzi_container_site_pv">
+                    <i class="fa fa-heart-o"></i>
+                    本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+                </span>
+                
+                
+                <span id="busuanzi_container_site_uv">
+                    <i class="fa fa-users"></i>
+                    次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+                </span>
+                
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/wygny" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ygwu@mail.ustc.edu.cn" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=321699849" class="tooltipped" data-tooltip="QQ联系我: 321699849" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://www.baidu.com" class="tooltipped" target="_blank" data-tooltip="访问百度" data-position="top" data-delay="50">
+        <i class="fa fa-paw"></i>
+</a>
+
+
+
+    <a href="https://www.google.com" class="tooltipped" target="_blank" data-tooltip="访问谷歌" data-position="top" data-delay="50">
+        <i class="fa fa-google"></i>
+</a>
+
+
+
+    <a href="https://www.bilibili.com" class="tooltipped" target="_blank" data-tooltip="访问哔哩哔哩" data-position="top" data-delay="50">
+        <i class="fa fa-bullseye"></i>
+</a>
+
+
+
+    <a href="https://blog.csdn.net/zgcr654321" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN博客" data-position="top" data-delay="50">
+        <i class="fa fa-copyright"></i>
+</a>
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input" autofocus="">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="/libs/materialize/js/materialize.min.js"></script>
+<script src="/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="/libs/aos/aos.js"></script>
+<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    <script src="/libs/others/clicklove.js"></script>
+
+
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+
+
+</body>
+</html>

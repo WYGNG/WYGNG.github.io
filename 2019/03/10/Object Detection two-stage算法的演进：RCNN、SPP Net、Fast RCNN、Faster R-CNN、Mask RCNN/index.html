@@ -1,0 +1,1079 @@
+<!DOCTYPE HTML>
+<html lang="zh_CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Object Detection two-stage算法的演进：RCNN、SPP Net、Fast RCNN、Faster R-CNN、Mask RCNN, 鱼缸屋">
+    <meta name="description" content="什么是目标检测（Object Detection）目标检测（object detection）包含两个任务：对象的定位和对象的分类。
+Object Detection算法的分类two-stage算法，这类算法将检测问题划分为两个阶段，首先产">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Object Detection two-stage算法的演进：RCNN、SPP Net、Fast RCNN、Faster R-CNN、Mask RCNN | 鱼缸屋</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+</head>
+
+
+<body>
+
+<header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="container">
+            <div class="nav-wrapper">
+                <div class="brand-logo">
+                    <a href="/" class="waves-effect waves-light">
+                        
+                        <img src="/medias/logo.png" class="logo-img hide-on-small-only">
+                        
+                        <span class="logo-span">鱼缸屋</span>
+                    </a>
+                </div>
+                
+
+<a href="#" data-activates="mobile-nav" class="button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li>
+        <a id="toggleSearch" class="waves-effect waves-light">
+            <i id="searchIcon" class="mdi-action-search" title="Search"></i>
+        </a>
+    </li>
+
+</ul>
+
+<div class="side-nav" id="mobile-nav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">鱼缸屋</div>
+        <div class="logo-desc">
+            
+            海纳百川，有容乃大，壁立千仞，无欲则刚
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/WYGNG" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>来github一起玩吧！
+            </a>
+        </li>
+        
+    </ul>
+
+    <div class="social-link">
+    <a href="https://github.com/wygny" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ygwu@mail.ustc.edu.cn" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=321699849" class="tooltipped" data-tooltip="QQ联系我: 321699849" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://www.baidu.com" class="tooltipped" target="_blank" data-tooltip="访问百度" data-position="top" data-delay="50">
+        <i class="fa fa-paw"></i>
+</a>
+
+
+
+    <a href="https://www.google.com" class="tooltipped" target="_blank" data-tooltip="访问谷歌" data-position="top" data-delay="50">
+        <i class="fa fa-google"></i>
+</a>
+
+
+
+    <a href="https://www.bilibili.com" class="tooltipped" target="_blank" data-tooltip="访问哔哩哔哩" data-position="top" data-delay="50">
+        <i class="fa fa-bullseye"></i>
+</a>
+
+
+
+    <a href="https://blog.csdn.net/zgcr654321" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN博客" data-position="top" data-delay="50">
+        <i class="fa fa-copyright"></i>
+</a>
+
+
+
+
+
+
+</div>
+</div>
+
+            </div>
+        </div>
+
+        
+        <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/WYGNG" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="来github一起玩吧！" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+</header>
+
+
+
+
+
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Object Detection two-stage算法的演进：RCNN、SPP Net、Fast RCNN、Faster R-CNN、Mask RCNN
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+</style>
+<div class="row">
+    <div class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/目标检测/" target="_blank">
+                                <span class="chip bg-color">目标检测</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/目标检测/" class="post-category" target="_blank">
+                                目标检测
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2019-03-10
+                </div>
+
+                
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-file-word-o fa-fw"></i>Word Count:&nbsp;&nbsp;
+                        9.7k
+                    </div>
+                    
+
+                    
+                    <div class="info-break-policy">
+                        <i class="fa fa-clock-o fa-fw"></i>Read Times:&nbsp;&nbsp;
+                        36 Min
+                    </div>
+                    
+                
+				
+				
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="fa fa-eye fa-fw"></i>Read Count:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="什么是目标检测（Object-Detection）"><a href="#什么是目标检测（Object-Detection）" class="headerlink" title="什么是目标检测（Object Detection）"></a>什么是目标检测（Object Detection）</h1><p>目标检测（object detection）包含两个任务：对象的定位和对象的分类。</p>
+<h1 id="Object-Detection算法的分类"><a href="#Object-Detection算法的分类" class="headerlink" title="Object Detection算法的分类"></a>Object Detection算法的分类</h1><p>two-stage算法，这类算法将检测问题划分为两个阶段，首先产生候选框，然后对候选框分类（一般还需要对位置精修），这一类的典型代表是RCNN, Fast RCNN, Faster RCNN算法家族。他们的识别错误率低，漏识别率也较低，但速度较慢，不能满足实时检测场景。<br>one-stage算法直接产生物体的类别得分和位置坐标值，经过单次检测即可直接得到最终的检测结果，因此有着更快的检测速度，比较典型的算法如YOLO，SSD，YOLOv2，YOLOv3等。</p>
+<h1 id="RCNN之前的目标检测方法"><a href="#RCNN之前的目标检测方法" class="headerlink" title="RCNN之前的目标检测方法"></a>RCNN之前的目标检测方法</h1><p>使用滑窗法来生成候选框，使用CNN神经网络进行对候选框进行坐标回归预测和对象分类。</p>
+<h2 id="滑窗法"><a href="#滑窗法" class="headerlink" title="滑窗法"></a>滑窗法</h2><p>对一张图片，用几种不同大小的框依次从图片左上角开始每一行、每一列像素点从左到右扫过右下角，这种方法就叫做滑窗法。这样我们每次都会截取一个和框一样大小的子图片，然后将该图片输入到CNN，CNN会输出这个框的分类得分（classification）以及这个框图片对应的（x,y,w,h）坐标。<br>对每个不同窗口大小的滑窗都进行检测后，会得到不同窗口检测到的物体分类得分，这些窗口存在重叠，使用非极大值抑制（Non-Maximum Suppression, NMS）的方法淘汰重叠的候选框。</p>
+<h2 id="交集并集比（IOU）"><a href="#交集并集比（IOU）" class="headerlink" title="交集并集比（IOU）"></a>交集并集比（IOU）</h2><p>IOU（Intersection over Union），是使用非极大值抑制方法时用来判断窗口是否重叠的指标。<br>公式如下:<br>$$<br>\mathrm{loU}=\frac{\text { Area of Overlap }}{\text { Area of Union }}<br>$$<br>IOU即两个候选框的交集面积除以两个候选框的并集面积。一般来说，该值大于0.5或0.6就认为重合度比较高。</p>
+<h2 id="非极大值抑制（NMS）"><a href="#非极大值抑制（NMS）" class="headerlink" title="非极大值抑制（NMS）"></a>非极大值抑制（NMS）</h2><p>非极大值抑制（Non-Maximum Suppression，NMS），顾名思义就是抑制不是极大值的元素。<br><strong>在目标检测中，非极大值抑制方法的步骤如下:</strong></p>
+<ul>
+<li>将所有候选框的分类得分排序，选出最高分及其对应的框；</li>
+<li>遍历其余的框，如果和当前最高分候选框的IOU大于一定阈值（如0.6），则将这个框删除；</li>
+<li>从未处理的框中继续选一个得分最高的，重复上述过程。</li>
+</ul>
+<p><strong>举例:</strong><br>假设对于某个物体检测到4个候选框A、B、C、D，每个框属于这个物体的概率从小到大分别为S1、S2、S3、S4。<br>首先选择概率最大的候选框D，保留候选框D，分别计算A、B、C与D的IOU，判断其IOU是否大于预设定的阈值（如0.6），假设C的IOU超过阈值，则舍弃C；<br>然后从剩余的候选框A、B中选取概率最大的候选框B，保留候选框B，计算B1与B2的IOU，假设A的IOU也超过阈值，则舍弃A；<br>检查，发现已经没有需要检测的候选框了（要么舍弃了，要么保留了），结束。</p>
+<h1 id="RCNN（Regions-with-CNN-features）"><a href="#RCNN（Regions-with-CNN-features）" class="headerlink" title="RCNN（Regions with CNN features）"></a>RCNN（Regions with CNN features）</h1><p>论文:Rich feature hierarchies for accurate object detection and semantic segmentation<br>论文地址:<a href="https://arxiv.org/pdf/1311.2524v3.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1311.2524v3.pdf</a> 。<br>滑窗法这种遍历方式产生的候选框太多，计算量太大，我们尝试改进产生候选框的方法，于是有了选择性搜索算法（Selective Search）。</p>
+<h2 id="选择性搜索（Selective-Search）"><a href="#选择性搜索（Selective-Search）" class="headerlink" title="选择性搜索（Selective Search）"></a>选择性搜索（Selective Search）</h2><p>该算法被用在RCNN、SPP Net和Fast RCNN网络中产生候选框。这个算法其实是借鉴了层次聚类的思想，将层次聚类的思想应用到区域的合并上面。<br>层次聚类就是在开始时将所有的每个数据点本身作为一个簇，然后找出距离最近的两个簇将它们合为一个，不断重复以上步骤直到簇的数量达到预设的簇下限个数。<br>图像中物体可能存在的区域应该有某些相似性或者连续性区域。因此，选择搜索基于上面这一想法采用子区域合并的方法进行提取候选边界框。<br><strong>算法步骤如下:</strong></p>
+<ul>
+<li>首先通过图像分割的方法（如felzenszwalb算法）获得很多小区域，假设现在图像上有n个预分割的区域，表示为区域集合R={R1, R2, …, Rn}；</li>
+<li>计算区域集R里每个相邻区域的相似度S={s1,s2,…} ；</li>
+<li>找出相似度最高的两个区域，将其合并为一个外切矩形的新区域，将新区域添加进区域集合R中；</li>
+<li>从S中移除所有与上一步中有关的子区域数值（也就是被合并的子区域）；</li>
+<li>计算R中新添加的区域与所有子区域的相似度 ；</li>
+<li>重复之后的过程，直到S为空。</li>
+</ul>
+<h2 id="RCNN网络结构"><a href="#RCNN网络结构" class="headerlink" title="RCNN网络结构"></a>RCNN网络结构</h2><p>选择性搜索（ss）+Alex net前置网络+SVM分类器（20类）+回归器（x,y,w,h）。<br>前置网络为AlexNet，输出层由1000改为20，去掉输出层前面一层全连接层；<br>由于SVM是而分类器，使用的数据集中有20个分类，故输出层后接20个SVM分类器，用来预测候选框中的对象对每一类物体的得分；<br>SVM分好类的候选框后还有一个回归器，用来预测边框坐标（x,y,w,h）。对于每一个类，分别训练一个回归器。</p>
+<h2 id="RCNN网络训练过程"><a href="#RCNN网络训练过程" class="headerlink" title="RCNN网络训练过程"></a>RCNN网络训练过程</h2><p>采用AlexNet网络进行预训练，网络输入为224×224的ILSVRC训练集图像，训练网络权重参数，完成后保存模型；<br>PASCAL VOC 2007数据集上既有图像中物体类别标签，也有图像中物体位置标签。采用AlexNet网络预训练模型进行PASCAL VOC 2007数据集下的fine-tuning，学习率=0.001，每个batch为32个正样本和96个负样本（原因是正样本比较少）。网络输入为候选框缩放后的224×224大小图像，输出层由1000类修改维21类（20类物体+背景），训练完成后保存模型；<br>下面我们需要为每个类别训练单独的SVM分类器。SVM训练时输入正负样本在AlexNet网络计算下的4096维特征，输出为该类的得分，训练完成后保存SVM这部分的网络模型。由于负样本太多，采用hard negative mining的方法在负样本中选取有代表性的负样本（即在对负样本分类时，loss比较大的那些样本，或者说是容易看成正样本的那些负样本）；<br>下面进行候选框回归器的训练。回归器就是普通的regression模型。使用训练集的图片和位置标签来训练。</p>
+<h2 id="RCNN网络测试过程"><a href="#RCNN网络测试过程" class="headerlink" title="RCNN网络测试过程"></a>RCNN网络测试过程</h2><p>输入一张图像，使用select search算法得到大约2000个候选框；<br>将候选框全部缩放成224×224大小，送入AlexNet前置网络，提取第五层池化后的4096维特征，2000个候选框的特征组合成2000×4096维矩阵；<br>将上面的特征矩阵与20个SVM分类器的4096×20维权值矩阵相乘，获得2000×20维矩阵，表示每个候选框是关于某个类的得分；<br>分别对上面2000×20维矩阵中每一列即每一类进行非极大值抑制，剔除重叠候选框，得到每类中得分最高的一些候选框；<br>分别用20个回归器对上面得到的候选框进行回归操作预测对象坐标（x,y,w,h），最终得到每个类别的修正后的得分最高的回归框。</p>
+<h1 id="SPP-Net（Spatial-Pyramid-Pooling-Network）"><a href="#SPP-Net（Spatial-Pyramid-Pooling-Network）" class="headerlink" title="SPP Net（Spatial Pyramid Pooling Network）"></a>SPP Net（Spatial Pyramid Pooling Network）</h1><p>论文:Spatial Pyramid Pooling in Deep ConvolutionalNetworks for Visual Recognition<br>论文地址:<a href="https://arxiv.org/pdf/1406.4729.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1406.4729.pdf</a> 。<br>选择性搜索（ss）+前置网络+金字塔池化层+SVM分类器+回归器。<br>上面介绍的RCNN网络无论在训练还是在测试时，都需要将输入的图像产生的候选框统一缩放成224X224大小的图像后才能进行特征提取。<br>SPP Net在第五层pool层后增加了金字塔池化层，这使得SPP-Net可以让网络输入任意大小的图片，且不需要缩放就可以直接进入前置网络进行特征提取，最后生成固定维度大小的输出向量。然后输入全连接层。</p>
+<h2 id="金字塔池化层解决任意尺寸的输入"><a href="#金字塔池化层解决任意尺寸的输入" class="headerlink" title="金字塔池化层解决任意尺寸的输入"></a>金字塔池化层解决任意尺寸的输入</h2><p>论文中使用三层的金字塔池化层，金字塔池化层接在第五层pooling层之后。需要注意的是这三层是”并联”而不是”串联”的。<br>这三层是特殊的池化层，可以将第五层pooling层输出的特征图分别切分成（1，4，16）块区域，每块区域按照最大池化原则得到一个特征值，故我们最终可以得到一个21维输出向量。<br>这样不管我们输入的图片是多大尺寸的，经过前置网络和金字塔池化层提取后都会得到21维输出向量。</p>
+<h2 id="全图一次特征提取，减少计算量"><a href="#全图一次特征提取，减少计算量" class="headerlink" title="全图一次特征提取，减少计算量"></a>全图一次特征提取，减少计算量</h2><p>另外，在RCNN网络中，我们先对用候选框对原始图片生成所有候选框的子原始图片，然后再进入前置网络提取特征。但是候选框之间有很多重叠部分，这使得我们的特征提取工作中作了许多重复的无用功，增加了计算量。<br>在SPP Net网络中，我们先对整张原始图片进行特征提取，得到一个全局特征图，然后将候选框区域按与原始图片的比例映射到全局特征图上，这样我们只做一次特征提取就可以得到所有候选框图片的特征图。然后我们将候选框的特征图送入金字塔池化层进行计算。<br><strong>如何在全局特征图中中找到原始图片中候选框的对应区域？</strong><br>在论文最后的附录中，作者给出了计算公式:<br>APPENDIX A:Mapping a Window to Feature Maps<br>假设（x’,y’）表示特征图上坐标点，坐标点（x,y）表示原始图片上坐标点，那么它们之间有如下转换关系：<br>$$<br>(x, y)=(S \cdot x’, S \cdot y’)<br>$$<br>其中S的就是CNN中所有的步长（strides）的乘积。需要注意的是strides包含了池化、卷积的stride。简单来说就是，我们在前置网络前几层将原始图片缩小了多少倍，那么最终特征图上坐标点（x’,y’）放大这么多倍后就是原始图片上坐标点（x,y）。</p>
+<h2 id="SPP-Net网络训练过程"><a href="#SPP-Net网络训练过程" class="headerlink" title="SPP Net网络训练过程"></a>SPP Net网络训练过程</h2><p><strong>单尺寸训练:</strong><br>理论上SPP Net支持直接以多尺度的原始图片作为输入训练。但实际上，在caffe等实现中，为了计算的方便，GPU、CUDA等比较适合固定尺寸的输入，所以我们首先考虑输入224×224图像进行训练。<br>对于一个给定尺寸的图像，我们先计算空间金字塔池化所需要的块（bins）的大小。224X224的输入图像在conv5之后的特征图为13x13（axa），对于nxn块的金字塔层的块bins，我们将这个池作为一个滑动窗口池来实现，窗口的大小的win=[a/n]向上取整和步长s=[a/n]向下取整（相当于是把金字塔池化层的网格数固定，然后根据输入的特征图大小反推每个金子塔池化层的size和stride）。金字塔池化层输出接全连接层（全连接层输出为4096维向量）。<br>在论文中介绍的训练步骤中，给出了一个3级金字塔池（3x3、2X2、1X1）的示例配置。在这个示例配置下，每个候选框的特征图输出的向量为256x（9+4+1）的向量。然后将其输入全连接层，输出256X4096的向量。<br><strong>多尺寸训练:</strong><br>现在我们使用两个尺寸:180×180、224×224的图像进行训练。180x180的图像是224x224大小的图像缩放而来的。这样，不同大小的图像仅仅分辨率不同，内容和布局上相同。<br>对于接受180x180大小图像输入的网络，我们实现另一个固定尺寸的网络。conv5输出的特征图尺寸为10×10（axa）。我们仍然使用win=[a/n]向上取整和步长s=[a/n]向下取整，实现金字塔池化层（相当于是把金字塔池化层的网格数固定，然后根据输入的特征图大小反推每个金子塔池化层的size和stride）。这样这个网络的空间金字塔层的输出的大小就和224网络的一样。<br>为了降低从一个224x224输入图像的网络切换到另一个180x180输入图像的网络，我们在每个网络上训练一个完整的epoch，然后在下一个epoch再切换到另一个网络（权重保留）。如此往复即可。实验中我们发现多尺寸训练的收敛速度和单尺寸训练差不多。<br>需要注意的是，我们只是在训练的时候用到多尺寸，测试时直接将SPPNet应用于任意尺寸的图像。</p>
+<p>无论单尺寸训练还是多尺寸训练，我们之后都要和RCNN一样训练SVM分类器。我们使用（hard negative mining）训练SVM。<br>对于regression回归框的训练，在训练过程中正例是与标注窗口重叠度达到[0.5, 1]的窗口，负例是重叠度为[0.1, 0.5）的。每个mini-batch中25%是正例。我们使用学习率1e-4训练了250k个minibatch，然后使用1e-5训练50k个minibatch。</p>
+<h2 id="SPP-Net网络测试过程"><a href="#SPP-Net网络测试过程" class="headerlink" title="SPP Net网络测试过程"></a>SPP Net网络测试过程</h2><p>输入一张图片，使用select search算法得到大约2000个候选框，这一步和RCNN一样。<br>把整张原始图片输入前置的CNN神经网络，进行一次性特征提取，得到全局特征图。然后再全局特征图中找个各个候选框对应的区域，得到每个候选框的特征图，再将它们输入金字塔池化层，提取出固定的21维输出向量。然后输入后面的全连接层。<br>最后一步也和RCNN一样，将全连接层输出进入SVM分类器进行分类，分类后经过非极大值抑制去除一些候选框，将剩余候选框输入回归器得到对象坐标。</p>
+<h1 id="Fast-RCNN"><a href="#Fast-RCNN" class="headerlink" title="Fast RCNN"></a>Fast RCNN</h1><p>论文:Fast R-CNN<br>论文地址:<a href="https://arxiv.org/pdf/1504.08083.pdfFast-R-CNN" target="_blank" rel="noopener">https://arxiv.org/pdf/1504.08083.pdfFast-R-CNN</a> 。<br>选择性搜索（ss）+VGG16前五层（前置网络）+ROI Pooling层+softmax分类器与回归器（分类与回归并行）。<br>同SPP Net类似，Fast RCNN也使用了选择性搜索算法产生候选框，在提取候选框特征时也使用了一次性提取全局特征图，再将候选框区域按与原始图片的比例映射到全局特征图上，这样我们只做一次特征提取就可以得到所有候选框图片的特征图。</p>
+<h2 id="Fast-RCNN新特性"><a href="#Fast-RCNN新特性" class="headerlink" title="Fast RCNN新特性"></a>Fast RCNN新特性</h2><p>用ROI pooling层取代最后一层max pooling层，同时引入候选框，提取相应候选框的特征图；<br>R-CNN训练过程分为三个阶段，而Fast R-CNN直接使用softmax替代SVM分类，同时利用多任务损失函数将边框回归也加入到网络中（将回归器放进网络一起训练，每个类别对应一个回归器），这样整个的训练过程是端到端的（除去region proposal提取阶段），而在R-CNN中这部分特征是供SVM和Bounding-box regression进行训练的；<br>采用SVD对Fast R-CNN网络末尾并行的全连接层进行分解，减少计算复杂度，加快检测速度。</p>
+<h2 id="ROI-pooling层"><a href="#ROI-pooling层" class="headerlink" title="ROI pooling层"></a>ROI pooling层</h2><p>ROI pooling层实际上是SPP Net金字塔池化层的精简版本。金字塔池化层使用了三层不同的特殊池化层，可以将输入特征图图分别切分成（1，4，16）块区域。<br>在论文中，作者使用VGG16作为前置网络，经过前置网络后，最后得到的全局特征图尺寸是原始图片的1/32。论文中使用H=W=7的参数，将一个hxw的候选框特征图分割成HxW个网格，然后将这个候选框映射到全局特征图上（映射时如果坐标不是整数，那么会进行浮点数取整，这会使得候选框的映射出现一点偏差），取每个网格中特征值的最大值作为该网格的输出，ROI pooling层输出得到一个固定的HXW尺寸的特征图。</p>
+<h2 id="截断奇异值分解降低全连接层计算量"><a href="#截断奇异值分解降低全连接层计算量" class="headerlink" title="截断奇异值分解降低全连接层计算量"></a>截断奇异值分解降低全连接层计算量</h2><p>由于卷积层计算针对的是一整张图片，而全连接层需要对每一个候选框都计算一次，因此全连接层的计算占网络计算的将近一半（如下图）。<br>Fast RCNN使用了截断奇异值分解（Truncated singular value decomposition,TSVD）来降低全连接层的计算量。它与PCA很像，只是SVD分解是在数据矩阵上进行，而PCA是在数据的协方差矩阵上进行。TSVD与一般SVD不同的是它可以产生一个指定维度的分解矩阵。如有一个矩阵，通过SVD分解后仍然是一个矩阵，而TSVD可以生成指定维度的矩阵。这样就可以实现降维。<br><strong>奇异值分解和截断奇异值分解的区别？</strong><br>我们给矩阵做了奇异值分解后，得到一个完整的奇异矩阵，如果我们使用完整的奇异矩阵来表示矩阵A:<br>$$<br>A=U \Sigma V^{T}<br>$$<br>那么这就是奇异值分解。如果我们只取了奇异值矩阵中奇异值从大到小排列后的一部分奇异值作为新的奇异矩阵，使得:<br>$$<br>A\approx U \Sigma V^{T}<br>$$<br>那么这就是截断奇异值分解。<br><strong>SVD分解的计算:</strong><br>U是一个m×m的矩阵，Σ是一个m×n的矩阵，除了主对角线上的元素以外全为0，主对角线上的每个元素都称为奇异值，V是一个n×n的矩阵。U和V都是酉矩阵（酉矩阵是正交矩阵往复数域上的推广），即满足:<br>$$<br>U^{T} U=I, V^{T} V=I<br>$$<br>下面来计算U，Σ，V这三个矩阵。<br>首先用A的转置和A做矩阵乘法，得到的矩阵求其特征值和特征向量。<br>$$<br>\left(A^{T} A\right) v_{i}=\lambda_{i} v_{i}<br>$$<br>将所有特征向量张成一个n×n的矩阵V，就是我们SVD公式里面的V矩阵。一般我们将V中的每个特征向量叫做A的右奇异向量。<br>现在我们将A和A的转置做矩阵乘法，得到的矩阵求其特征值和特征向量。<br>$$<br>\left(A A^{T}\right) u_{i}=\lambda_{i} u_{i}<br>$$<br>再将所有特征向量张成一个m×m的矩阵U，就是我们SVD公式里面的U矩阵。一般我们将U中的每个特征向量叫做A的左奇异向量。<br>Σ矩阵除了对角线上是奇异值其他位置都是0，我们只需求出每个奇异值σ即可。<br>进行以下推导:<br>$$<br>A=U \Sigma V^{T} \Rightarrow A V=U \Sigma V^{T} V \Rightarrow A V=U \Sigma \Rightarrow A v_{i}=\sigma_{i} u_{i} \Rightarrow \sigma_{i}=A v_{i} / u_{i}<br>$$<br>这样我们就求出了U，Σ，V这三个矩阵。<br><strong>截断奇异值分解减少全连接层计算量的实例:</strong><br>假设全连接层运算为Y=WX，对权重矩阵W进行截断奇异值分解，即W约等于:<br>$$<br>W \approx U \Sigma V^{T}<br>$$<br>假如W为mxn矩阵，我们指定奇异值矩阵∑为txt（t远小于m和n）矩阵，那么左奇异矩阵U为mxt矩阵，右奇异矩阵为nxt矩阵，现在权重数量从mxn减少为t×(m+n)xt。相当于把一个FC层变为两个更小的FC层，这就降低了全连接层的计算量。</p>
+<h2 id="Fast-RCNN网络训练过程"><a href="#Fast-RCNN网络训练过程" class="headerlink" title="Fast RCNN网络训练过程"></a>Fast RCNN网络训练过程</h2><p>输入224X224大小图像，使用选择性搜索算法生成约2000个候选框。然后将全图进入前置VGG16网络进行特征提取，得到全局特征图；<br>将候选框区域按与原始图片的比例映射到全局特征图上，得到每个候选框的特征图，输入ROI pooling层进行计算，得到的特征图再经过两个全连接层，其输出是4096个元素的向量；<br>然后同时并列进入两个输出元素个数为21和84的全连接层，前者是分类输出（21分类），后者是回归输出（每个类预测四个回归坐标）。注意训练时分类器和回归器是一起训练的，因为损失函数是两部分之和。</p>
+<h2 id="Fast-RCNN损失函数"><a href="#Fast-RCNN损失函数" class="headerlink" title="Fast RCNN损失函数"></a>Fast RCNN损失函数</h2><p>$$<br>L\left(p, u, t^{u}, v\right)=L_{c l s}(p, u)+\lambda[u \geqslant 1] L_{l o c}\left(t^{u}, v\right)<br>$$<br>上述损失函数分为两个部分，第一部分为分类损失，第二部分为bbox regression损失。分类采用log loss（即对真实分类的概率取负log，分类输出K+1维），回归的loss采用smoothL1函数。<br>约定u=0为背景分类，那么[u≥1] 函数表示背景候选区域即负样本不参与回归损失，不需要对候选区域进行回归操作；λ控制分类损失和回归损失的平衡，论文中所有实验λ=1。<br>分类损失使用log函数:<br>$$<br>L_{\mathrm{cls}}(p, u)=-\log p_{u} (\text { for true class u })<br>$$<br>分类损失只计算正类，因为负类样本可能有无穷个。<br>回归损失使用smoothL1函数:<br>$$<br>L_{\mathrm{loc}}\left(t^{u}, v\right)=\sum_{i \in{x, y, w, h}} \operatorname{smooth}<em>{L</em>{1}}\left(t_{i}^{u}-v_{i}\right)<br>$$<br>其中<br>$$<br>smooth_{L1} \left( x\right) =\begin{cases}{0.5 x^{2}} &amp; {\text { if }|x|&lt;1}\\  {|x|-0.5} &amp; {\text { otherwise }}\end{cases}<br>$$<br>k表示某个类别k，前两个参数是指相对于object proposal尺度不变的平移 ，后两个参数是指log空间中相对于object proposal的高与宽。共4∗K维数组，也就是说对于每个类别都会训练一个单独的回归器。<br>在实际训练中，每个mini-batch包含2张图像和128个候选框，也就是每张图像有64个候选框。然后从这些候选框中挑选约25%，这些候选框和真实对象边框坐标的值都大于0.5（即正例边框）。另外只采用50%随机水平翻转的方式扩充数据集。 </p>
+<h2 id="Fast-RCNN网络测试过程"><a href="#Fast-RCNN网络测试过程" class="headerlink" title="Fast RCNN网络测试过程"></a>Fast RCNN网络测试过程</h2><p>输入测试图像，使用选择性搜索算法生成约2000个候选框。然后图像输入前置网络，提取出全局特征图再将候选框区域按与原始图片的比例映射到全局特征图上，得到每个候选框的特征图；<br>将特征图输入ROI pooling层继续计算，得到ROI后的特征图，然后经过两个全连接层后，同时输入分类器和回归器预测类别和边框坐标；<br>再根据非极大值抑制对所有的候选框进行筛选，即可得到对该张图片的所有对象的边框预测值以及每个边框对应的类和得分。</p>
+<h1 id="Faster-RCNN"><a href="#Faster-RCNN" class="headerlink" title="Faster RCNN"></a>Faster RCNN</h1><p>论文:Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks<br>论文地址:<a href="https://arxiv.org/pdf/1506.01497.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1506.01497.pdf</a> 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">VGG16前置网络 — ROI Pooling +softmax分类器与回归器(分类与回归并行)</span><br><span class="line">            |         |</span><br><span class="line">          RPN —二分类器(物体/背景)与回归器（分类与回归并行)</span><br></pre></td></tr></table></figure>
+
+<p>Faster R-CNN是Fast R-CNN网络的改进。Fast RCNN网络使用选择性搜索算法来生成候选框，这个过程耗时相对较多。为了提高生成候选框的速度和候选框的质量，Faster R-CNN使用RPN（Region Proposal Network）算法产生候选框，且产生候选框的前置网络和目标检测的特征提取网络共享。</p>
+<h2 id="RPN（Region-Proposal-Network）"><a href="#RPN（Region-Proposal-Network）" class="headerlink" title="RPN（Region Proposal Network）"></a>RPN（Region Proposal Network）</h2><p><strong>Anchors:</strong><br>Anchors 是固定尺寸的边界框。在论文中，作者选择了9种anchor，包含三种面积（128×128,256×256,512×512），每种面积又包含三种长宽比（1:1,1:2,2:1）。<br><strong>RPN层计算过程:</strong><br>RPN层在前置网络的最后一层卷积层输出之后。对于一副任意大小图像，首先缩放至固定大小800x600，然后将图像送入前置网络提取出多通道的特征图。假如最后一个特征图尺寸为WxHxchannels，RPN层先使用3x3xchannels=512的卷积核进行卷积（融合周围3x3空间信息）得到新的特征图。然后再接上一个1x1x18的卷积核，这样对每一个特征图上像素点就可以输出18个元素，即共WxHx18大小的向量。（每个像素点9个anchor，每个anchor有2个值，即前景/背景得分，相当于二分类）。前面的新特征图还要另接1x1x36的卷积核，得到WXHX36的向量（9个anchor，每个anchor的边框坐标是4个值，分别代表（x,y,w,h））。<br>然后对40x60xchannels特征图上的每一个像素点（共51X39个像素点）应用9种Anchors，则一共有51x39x9个Anchors（候选框）。然后将该特征图送入ROI pooling层，提取出每一个候选框的特征图。<br>我们过滤掉超出图像边界的候选框，再过滤掉尺寸高于给定阈值的候选框，最后使用非极大值抑制，保留前300个得分高（这里的得分是前景/背景得分）的候选框。</p>
+<h2 id="RPN层损失函数"><a href="#RPN层损失函数" class="headerlink" title="RPN层损失函数"></a>RPN层损失函数</h2><p>$$<br>L\left(p_{i}, t_{i}\right)=\frac{1}{N_{c l s}} \sum_{i} L_{c l s}\left(p_{i}, p_{i}^{\prime}\right)+\lambda \frac{1}{N_{r e g}} \sum_{i} p_{i}^{\prime} L_{r e g}\left(t_{i}, t_{i}^{\prime}\right)<br>$$<br>其中Lcls是二分类损失函数，Lreg是回归损失函数，Pi表示网络找到的Anchor区域中存在物体的概率（1代表前景，0代表背景），而ti则是每个Anchor的矩形框位置和大小参数，pi’和 ti’则是真实边框对应的前后景概率以及窗口位置。归一化项中，Ncls取batch的大小，Nreg取Anchors的数目（约为2400）。Lreg就是Fast RCNN网络中的Lloc损失函数。<br>x,y,w,h分别表示box的中心坐标和宽高，x，xa，x’分别表示 predicted box, anchor box, and ground truth box（y,w,h同理），ti表示predict box相对于anchor box的偏移，ti’表示ground true box相对于anchor box的偏移，学习目标自然就是让前者接近后者的值。<br>$$<br>\begin{aligned} t_{\mathbf{x}} &amp;=\left(x-x_{\mathrm{a}}\right) / w_{\mathrm{a}}, \quad t_{\mathrm{y}}=\left(y-y_{\mathrm{a}}\right) / h_{\mathrm{a}} \\ t_{\mathrm{w}} &amp;=\log \left(w / w_{\mathrm{a}}\right), \quad t_{\mathrm{h}}=\log \left(h / h_{\mathrm{a}}\right) \\ t_{\mathrm{x}}^{‘} &amp;=\left(x^{‘}-x_{\mathrm{a}}\right) / w_{\mathrm{a}}, \quad t_{\mathrm{y}}^{‘}=\left(y^{‘}-y_{\mathrm{a}}\right) / h_{\mathrm{a}} \\ t_{\mathrm{w}}^{‘} &amp;=\log \left(w^{‘} / w_{\mathrm{a}}\right), \quad t_{\mathrm{h}}^{‘}=\log \left(h^{‘} / h_{\mathrm{a}}\right) \end{aligned}<br>$$<br>Lreg函数是:<br>$$<br>smooth_{L1} \left( x\right) =\begin{cases}{0.5 x^{2}} &amp; {\text { if }|x|&lt;1}\\  {|x|-0.5} &amp; {\text { otherwise }}\end{cases}<br>$$<br><strong>样本标定规则:</strong><br>如果Anchor对应的预测边框与真实边框的IOU值最大，标记为正样本；如果IOU&gt;0.7，标记为正样本；如果Anchor对应的预测边框与真实边框的IOU&lt;0.3，标记为负样本；剩下的既不是正样本也不是负样本，不用于最终训练。跨越了图像边界的样本也不用于最终训练。</p>
+<h2 id="ROI-Pooling层之后的损失函数"><a href="#ROI-Pooling层之后的损失函数" class="headerlink" title="ROI Pooling层之后的损失函数"></a>ROI Pooling层之后的损失函数</h2><p>与Fast rcnn损失函数相同。因为Faster rcnn其实就是在fast rcnn网络基础上增加了RPN层。</p>
+<h2 id="RPN网络训练过程"><a href="#RPN网络训练过程" class="headerlink" title="RPN网络训练过程"></a>RPN网络训练过程</h2><p>首先过滤掉超出图像边界的anchors ；<br>在训练RPN时，一个Mini-batch是由一幅图像中任意选取的256个proposal组成的，其中正负样本的比例为1：1；<br>如果正样本不足128，则多用一些负样本以满足有256个Proposal可以用于训练，反之亦然；<br>训练RPN时，与VGG共有的层参数可以直接拷贝经ImageNet训练得到的模型中的参数，剩下没有的层参数用标准差=0.01的高斯分布初始化。</p>
+<h2 id="Faster-RCNN网络训练过程"><a href="#Faster-RCNN网络训练过程" class="headerlink" title="Faster RCNN网络训练过程"></a>Faster RCNN网络训练过程</h2><p>第一步是训练RPN网络，用ImageNet模型M0初始化，训练得到模型M1；<br>第二步是利用第一步训练的RPN网络模型M1，生成Proposal P1。再使用Proposal P1，训练Fast R-CNN网络，同样用ImageNet模型初始化，训练得到模型M2。这两个阶段两个网络每一层的参数完全不共享；<br>第三步是使用第二步的Fast-RCNN网络参数初始化一个新的RPN网络，但是把RPN、Fast-RCNN共享的那些卷积层的learning rate设置为0，也就是不更新，仅仅更新RPN特有的那些网络层，重新训练，得到模型M3。此时，两个网络已经共享了所有公共的卷积层；<br>第四步是利用上一步训练的RPN网络模型M3，生成Proposal P2。仍然固定共享的那些网络层，把Fast R-CNN特有的网络层也加入进来，再使用Proposal P2训练Fast R-CNN网络，用RPN网络模型M3初始化，且卷积层参数和RPN参数不变，只微调Fast R-CNN独有的网络层，得到最终模型M4。<br>此时，该网络已经实现我们设想的目标，即网络内部预测proposal并实现检测的功能。论文作者按上面步骤进行交替训练，只迭代2次的原因是作者发现多次的迭代并没有显著的改善性能。</p>
+<p>现在，也有人将两个损失函数放在一起，进行端到端的联合训练。把完整的模型放在一起后，我们得到4个不同的损失，两个用于RPN，另外两个用于Fast RCNN。用加权和将四种不同的损失组合起来。这是因为相对于回归损失，我们可能希望给分类损失更大的权重，或者相比于RPN可能给Fast RCNN损失更大的权重。</p>
+<h1 id="Mask-RCNN"><a href="#Mask-RCNN" class="headerlink" title="Mask RCNN"></a>Mask RCNN</h1><p>论文:Mask R-CNN<br>论文地址:<a href="https://arxiv.org/pdf/1703.06870.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1703.06870.pdf</a> 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Resnet101前置网络 — ROIAlign+softmax分类器与回归器与FCN网络(分类与回归、FCN网络并行)</span><br><span class="line">            |         |</span><br><span class="line">          RPN —二分类器(物体/背景)与回归器（分类与回归并行)</span><br></pre></td></tr></table></figure>
+
+<p>Mask R-CNN是一个实例分割（Instance segmentation）算法，可以用来完成多种任务，包括目标分类、目标检测、语义分割、实例分割、人体姿态识别等。<br>实例分割是相对于语义分割而言的。语义分割可以精确地描绘图片中的对象轮廓，并把同一类对象描绘成统一颜色，而实例分割会把同一类对象的不同个体也用不同的颜色区分开。</p>
+<h2 id="Mask-RCNN新特性"><a href="#Mask-RCNN新特性" class="headerlink" title="Mask RCNN新特性"></a>Mask RCNN新特性</h2><p>Mask RCNN网络将RPN层之前的前置网络换成了ResNet-101深度残差网络，<br>对于ROI Pooling层中存在的候选框映射偏差问题，提出了ROI Align层替代ROI Pooling层。<br>Faster R-CNN中，对于每个候选框有两个输出，一个输出是分类结果（分类得分），另一个输出是回归结果（预测的框坐标）。Mask R-CNN添加了第三个输出对象遮罩（object mask），即在输出时添加了一个平行的FCN网络支路来对每个候选框产生一个mask。</p>
+<h2 id="ROI-Align层"><a href="#ROI-Align层" class="headerlink" title="ROI Align层"></a>ROI Align层</h2><p>ROI Pooling层在得到最终输出的过程中，存在两次对浮点数取整。第一次是候选框映射到原图上后按比例从全局特征图上找到候选框的特征图时，由于原始坐标做除法后不一定整除，可能需要取整；第二次是将候选框划分成块时，也可能需要取整。<br>ROI Align层在将候选框特征图划分成块时，不再对浮点数坐标取整（取整会引起候选框大小变化和位置偏移，在候选框本身较小时影响尤为明显）。ROI Align层划分块时直接得到浮点数形式的块坐标，然后使用双线性插值法在每一个块中计算出4个点的值（就是把每个块缩放成只有4个像素点的图像），最后取4个点中的最大值。这样就得到了ROI Align层输出的新特征图。<br>双线性插值是有两个变量的插值函数的线性插值的扩展，其核心思想是在两个方向分别进行一次线性插值。<br><strong>双线性插值法计算过程:</strong><br>假设原图尺寸（w,h），缩小后图像尺寸（w’,h’），现在我们想求缩小后图像上某个坐标点（x’,y’）的值。<br>首先用下面的公式计算出（x’,y’）映射到原图上的坐标点（x,y）:<br>$$<br>x=\frac {w}{w^{\prime}} x^{\prime}<br>$$<br>$$<br>y=\frac {w}{w^{\prime}} y^{\prime}<br>$$<br>然后用原图中这个浮点值坐标四周的四个像素点的值来计算（x’,y’）坐标点的值。假设映射到原图的坐标点（x,y）四周四个坐标点分别为左下角（x1,y1）、右下角（x2,y1）、左上角（x1,y2）、右上角（x2,y2）。<br>首先在x方向上进行插值:<br>$$<br>f\left(x, y_{1}\right) \approx \frac{x_{2}-x}{x_{2}-x_{1}} f\left((x1,y1)\right)+\frac{x-x_{1}}{x_{2}-x_{1}} f\left((x2,y1)\right)<br>$$<br>$$<br>f\left(x, y_{2}\right) \approx \frac{x_{2}-x}{x_{2}-x_{1}} f\left((x1,y2)\right)+\frac{x-x_{1}}{x_{2}-x_{1}} f\left((x2,y2)\right)<br>$$<br>然后在y方向上进行插值:<br>$$<br>f(x, y) \approx \frac{y_{2}-y}{y_{2}-y_{1}} f\left(x, y_{1}\right)+\frac{y-y_{1}}{y_{2}-y_{1}} f\left(x, y_{2}\right)<br>$$<br>$$<br>=\frac{1}{\left(x_{2}-x_{1}\right)\left(y_{2}-y_{1}\right)}\left[x_{2}-x \quad x-x_{1}\right] \left[ \begin{array}{cc}{f\left((x1,y1)\right)} &amp; {f\left((x1,y2)\right)} \\ {f\left((x2,y1)\right)} &amp; {f\left((x2,y2)\right)}\end{array}\right] \left[ \begin{array}{l}{y_{2}-y} \\ {y-y_{1}}\end{array}\right]<br>$$<br><strong>对于我们在ROI Align层中的双线性插值计算，显然点（x,y）四周四个点围成一个正方形，因此我们可以将上式简化为:</strong><br>$$<br>f(x, y) \approx \left[ \begin{array}{ll}{x2-x} &amp; {x-x1}\end{array}\right] \left[ \begin{array}{cc}{f((x1,y1))} &amp; {f((x1,y2))} \\ {f((x2,y1))} &amp; {f((x2,y2))}\end{array}\right] \left[ \begin{array}{c}{y2-y} \\ {y-y1}\end{array}\right]<br>$$<br><strong>双线性插值法计算举例:</strong><br>假设原图尺寸（w,h），缩小后图像尺寸（w’,h’），现在我们想求缩小后图像上某个坐标点（x’,y’）的值。<br>现在另w=1000，h=800，w’=700，h’=700。现在要求缩小后图像中坐标点（400,400）上的值。<br>先求出（x,y）坐标点:<br>$$<br>x=\frac{1000}{700}\times 400=571.42857<br>$$<br>$$<br>y=\frac{800}{700}\times 400=457.14286<br>$$<br>即原图坐标点为(571.42857, 457.14286)，那么我们就用原图坐标点周围四个点上的值来确定缩小后图像（400,400）坐标点上的值。<br>4个点为:(571,457)、(572,457)、(571,458)、(572,458)。假设它们四个点的值分别为50、100、150、200。<br>$$<br>缩放后图像f(400,400)=\left[ \begin{array}{ll}{0.57143} &amp; {0.42857}\end{array}\right] \left[ \begin{array}{ll}{50} &amp; {150} \\ {100} &amp; {200}\end{array}\right] \left[ \begin{array}{l}{0.85714} \\ {0.14286}\end{array}\right]<br>$$<br>计算得出f（400,400）=85.7145。</p>
+<h2 id="FCN全卷积网络"><a href="#FCN全卷积网络" class="headerlink" title="FCN全卷积网络"></a>FCN全卷积网络</h2><p>论文:Fully Convolutional Networks for Semantic Segmentation<br>论文地址:<a href="https://arxiv.org/pdf/1411.4038.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1411.4038.pdf</a> 。<br>对于一般的CNN神经网络，如VGG和Resnet，都会在网络的最后加入全连接层，经过softmax函数后就可以获得类别概率信息。但是这个概率信息是1维的，即只能标识整个图片的类别，不能标识每个像素点的类别，所以这种全连接方法不适用于图像分割。<br>FCN网络把后面的全连接层都换成卷积层，使得所有网络层都是卷积层FCN可以接受任意尺寸的输入图像，采用反卷积层对最后一个卷积层的特征图进行上采样（即放大特征图）, 使它恢复到输入图像相同的尺寸，从而可以对每个像素都产生了一个预测, 同时保留了原始输入图像中的空间信息, 最后在上采样的特征图上进行逐像素分类，相当于每一个像素对应一个训练样本。<br><strong>FCN网络计算过程:</strong><br>使用AlexNet作为原始网络，将网络的6、7、8层改为卷积层，卷积核的大小 （通道数,宽,高）分别为（4096,1,1）、（4096,1,1）、（1000,1,1）。<br>输入原始大小为HxW图像，经过前面五次卷积和pooling以后，得到H/32xW/32大小的特征图，然后经过后面6、7、8层得到heatmap热图，热图就是我们最重要的高维特诊图，得到高维特征的heatmap之后对其进行上采样，还原到原图像的大小。<br>最后的输出是1000张heatmap经过upsampling变为原图大小的图片，为了对每个像素进行分类预测，通过逐个像素地求其在1000张图片中该像素位置的最大数值描述（概率）作为该像素的分类。因此产生了一张已经分类好的图片。</p>
+<h2 id="ROI-Align层之后的损失函数"><a href="#ROI-Align层之后的损失函数" class="headerlink" title="ROI Align层之后的损失函数"></a>ROI Align层之后的损失函数</h2><p>RPN层的损失函数与Faster rcnn中的RPN层损失函数完全相同。<br>ROI Align层之后的损失函数为:<br>$$<br>L=L_{c l s}+L_{b o x}+L_{m a s k}<br>$$<br>前面两者的定义都和Faster-RCNN相同。最后一个Lmask，mask对每个ROI的输出维度为<br>$$<br>K m^{2}<br>$$<br>表示K个类别有一个mxm的二进制掩码。为此，对每个像素应用sigmoid函数，并定义Lmask为平均二进制交叉熵损失，对真实类别为k的ROI，只在第k个掩码上计算损失，掩码将不会进行类间的竞争，将分类的任务交给专业的分类器。</p>
+
+            </div>
+            <hr/>
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff;
+        background-color: #22AB38;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff;
+        background-color: #019FE8;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a class="reward-link btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs">
+                        <li class="tab wechat-tab waves-effect waves-light"><a class="active" href="#wechat">微信</a></li>
+                        <li class="tab alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                    </ul>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#reward .reward-link').on('click', function () {
+            $('#rewardModal').openModal();
+        });
+
+        $('#rewardModal .close').on('click', function () {
+            $('#rewardModal').closeModal();
+        });
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            <div class="reprint">
+                <p>
+                    <span class="reprint-tip">
+                        <i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;Reprint please specify:
+                    </span>
+                    <a href="https://wyg1996.cn" class="b-link-green">鱼缸屋</a>
+                    <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
+                    <a href="/2019/03/10/Object Detection two-stage算法的演进：RCNN、SPP Net、Fast RCNN、Faster R-CNN、Mask RCNN/" class="b-link-green">Object Detection two-stage算法的演进：RCNN、SPP Net、Fast RCNN、Faster R-CNN、Mask RCNN</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-03-10T18-04-14',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Sun Mar 10 2019 18:04:14 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
+    
+
+    
+        <div class="disqus-card card" data-aos="fade-up">
+    <div id="disqus_thread" class="card-content">
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+    </div>
+</div>
+
+<script type="text/javascript">
+    disqus_config = function () {
+        this.page.url = 'https://wyg1996.cn/2019/03/10/Object Detection two-stage算法的演进：RCNN、SPP Net、Fast RCNN、Faster R-CNN、Mask RCNN/';
+        this.page.identifier = '/2019/03/10/Object Detection two-stage算法的演进：RCNN、SPP Net、Fast RCNN、Faster R-CNN、Mask RCNN/';
+        this.page.title = 'Object Detection two-stage算法的演进：RCNN、SPP Net、Fast RCNN、Faster R-CNN、Mask RCNN';
+    };
+    let disqus_shortname = '';
+
+    (function () { // DON'T EDIT BELOW THIS LINE
+        let d = document, s = d.createElement('script');
+        // 如：s.src = 'https://blinkfox.disqus.com/embed.js';
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+    
+
+    
+    <div class="livere-card card" data-aos="fade-up">
+    <!-- 来必力City版安装代码 -->
+    <div id="lv-container" class="card-content" data-id="city" data-uid="">
+        <script type="text/javascript">
+            (function (d, s) {
+                let j, e = d.getElementsByTagName(s)[0];
+                if (typeof LivereTower === 'function') {
+                    return;
+                }
+
+                j = d.createElement(s);
+                j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                j.async = true;
+
+                e.parentNode.insertBefore(j, e);
+            })(document, 'script');
+        </script>
+        <noscript>为正常使用来必力评论功能请激活JavaScript。</noscript>
+    </div>
+    <!-- City版安装代码已完成 -->
+</div>
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2019/03/11/Object Detection one-stage算法的演进：YOLO、SSD、YOLOv2、YOLOv3/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="Object Detection one-stage算法的演进：YOLO、SSD、YOLOv2、YOLOv3">
+                        
+                        <span class="card-title">Object Detection one-stage算法的演进：YOLO、SSD、YOLOv2、YOLOv3</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">Object Detection算法的分类two-stage算法，这类算法将检测问题划分为两个阶段，首先产生候选框，然后对候选框分类（一般还需要对位置精修），这一类的典型代表是RCNN, Fast RCNN, Faster RCNN算法家族</div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-11
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/目标检测/" class="post-category" target="_blank">
+                                    目标检测
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/目标检测/" target="_blank">
+                        <span class="chip bg-color">目标检测</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/03/09/主成分分析（PCA）降维原理、特征值分解与SVD分解/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="主成分分析（PCA）降维原理、特征值分解与SVD分解">
+                        
+                        <span class="card-title">主成分分析（PCA）降维原理、特征值分解与SVD分解</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">PCA介绍主成分分析（PCA）的主要思想是将n维特征映射到k维上，这k维是全新的正交特征也被称为主成分，是在原有n维特征的基础上重新构造出来的k维特征。PCA构建k维空间的具体过程:PCA从原始n维空间中顺序地找一组相互正交的坐标轴，第一个</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-09
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/特征工程/" class="post-category" target="_blank">
+                                    特征工程
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/特征工程/" target="_blank">
+                        <span class="chip bg-color">特征工程</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + 'From: 鱼缸屋<br />'
+            + 'Author: ygwu<br />'
+            + 'Link: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+    </div>
+    <div class="col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+    });
+</script>
+    
+
+</main>
+
+
+<footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy;<a href="mailto:ygwu@mail.ustc.edu.cn" target="_blank">鱼缸屋</a>
+            
+
+            
+                &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+                <span class="white-color">393.6k</span>
+            
+
+            
+			
+                <br>
+                
+                <span id="busuanzi_container_site_pv">
+                    <i class="fa fa-heart-o"></i>
+                    本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+                </span>
+                
+                
+                <span id="busuanzi_container_site_uv">
+                    <i class="fa fa-users"></i>
+                    次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+                </span>
+                
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/wygny" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:ygwu@mail.ustc.edu.cn" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=321699849" class="tooltipped" data-tooltip="QQ联系我: 321699849" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://www.baidu.com" class="tooltipped" target="_blank" data-tooltip="访问百度" data-position="top" data-delay="50">
+        <i class="fa fa-paw"></i>
+</a>
+
+
+
+    <a href="https://www.google.com" class="tooltipped" target="_blank" data-tooltip="访问谷歌" data-position="top" data-delay="50">
+        <i class="fa fa-google"></i>
+</a>
+
+
+
+    <a href="https://www.bilibili.com" class="tooltipped" target="_blank" data-tooltip="访问哔哩哔哩" data-position="top" data-delay="50">
+        <i class="fa fa-bullseye"></i>
+</a>
+
+
+
+    <a href="https://blog.csdn.net/zgcr654321" class="tooltipped" target="_blank" data-tooltip="访问我的CSDN博客" data-position="top" data-delay="50">
+        <i class="fa fa-copyright"></i>
+</a>
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input" autofocus="">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+</script>
+<!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+<script src="/libs/materialize/js/materialize.min.js"></script>
+<script src="/libs/masonry/masonry.pkgd.min.js"></script>
+<script src="/libs/aos/aos.js"></script>
+<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+<script src="/js/matery.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    <script src="/libs/others/clicklove.js"></script>
+
+
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+
+
+</body>
+</html>
